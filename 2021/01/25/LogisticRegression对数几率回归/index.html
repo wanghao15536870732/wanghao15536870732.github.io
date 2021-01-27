@@ -19,7 +19,6 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/SigmoidFunction.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/DecisionBoundary.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/NonLinearDecisionBoundaries.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function_1.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/OneVsOneOneVsRest.png">
@@ -27,7 +26,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png">
 <meta property="article:published_time" content="2021-01-25T07:01:32.000Z">
-<meta property="article:modified_time" content="2021-01-27T15:18:42.422Z">
+<meta property="article:modified_time" content="2021-01-27T15:27:08.418Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="逻辑回归">
@@ -209,7 +208,7 @@ var _hmt = _hmt || [];
 		<div id="toc-article" class="toc-article">
 			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
 			<strong class="toc-title">文章目录</strong>
-			   <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">对数几率回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decision-Boundary%EF%BC%88%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">Decision Boundary（决策边界）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cost-Function%EF%BC%88%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">Cost Function（代价函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">使用梯度下降法求解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-Rest"><span class="toc-number">6.1.</span> <span class="toc-text">One vs Rest</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-One"><span class="toc-number">6.2.</span> <span class="toc-text">One vs One</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96"><span class="toc-number">7.</span> <span class="toc-text">正则化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">8.</span> <span class="toc-text">手写数字识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-number">9.</span> <span class="toc-text">Reference</span></a></li></ol>
+			   <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">对数几率回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decision-Boundary%EF%BC%88%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">Decision Boundary（决策边界）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cost-Function%EF%BC%88%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">Cost Function（代价函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-Rest"><span class="toc-number">5.1.</span> <span class="toc-text">One vs Rest</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-One"><span class="toc-number">5.2.</span> <span class="toc-text">One vs One</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96"><span class="toc-number">6.</span> <span class="toc-text">正则化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">手写数字识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-number">8.</span> <span class="toc-text">Reference</span></a></li></ol>
 			 </div>
 	   <script type="text/javascript">
 		function showToc(){
@@ -302,49 +301,7 @@ p(y\ =\ 0|x) = \frac{1}{1+e^{\theta^Tx} }
 </table>
 </div>
 <h3 id="Cost-Function（代价函数）"><a href="#Cost-Function（代价函数）" class="headerlink" title="Cost Function（代价函数）"></a>Cost Function（代价函数）</h3><p>确定逻辑回归的数学形式后，接下来需要做的就是给定<code>训练集</code>，通过最小化<code>代价函</code>数，找出模型的最优参数$\theta$。线性回归中的代价函数：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-J(\theta)=\frac{1}{2m}\sum_{i = 1}^{m}{(h_\theta(x^{(i)}) - y^{(i)})^2}，\tag{10}
-\end{equation}</script><p>我们可以类比线性回归，使用平均误差平方来作为代价函数。但是对于逻辑回归而言，$h_\theta(x)$函数$(h_\theta(x)= \frac{1}{1 + e^{-\theta^Tx} })$是一个非常复杂的<code>非线性函数</code>，如果将$Sigmoid$函数带入式$(9)$，并画出$J(\theta)$的图像，你会发现$J(\theta)$是个非凸函数，这就意味代价函数有着许多的局部最小值，如下图<code>non-convex</code>所示，如果将<code>梯度下降法</code>应用到该函数上，无法保证可以收敛到最小值，这很不利于我们的求解。</p>
-<p><img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png" alt="非凸函数和凸函数"></p>
-<p>因此，通常使用<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=C6a-SMY0H50">极大似然估计</a>来求解，即找到一组参数，使得在这组参数下，我们的数据的似然度（概率）最大。</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\left\{\begin{array}{ll}
-p(y\ =\ 1|x) = h_{\theta}(x) \\
-p(y\ =\ 0|x) = 1 - h_{\theta}(x)
-\end{array}\right.\tag{11}
-\end{equation}</script><p>式$(11)$可以写成一般形式：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-p(y|x;\theta)=h_{\theta}(x)^y(1-h_{\theta}(x))^{1-y}\tag{12}
-\end{equation}</script><p>使用极大似然估计得到似然函数：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-L(\theta)=\prod_{i=1}^{m}{p(y^{(i)}|x^{(i)};\theta)}=\prod_{i=1}^{m}{(h_{\theta}(x^{(i)})^{y^{(i)} }(1-h_{\theta}(x^{(i)}))^{1-y^{(i)} })}\tag{13}
-\end{equation}</script><p>为了方便求解，对式$(13)$两边同时取对数，得：</p>
-<script type="math/tex; mode=display">
-\begin{align*}
-l(\theta) &= lnL(\theta)\\
-&= \sum_{i=1}^{m}{[y^{(i)}ln(h_{\theta}(x^{(i)})) + (1-y^{(i)})ln(1-h_{\theta}(x^{(i)}))]}\\
-&= \sum_{i=1}^{m}{[y^{(i)}ln\frac{h_{\theta}(x^{(i)})}{1 - h_{\theta}(x^{(i)})} + ln(1-h_{\theta}(x^{(i)}))]}\\
-&= \sum_{i=1}^{m}{[y^{(i)}(\theta^Tx) - ln(1+e^{\theta^Tx})]}\tag{14}
-\end{align*}</script><p>现在的目标是使得$l(\theta)$最大，则在其基础上使用梯度下降法求解$-l(\theta)$的最小值即可：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-J(\theta)=-l(\theta)=-\frac{1}{m}\sum_{i=1}^{m}{[y^{(i)}ln(h_{\theta}(x^{(i)})) + (1-y^{(i)})ln(1-h_{\theta}(x^{(i)}))]}\tag{15}
-\end{equation}</script><p>为了更好的理解推导出的代价函数，可以写出代价$Cost(h_{\theta}(x),y)$与$h_{\theta}$的关系函数：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-Cost(h_{\theta}(x),y)=-yln(h_{\theta}(x)) + (1-y)ln(1-h_{\theta}(x))\tag{16}
-\end{equation}</script><p>即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-Cost(h_{\theta}(x),y)=\left\{\begin{array}{ll}
-- ln(h_{\theta}(x)) \ \quad \quad  if \ y = 1 \\ 
-- ln(1 - h_{\theta}(x)) \ \ if \ y = 0
-\end{array}\right.\tag{17}
-\end{equation}</script><p>绘制该函数图像：</p>
+<p>绘制该函数图像：</p>
 <div class="table-container">
 <table>
 <thead>
@@ -362,31 +319,6 @@ Cost(h_{\theta}(x),y)=\left\{\begin{array}{ll}
 </table>
 </div>
 <p>从上图可以看出，如果样本值$y$为$1$的话，预测值$h_{\theta}(x)$越接近$1$损失越小，反之越大；同样，如果样本值$y$为$0$的话，预测值$h_{\theta}(x)$越接近$0$损失越小，反之越大。</p>
-<h3 id="使用梯度下降法求解"><a href="#使用梯度下降法求解" class="headerlink" title="使用梯度下降法求解"></a>使用梯度下降法求解</h3><script type="math/tex; mode=display">
-J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}{[y^{(i)}ln(h_{\theta}(x^{(i)})) + (1-y^{(i)})ln(1-h_{\theta}(x^{(i)}))]}</script><p>对式$(5)$求导不难发现，$Sigmoid$函数有一个特性，即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-g(z)'=\frac{-(-e^{-z})}{(1+e^{-z})^2} = \frac{1}{1+e^{-z} } \cdot \frac{e^{-z} }{1+e^{-z} } = \frac{1}{1+e^{-z} } \cdot (1-\frac{1}{1+e^{-z} }) = g(x)(1-g(x))\tag{18}
-\end{equation}</script><p>使用梯度下降法需要先求解梯度：</p>
-<script type="math/tex; mode=display">
-\begin{align*}
-\frac{\partial J(\theta)}{\theta_{j} } &= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}\frac{\partial(h_{\theta}(x^{(i)})) }{\partial \theta_{j} }\\
-& = -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}h_{\theta}(x^{(i)})(1-h_{\theta}(x^{(i)})) \frac{\partial(\theta_j^Tx^{(i)})} { \partial \theta_{j} }\\
-&= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} (1-h_{\theta}(x^{(i)})-(1-y^{(i)})}h_{\theta}(x^{(i)})) x_j^{(i)}\\
-&= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)}
-\end{align*}</script><p>公式最终简化如下如下：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\frac{\partial J(\theta)}{\theta_{j} }=-\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)} = \frac{1}{m}\sum_{i=1}^{m}{(h_{\theta}(x^{(i)}) - y^{(i)})}x_j^{(i)} \tag{19}
-\end{equation}</script><p>梯度下降法更新权重：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\theta_j := \theta_j + \eta \sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)}\tag{20}
-\end{equation}</script><p>或：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\theta_j := \theta_j - \eta \sum_{i=1}^{m}{(h_{\theta}(x^{(i)})-y^{(i)})}x_j^{(i)}\tag{20}
-\end{equation}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># calculation J</span></span><br><span class="line">z = X * theta.T</span><br><span class="line">t = -y.T * log(sigmoid(z)) - (<span class="number">1</span> - y.T) * log(<span class="number">1</span> - sigmoid(z))</span><br><span class="line">J = t / m</span><br><span class="line"> </span><br><span class="line"><span class="comment"># calculation grad</span></span><br><span class="line">grad_t = (sigmoid(z) - y)</span><br><span class="line">grad = (X.T * grad_t ) / m</span><br></pre></td></tr></table></figure>
 <h3 id="解决多分类问题"><a href="#解决多分类问题" class="headerlink" title="解决多分类问题"></a>解决多分类问题</h3><p>我们已经知道，逻辑回归<code>（对数几率回归, Logistic Regression）</code>只能用于解决二分类问题<code>(Binary Classification)</code>，想要解决多分类问题，就需要对逻辑回归进行改进。</p>
 <p>有两种方法可以使得逻辑回归解决多分类任务：</p>
 <ul>
@@ -556,7 +488,7 @@ g(z)'=\frac{-(-e^{-z})}{(1+e^{-z})^2} = \frac{1}{1+e^{-z} } \cdot \frac{e^{-z} }
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">对数几率回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decision-Boundary%EF%BC%88%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">Decision Boundary（决策边界）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cost-Function%EF%BC%88%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">Cost Function（代价函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">使用梯度下降法求解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-Rest"><span class="toc-number">6.1.</span> <span class="toc-text">One vs Rest</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-One"><span class="toc-number">6.2.</span> <span class="toc-text">One vs One</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96"><span class="toc-number">7.</span> <span class="toc-text">正则化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">8.</span> <span class="toc-text">手写数字识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-number">9.</span> <span class="toc-text">Reference</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">对数几率回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Decision-Boundary%EF%BC%88%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">Decision Boundary（决策边界）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cost-Function%EF%BC%88%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">Cost Function（代价函数）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">5.</span> <span class="toc-text">解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-Rest"><span class="toc-number">5.1.</span> <span class="toc-text">One vs Rest</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#One-vs-One"><span class="toc-number">5.2.</span> <span class="toc-text">One vs One</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96"><span class="toc-number">6.</span> <span class="toc-text">正则化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">手写数字识别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reference"><span class="toc-number">8.</span> <span class="toc-text">Reference</span></a></li></ol>
                     </div>
                 </span>
             </div>
