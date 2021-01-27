@@ -172,7 +172,7 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">Logistic Regression 对数几率回归</a>
+      <a class="article-title" href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">Logistic Regression 对数几率回归与正则化</a>
     </h1>
   
 
@@ -190,7 +190,20 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <p>测试</p>
+        <h3 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h3><p><img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图"></p>
+<p>对于线性回归而言，模型可以简写为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y = w^Tx + b \ \ or \ \ y = \theta^Tx (更常用\ 下面统一用该式子表示)\tag{1}
+\end{equation}</script><p>假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+ln\,y = w^Tx + b \ \  or \ \  ln\,y = \theta^Tx \tag{2}
+\end{equation}</script><p>这就是“对数线性回归”<code>(log-linear regression)</code>，如上图中的红线映射到黑色的指数线，这就是广义线性模型的思想。更一般的考虑单调可微函数<code>g(·)</code>，令：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y = g(w^Tx + b)\ \ or \ \ y = g(\theta^Tx) \tag{3}
+\end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
         
           <a class="article-more-a" href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/#more">more >></a>
         
@@ -206,11 +219,15 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">逻辑回归</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
         		</li>
       		
 		</ul>
@@ -454,11 +471,15 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">机器学习</a>
+                <a href="javascript:void(0)" class="js-tag color2">Machine Learning</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">逻辑回归</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -615,5 +636,21 @@ MathJax.Hub.Queue(function() {
 
 </div>
   </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
