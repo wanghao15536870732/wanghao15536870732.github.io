@@ -27,7 +27,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png">
 <meta property="article:published_time" content="2021-01-25T07:01:32.000Z">
-<meta property="article:modified_time" content="2021-01-27T15:11:12.005Z">
+<meta property="article:modified_time" content="2021-01-27T15:18:42.422Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="逻辑回归">
@@ -258,12 +258,12 @@ y=\left\{\begin{array}{ll}
 <p>对数几率函数<code>(sigmoid function)</code>正是一个常用的替代函数:</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-g(z) = \frac{1}{1+e^{-z}}\tag{5}
+g(z) = \frac{1}{1+e^{-z} }\tag{5}
 \end{equation}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = <span class="number">1.</span> / (<span class="number">1</span> + exp(-z))</span><br></pre></td></tr></table></figure>
 <p>它将<code>z</code>的值转化为一个接近<code>0</code>或<code>1</code>的<code>y</code>值，将对数几率函数作为</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-h_{\theta}(x)=\frac{1}{1+\mathrm{e}^{-\theta^{T} x}}\tag{6}
+h_{\theta}(x)=\frac{1}{1+\mathrm{e}^{-\theta^{T} x} }\tag{6}
 \end{equation}</script><p>二者的图像如下图所示：</p>
 <p><img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/SigmoidFunction.png" alt="Simoid函数"></p>
 <p>从上图可以看出，它将$z$值转换为一个接近$0$或$1$的$y$值，我们可以将其视为类$1$的后验概率估计$h_\theta = P(y=1|x;\theta)$，即输入一个测试数据$x$，通过$Sigmoid$函数计算出来的结果即为该点$x$输入类别$1$的概率大小。</p>
@@ -273,7 +273,7 @@ h_{\theta}(x)=\frac{1}{1+\mathrm{e}^{-\theta^{T} x}}\tag{6}
 \hat{y}=\left\{\begin{array}{ll}
 1, & h_{\theta}(x)≥0.5 \\
 0, & h_{\theta}(x)<0.5 
-\end{array}\right. \ \ \ h_{\theta}(x)=g(\theta^Tx),  g(z) = \frac{1}{1+e^{-z}}\tag{7}
+\end{array}\right. \ \ \ h_{\theta}(x)=g(\theta^Tx),  g(z) = \frac{1}{1+e^{-z} }\tag{7}
 \end{equation}</script><p>对于式$(1)$，式$(6)$, 可变换为$ln\,\frac{y}{1-y}=\theta^Tx$，若将$y$视为样本$x$作为正例的可能性，则$1−y$是其反例的可能性，两者的比值$\frac{y}{1-y}$成为<code>几率（odds）</code>，反映了$x$作为正例的相对可能性。对几率取对数则得到了<code>对数几率（log odds ，亦称logit)</code>，将$y$视为后验概率估计，重写公式有：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
@@ -282,8 +282,8 @@ ln\,\frac{y}{1-y}=ln\,\frac{P(y\ =\ 1|x)}{P(y\ =\ 0|x)}=ln\,\frac{P(y\ =\ 1|x)}{
 <script type="math/tex; mode=display">
 \begin{equation}
 \left\{\begin{array}{ll}
-p(y\ =\ 1|x) = 1 - \frac{1}{1+e^{\theta^Tx}} = \frac{e^{\theta^Tx}}{1+e^{\theta^Tx}} = \frac{1}{1+e^{-\theta^Tx}} \\
-p(y\ =\ 0|x) = \frac{1}{1+e^{\theta^Tx}}
+p(y\ =\ 1|x) = 1 - \frac{1}{1+e^{\theta^Tx} } = \frac{e^{\theta^Tx} }{1+e^{\theta^Tx} } = \frac{1}{1+e^{-\theta^Tx} } \\
+p(y\ =\ 0|x) = \frac{1}{1+e^{\theta^Tx} }
 \end{array}\right.\tag{9}
 \end{equation}</script><h3 id="Decision-Boundary（决策边界）"><a href="#Decision-Boundary（决策边界）" class="headerlink" title="Decision Boundary（决策边界）"></a>Decision Boundary（决策边界）</h3><div class="table-container">
 <table>
@@ -305,7 +305,7 @@ p(y\ =\ 0|x) = \frac{1}{1+e^{\theta^Tx}}
 <script type="math/tex; mode=display">
 \begin{equation}
 J(\theta)=\frac{1}{2m}\sum_{i = 1}^{m}{(h_\theta(x^{(i)}) - y^{(i)})^2}，\tag{10}
-\end{equation}</script><p>我们可以类比线性回归，使用平均误差平方来作为代价函数。但是对于逻辑回归而言，$h_\theta(x)$函数$(h_\theta(x)= \frac{1}{1 + e^{-\theta^Tx}})$是一个非常复杂的<code>非线性函数</code>，如果将$Sigmoid$函数带入式$(9)$，并画出$J(\theta)$的图像，你会发现$J(\theta)$是个非凸函数，这就意味代价函数有着许多的局部最小值，如下图<code>non-convex</code>所示，如果将<code>梯度下降法</code>应用到该函数上，无法保证可以收敛到最小值，这很不利于我们的求解。</p>
+\end{equation}</script><p>我们可以类比线性回归，使用平均误差平方来作为代价函数。但是对于逻辑回归而言，$h_\theta(x)$函数$(h_\theta(x)= \frac{1}{1 + e^{-\theta^Tx} })$是一个非常复杂的<code>非线性函数</code>，如果将$Sigmoid$函数带入式$(9)$，并画出$J(\theta)$的图像，你会发现$J(\theta)$是个非凸函数，这就意味代价函数有着许多的局部最小值，如下图<code>non-convex</code>所示，如果将<code>梯度下降法</code>应用到该函数上，无法保证可以收敛到最小值，这很不利于我们的求解。</p>
 <p><img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png" alt="非凸函数和凸函数"></p>
 <p>因此，通常使用<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=C6a-SMY0H50">极大似然估计</a>来求解，即找到一组参数，使得在这组参数下，我们的数据的似然度（概率）最大。</p>
 <script type="math/tex; mode=display">
@@ -321,7 +321,7 @@ p(y|x;\theta)=h_{\theta}(x)^y(1-h_{\theta}(x))^{1-y}\tag{12}
 \end{equation}</script><p>使用极大似然估计得到似然函数：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-L(\theta)=\prod_{i=1}^{m}{p(y^{(i)}|x^{(i)};\theta)}=\prod_{i=1}^{m}{(h_{\theta}(x^{(i)})^{y^{(i)}}(1-h_{\theta}(x^{(i)}))^{1-y^{(i)}})}\tag{13}
+L(\theta)=\prod_{i=1}^{m}{p(y^{(i)}|x^{(i)};\theta)}=\prod_{i=1}^{m}{(h_{\theta}(x^{(i)})^{y^{(i)} }(1-h_{\theta}(x^{(i)}))^{1-y^{(i)} })}\tag{13}
 \end{equation}</script><p>为了方便求解，对式$(13)$两边同时取对数，得：</p>
 <script type="math/tex; mode=display">
 \begin{align*}
@@ -366,18 +366,18 @@ Cost(h_{\theta}(x),y)=\left\{\begin{array}{ll}
 J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}{[y^{(i)}ln(h_{\theta}(x^{(i)})) + (1-y^{(i)})ln(1-h_{\theta}(x^{(i)}))]}</script><p>对式$(5)$求导不难发现，$Sigmoid$函数有一个特性，即：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-g(z)'=\frac{-(-e^{-z})}{(1+e^{-z})^2} = \frac{1}{1+e^{-z}} \cdot \frac{e^{-z}}{1+e^{-z}} = \frac{1}{1+e^{-z}} \cdot (1-\frac{1}{1+e^{-z}}) = g(x)(1-g(x))\tag{18}
+g(z)'=\frac{-(-e^{-z})}{(1+e^{-z})^2} = \frac{1}{1+e^{-z} } \cdot \frac{e^{-z} }{1+e^{-z} } = \frac{1}{1+e^{-z} } \cdot (1-\frac{1}{1+e^{-z} }) = g(x)(1-g(x))\tag{18}
 \end{equation}</script><p>使用梯度下降法需要先求解梯度：</p>
 <script type="math/tex; mode=display">
 \begin{align*}
-\frac{\partial J(\theta)}{\theta_{j}} &= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}\frac{\partial(h_{\theta}(x^{(i)})) }{\partial \theta_{j}}\\
-& = -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}h_{\theta}(x^{(i)})(1-h_{\theta}(x^{(i)})) \frac{\partial(\theta_j^Tx^{(i)})} { \partial \theta_{j}}\\
+\frac{\partial J(\theta)}{\theta_{j} } &= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}\frac{\partial(h_{\theta}(x^{(i)})) }{\partial \theta_{j} }\\
+& = -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}h_{\theta}(x^{(i)})(1-h_{\theta}(x^{(i)})) \frac{\partial(\theta_j^Tx^{(i)})} { \partial \theta_{j} }\\
 &= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} (1-h_{\theta}(x^{(i)})-(1-y^{(i)})}h_{\theta}(x^{(i)})) x_j^{(i)}\\
 &= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)}
 \end{align*}</script><p>公式最终简化如下如下：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-\frac{\partial J(\theta)}{\theta_{j}}=-\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)} = \frac{1}{m}\sum_{i=1}^{m}{(h_{\theta}(x^{(i)}) - y^{(i)})}x_j^{(i)} \tag{19}
+\frac{\partial J(\theta)}{\theta_{j} }=-\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)} = \frac{1}{m}\sum_{i=1}^{m}{(h_{\theta}(x^{(i)}) - y^{(i)})}x_j^{(i)} \tag{19}
 \end{equation}</script><p>梯度下降法更新权重：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
