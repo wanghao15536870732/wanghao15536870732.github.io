@@ -11,38 +11,38 @@
   <meta name="description" content="一、什么是决策树？    假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十… 每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习方法(四)：决策树（Decision Tree）">
-<meta property="og:url" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/index.html">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
 <meta property="og:description" content="一、什么是决策树？    假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十… 每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/EntFunction.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/tennis_data.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_sunny.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_overcast.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_rainy.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/outlook.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/humidity.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/final_tree.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/visual_decision.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/visual_tree.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris_visual.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/id3_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/id3_2.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/c45.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/handle_cart.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/over_fit.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_gua.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_clip.png">
-<meta property="article:published_time" content="2021-01-29T16:02:22.634Z">
-<meta property="article:modified_time" content="2021-01-29T15:29:53.254Z">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/EntFunction.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/tennis_data.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_sunny.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_overcast.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_rainy.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/outlook.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/humidity.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/final_tree.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/visual_decision.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/visual_tree.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris_visual.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/id3_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/id3_2.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/c45.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/handle_cart.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/over_fit.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_gua.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_clip.png">
+<meta property="article:published_time" content="2021-01-28T08:45:43.000Z">
+<meta property="article:modified_time" content="2021-01-29T16:07:11.922Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -202,8 +202,8 @@ var _hmt = _hmt || [];
   
 
         
-        <a href="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2021-01-29T16:02:22.634Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-30</time>
+        <a href="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2021-01-28T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
 </a>
         
       </header>
@@ -240,7 +240,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="一、什么是决策树？"><a href="#一、什么是决策树？" class="headerlink" title="一、什么是决策树？"></a>一、什么是决策树？</h2><div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
 </div>
 
 <p>假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十…</p>
@@ -253,7 +253,7 @@ var _hmt = _hmt || [];
 <p>当$D_2=\left\{\frac{1}{10}, \frac{2}{10}, \frac{7}{10}\right\}$}时，$D_2$的信息熵$\operatorname{Ent}\left(D_{2}\right)=-\frac{1}{10} \log _{2}\left(\frac{1}{10}\right)-\frac{2}{10} \log _{2}\left(\frac{2}{10}\right)-\frac{7}{10} \log _{2}\left(\frac{7}{10}\right)=1.15678$</p>
 <p>显然集合$D_2$的信息熵是<strong>低于</strong>集合$D_1$的，从集合$D_2$的样本也可看出，数据更偏向于比例为$\frac{7}{10}$的类别，<strong>确定性</strong>更大，<strong>不确定性</strong>小。而集合$D_1$的三种类别比例相同，不确定性大。</p>
 <div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/EntFunction.png" alt="Entropy函数图像">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/EntFunction.png" alt="Entropy函数图像">
 </div>
 
 <p>以二分类为例，信息熵$\operatorname{Ent}(D)=-x \log _{2} x-(1-x) \log _{2}(1-x)$，函数图像如上图所示。</p>
@@ -262,22 +262,22 @@ var _hmt = _hmt || [];
 <script type="math/tex; mode=display">
 \operatorname{Gain}(D, a)=\operatorname{Ent}(D)-\sum_{v=1}^{|y|} \frac{\left|D^{v}\right|}{|D|} \operatorname{Ent}\left(D^{v}\right)</script><p>对于以下的$tennis$数据（<strong>左侧图</strong>），根据天气、温度、湿度、是否有风决定是否打网球，使用<strong>信息熵、信息增益</strong>来构造该数据的<strong>决策树</strong>：</p>
 <div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/tennis_data.jpg" alt="tennis数据集">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/tennis_data.jpg" alt="tennis数据集">
 </div>
 
 <p>对于$outlook$决策分支的数据，有$sunny、overcast、rainy$三个分支（<strong>右侧三组数据</strong>），分别计算三类数据的信息熵：</p>
 <div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_sunny.jpg" alt="tennis数据集-天气晴朗">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_sunny.jpg" alt="tennis数据集-天气晴朗">
 </div>
 
 <script type="math/tex; mode=display">
 \text { Ent }(\text { sunn } y)=-\sum_{i=1}^{n} p_{i} \log _{2} p_{i}=-\left(\frac{2}{5} \log _{2} \frac{2}{5}+\frac{3}{5} \log _{2} \frac{3}{5}\right) \approx 0.971</script><div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_overcast.jpg" alt="tennis数据集-阴天">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_overcast.jpg" alt="tennis数据集-阴天">
 </div>
 
 <script type="math/tex; mode=display">
 \text { Ent(overcast) }=-\sum_{i=1}^{n} p_{i} \log _{2} p_{i}=-\left(\log _{2} 1\right)=0</script><div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_rainy.jpg" alt="tennis数据集-雨天">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_rainy.jpg" alt="tennis数据集-雨天">
 </div>
 
 <script type="math/tex; mode=display">
@@ -297,7 +297,7 @@ var _hmt = _hmt || [];
 </ul>
 <p>由上述可得，使用<strong>$outlook$</strong>进行划分所产生的<strong>信息增益</strong>最大，所以以天气为根节点，并判断信息熵不为零，需要继续向下划分。所以首先使用$outlook$进行划分：</p>
 <div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/outlook.jpg" alt="使用outlook进行划分">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/outlook.jpg" alt="使用outlook进行划分">
 </div>
 
 <p>接着使用同样的方法继续寻找$Sunny$分支中的最优划分属性：</p>
@@ -307,7 +307,7 @@ var _hmt = _hmt || [];
 </ul>
 <p>$Sunny$分支使用$Humidity$进行划分产生的<strong>信息增益</strong>最大，故使用$Humidity$进行划分。</p>
 <div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/humidity.png" alt="使用humidity进行划分" style="zoom: 50%;">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/humidity.png" alt="使用humidity进行划分" style="zoom: 50%;">
 </div>
 
 <p>同时可以计算出此时湿度对应的信息熵high、normal均为0，所以当湿度为high时，决定No；当湿度为normal时，决定Yes；此时它就是叶子节点。当天气为Overcast时，根据信息可知，最终决定为Yes。因此，它就是叶子节点。</p>
@@ -320,7 +320,7 @@ var _hmt = _hmt || [];
 <p>当天气为$Rainy$时信息增益最大的是风，在$Rainy$下通过是否$Windy$来进行划分。同时，当$Windy$为True时决定为No，当分为False时决定为Yes。</p>
 <p>$Overcast$分支数据已经属于同一类别，故不再做划分。最终构造出的<strong>决策树</strong>：</p>
 <div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/final_tree.png" alt="最终构造出的决策树">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/final_tree.png" alt="最终构造出的决策树">
 </div>
 
 <h3 id="1-3-基尼系数"><a href="#1-3-基尼系数" class="headerlink" title="1.3 基尼系数"></a>1.3 基尼系数</h3><p>(周志华《机器学习》$P79$)</p>
@@ -329,7 +329,7 @@ var _hmt = _hmt || [];
 \operatorname{Gini}(D)=\sum_{k=1}^{|y|} \sum_{k^{\prime} \neq k} p_{k} p_{k}^{\prime}=1-\sum_{k=1}^{|y|} p_{k}^{2}</script><p>直观来讲，$Gini(D)$反映了从数据集$D$中随机抽取两个样本，其<strong>类别标记不一致</strong>的概率。因此$Gini(D)$越小，数据集的<strong>纯度越高</strong>。信息熵的计算比基尼系数计算要<strong>慢</strong>，但大多数情况下两者没有太大区别。</p>
 <p>决策树不像线性回归、逻辑回归，需要$OVR、OVO$思想才能解决多分类问题。决策树天生就可解决<strong>多分类</strong>问题，下图是使用<strong>决策树分类器</strong>对<strong>鸢尾花</strong>数据集（后两个特征）进行分类的结果：</p>
 <center class="half">    
-    <img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/visual_decision.png" alt="决策边界可视化" width="450"><img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/visual_tree.jpg" alt="决策树可视化" width="350">
+    <img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/visual_decision.png" alt="决策边界可视化" width="450"><img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/visual_tree.jpg" alt="决策树可视化" width="350">
 </center>
 ## 二、决策树
 
@@ -340,7 +340,7 @@ var _hmt = _hmt || [];
 该数据集用于利用决策树实现分类。数据显示如下（左图）。其中包含有四个特征属性，取值均为数值型，且具有相同的量纲，第五列为通过前面四列所确定的鸢尾花所属的类别名称。将数据的两个特征表示为X轴、Y轴，第三个或第四个特征课表示为点的大小，最终的可视化数据图如下（右图）：
 
 <center class="half">    
-    <img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris.png" alt="鸢尾花数据集" width="250"> <img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris_visual.png" alt="数据可视化" width="400">
+    <img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris.png" alt="鸢尾花数据集" width="250"> <img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris_visual.png" alt="数据可视化" width="400">
 </center>
 
 <h3 id="2-2-决策树构造算法"><a href="#2-2-决策树构造算法" class="headerlink" title="2.2 决策树构造算法"></a>2.2 决策树构造算法</h3><p>决策树有三种常用的实现算法：基于信息增益的$ID3$、基于信息增益率的$C4.5$及基于基尼指数的$CART$算法。$scikit-learn$决策树基于$CART$算法。此处用基于信息增益的$ID3$算法生成决策树。信息增益表示信息不确定性的减少程度，即信息增益越大，信息的确定性越高，故而选取信息增益最大的属性作为决策特征。</p>
@@ -360,7 +360,7 @@ H(D \mid A)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} H\left(D_{i}\right)=-\
 <script type="math/tex; mode=display">
 g(D, A)=H(D)-H(D \mid A)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_gain_entropy</span>(<span class="params">self, X, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; ID3算法 计算信息增益</span></span><br><span class="line"><span class="string">    x: 数据集的某个特征对应的列向量，训练集中一行表示一个样本，列表示特征  y: 数据集标签  &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> self._calc_entropy(y) – self._calc_condition_entropy(X, y)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h4 id="2-3-2-ID3算法"><a href="#2-3-2-ID3算法" class="headerlink" title="2.3.2 ID3算法"></a>2.3.2 ID3算法</h4><center class="half">    
-    <img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/id3_1.png" alt="id3算法流程" height="450"> <img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/id3_2.png" alt="id3算法流程" height="450">
+    <img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/id3_1.png" alt="id3算法流程" height="450"> <img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/id3_2.png" alt="id3算法流程" height="450">
 </center>
 
 <p>ID3算法的核心是在决策树各个结点上应用<strong>信息增益</strong>准则选择特征，<strong>递归</strong>的构造决策树。构造决策树T的过程：</p>
@@ -380,7 +380,7 @@ g(D, A)=H(D)-H(D \mid A)</script><figure class="highlight python"><table><tr><td
 </li>
 </ul>
 <h4 id="2-3-3-C4-5算法"><a href="#2-3-3-C4-5算法" class="headerlink" title="2.3.3 C4.5算法"></a>2.3.3 C4.5算法</h4><div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/c45.png" alt="C4.5算法流程" height="400">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/c45.png" alt="C4.5算法流程" height="400">
 </div>
 
 <p>C4.5算法对ID3算法进行了改进。C4.5在生成的过程中采用<strong>信息增益比/率</strong>来选择特征。</p>
@@ -409,7 +409,7 @@ g_{R}(D, A)=\frac{g(D, A)}{H_{A}(D)} \quad H_{A}(D)=-\sum_{i=1}^{n} \frac{\left|
 </ol>
 <p>使用sklearn中的CART决策树分类器和自己实现的分类树，对聚类数据划分决策边界，并进行对比。可以发现库函数中的分类器是要优于我们自己做的决策树分类器。</p>
 <div align="center">
-<img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/handle_cart.png" alt="分类器对比" height="300">
+<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/handle_cart.png" alt="分类器对比" height="300">
 </div>
 
 <h4 id="2-3-5-CART算法（回归树）"><a href="#2-3-5-CART算法（回归树）" class="headerlink" title="2.3.5 CART算法（回归树）"></a>2.3.5 CART算法（回归树）</h4><p>假设 $X$ 与$Y$分别为输入和输出变量，并且$Y$是连续变量，给定训练数据集：</p>
@@ -419,12 +419,12 @@ D = \left\{ \left( x _ { 1 } , y _ { 1 } \right) , \left( x _ { 2 } , y _ { 2 } 
 f ( x ) = \sum _ { m = 1 } ^ { M } c _ { m } I \left( x \in R _ { m } \right)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_division</span>(<span class="params">self, y_left, y_right</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算划分后的平方差&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 计算左右子树平方差</span></span><br><span class="line">    left_evaluation = self._calc_evaluation(y_left)</span><br><span class="line">    right_evaluation = self._calc_evaluation(y_right)</span><br><span class="line">    <span class="comment"># 划分后的平方差</span></span><br><span class="line">    after_divide = left_evaluation + right_evaluation</span><br><span class="line">    <span class="keyword">return</span> after_divide</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_evaluation</span>(<span class="params">self, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算平方差&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> np.<span class="built_in">sum</span>(np.power(y - np.mean(y), <span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_node_val</span>(<span class="params">self, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;回归树返回标签的平均值作为叶结点的预测值&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> np.mean(y)</span><br></pre></td></tr></table></figure>
 <h2 id="三、剪枝"><a href="#三、剪枝" class="headerlink" title="三、剪枝"></a>三、剪枝</h2><p>决策树分类器默认是认为<strong>信息熵为</strong>$0$时才停止划分, 极易产生<strong>过拟合</strong>现象。如下图所示，有时候会因为<strong>迁就</strong>一个或几个点，而去产生新的决策，从而导致整个决策树非常庞大，这时候就需要进行剪枝操作，即<strong>“剪”</strong>掉不必要的分支。</p>
 <center class="half">    
-    <img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data.png" alt="原数据" width="350"><img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/over_fit.png" alt="过拟合的决策边界" width="350">
+    <img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data.png" alt="原数据" width="350"><img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/over_fit.png" alt="过拟合的决策边界" width="350">
 </center>
 
 <h3 id="2-1-预剪枝"><a href="#2-1-预剪枝" class="headerlink" title="2.1 预剪枝"></a>2.1 预剪枝</h3><p>每次划分前后，都要对这次的划分进行评估，下图即使用<strong>验证集</strong>来计算划分前后的分类准确率，只有在准确率时的划分才可进行，否则禁止划分。</p>
 <center class="half">    
-    <img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_gua.jpg" alt="西瓜数据" width="300"><img src="/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/data_clip.png" alt="预剪枝过程" width="300">
+    <img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_gua.jpg" alt="西瓜数据" width="300"><img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/data_clip.png" alt="预剪枝过程" width="300">
 </center>
 
 <h3 id="2-2-后剪枝"><a href="#2-2-后剪枝" class="headerlink" title="2.2 后剪枝"></a>2.2 后剪枝</h3><p>与预剪枝不同，后剪枝是先从训练集生成一颗完整的决策树，然后根据验证集准确率来进行剪枝。即对决策树的非叶子节点，从下到上，使用其领衔的分支进行替换，然后计算剪枝前后的验证集准确率，若有提升，则进行剪枝。</p>
@@ -535,7 +535,7 @@ f ( x ) = \sum _ { m = 1 } ^ { M } c _ { m } I \left( x \in R _ { m } \right)</s
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2021/01/30/%E5%86%B3%E7%AD%96%E6%A0%91/" alt="微信分享二维码">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/" alt="微信分享二维码">
     </div>
 </div>
 
