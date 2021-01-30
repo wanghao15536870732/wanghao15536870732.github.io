@@ -8,19 +8,26 @@
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
   <title>机器学习方法(二)：线性回归 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未知数据。回归问题按照输入变量的个数可以分为一元回归和多元回归。">
+  <meta name="description" content="线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未知数据。回归问题按照输入变量的个数可以分为一元回归和多元回归。 一、 单变量线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习方法(二)：线性回归">
 <meta property="og:url" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
-<meta property="og:description" content="一、线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未知数据。回归问题按照输入变量的个数可以分为一元回归和多元回归。">
+<meta property="og:description" content="线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未知数据。回归问题按照输入变量的个数可以分为一元回归和多元回归。 一、 单变量线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_mul.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_2.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent.gif">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/Matrix.png">
 <meta property="article:published_time" content="2021-01-25T00:05:43.000Z">
-<meta property="article:modified_time" content="2021-01-29T15:21:50.791Z">
+<meta property="article:modified_time" content="2021-01-30T14:07:36.889Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -188,15 +195,203 @@ var _hmt = _hmt || [];
     
 	
 	<!-- 目录内容 -->
-			   
+	
+		<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+			  <span class="btn-bg"></span>
+			  <span class="btn-text">文章导航</span>
+			  </p>
+		<div id="toc-article" class="toc-article">
+			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+			<strong class="toc-title">文章目录</strong>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li></ol>
+			 </div>
+	   <script type="text/javascript">
+		function showToc(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:block");
+			show_toc_btn.setAttribute("style","display:none");
+			};
+		function showBtn(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:none");
+			show_toc_btn.setAttribute("style","display:block");
+			};
+	   </script>
+    		   
 	<!-- 目录内容结束 -->
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="一、线性回归"><a href="#一、线性回归" class="headerlink" title="一、线性回归"></a>一、线性回归</h3><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
+        <h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
+<h3 id="一、-单变量线性回归"><a href="#一、-单变量线性回归" class="headerlink" title="一、 单变量线性回归"></a>一、 单变量线性回归</h3><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
+<div align="center">
+<img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png" alt="一元线性回归">
+</div>
 
+<p>对于一元线性回归，函数用可以用一个公式来表示，即假设$x$和$y$之间存在这样的关系：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+h_{\theta}(x)  = \theta_0 + \theta_1 x \tag{1}
+\end{equation}</script><p>$h_{\theta}(x)$即我们预测的数值，该值与实际数值之间的差异，即为误差：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+error=|y- h_{\theta}(x)| \tag{2}
+\end{equation}</script><p>由于求绝对值过于繁琐，我们将其视为误差平方和，并对齐求均值，即代价（损失）函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)}) - y^{(i)}\right)^{2}=\frac{1}{2m}\sum_{i=1}^{m}\left(\theta_0 + \theta_1x_i-y^{(i)}\right)^{2} \tag{3}
+\end{equation}</script><p>我们的目的就是使得预测值尽可能地接近实际值，即误差越小越好。即找到一组$(\theta_0,\theta_1)$，使得误差平方和最小。</p>
+<blockquote>
+<p>Hypothesis：$h_{\theta}(x)  = \theta_0 + \theta_1 x$</p>
+<p>Parameters：$\theta_0,\theta_1$</p>
+<p>Cost Function：$J(\theta_0,\theta_1) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)}) - y^{(i)}\right)^{2}$</p>
+<p>Goal：$\underset{\theta_{0}, \theta_{1}}{\operatorname{minimize}} J\left(\theta_{0}, \theta_{1}\right)$</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="二、多元线性回归"><a href="#二、多元线性回归" class="headerlink" title="二、多元线性回归"></a>二、多元线性回归</h3><div align="center">
+<img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_mul.png" alt="多元线性回归">
+</div>
+
+<p>对于多元回归而言：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{aligned}
+h_{\theta}(x) &=\theta_{0}+\theta_{1} x_{1}+\theta_{2} x_{2}+\cdots+\theta_{n} x_{n} \\
+&=\sum_{i=0}^{n} \theta_{i} x_{i}=\theta^{T} x
+\end{aligned}  \tag{4}
+\end{equation}</script><p>使用极大似然函数来解释最小二乘：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y^{(i)}=\theta^{T} X^{(i)}+\varepsilon^{(i)} \tag{5}
+\end{equation}</script><p>根据中心极限定理，误差$\varepsilon^{(i)}(1≤i≤n)$是独立同分布的，服从均值为0，方差为特定$\sigma^2$的高斯分布。</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+P(\varepsilon^{(i)})=\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(\varepsilon^{(i)}\right)^{2}}{2 \sigma^{2}}\right) \tag{6}
+\end{equation}</script><p>将式$(5)$带入式$(6)$中可得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+P\left(y^{(i)}|x^{(i)};\theta\right)=\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y^{(i)}-\theta^TX^{(i)}\right)^{2}}{2 \sigma^{2}}\right) \tag{7}
+\end{equation}</script><p>其似然函数：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L(\theta) &=\prod_{i=1}^{m} P\left(y^{(i)} \mid x^{(i)} ; \theta\right) \\
+&=\prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(\frac{\left.-( y^{(i)}-\theta^{T} x^{(i)}\right)^{2}}{2 \sigma^{2}}\right)
+\end{aligned}</script><p>高斯的对数似然与最小二乘</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+l(\theta) &= logL(\theta) \\
+&= log\left(\prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(\frac{\left.-( y^{(i)}-\theta^{T} x^{(i)}\right)^{2}}{2 \sigma^{2}}\right)\right) \\
+&= \sum_{i=1}^{m} log\left(\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(\frac{\left.-( y^{(i)}-\theta^{T} x^{(i)}\right)^{2}}{2 \sigma^{2}}\right)\right) \\
+&= m\cdot log\frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{\sigma^2} \cdot \frac{1}{2} \sum_{i=1}^{m}\left(y^{(i)} - \theta^TX^{(i)} \right)^2 \\
+\end{aligned}</script><p>其中$m\cdot log\frac{1}{\sqrt{2\pi}\sigma}$为常数，则关于θ的代价函数为：</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2} \sum_{i=1}^{m}\left(h_{\theta}\left(X^{(i)}\right)-y^{(i)}\right)^{2}</script><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">temp=(X * theta - y)&#x27; * (X * theta - y);</span><br><span class="line">J=<span class="number">1</span> / (<span class="number">2</span> * m) * temp;</span><br></pre></td></tr></table></figure>
+<h3 id="三、梯度下降算法"><a href="#三、梯度下降算法" class="headerlink" title="三、梯度下降算法"></a>三、梯度下降算法</h3><p>可以理解为一个人下山的过程，如果想要快速走下山，但是又不知道方向，怎么办呢？显然很容易想到的是一定往下山的方向走。但是选哪个方向呢？这就需要有冒险精神，每次选择<strong>最陡峭</strong>的方向，即山高度下降最快的地方，这样下山最快。</p>
+<p>但是，又有一个问题来了，没有办法每次选择的都是最陡峭的地方。这就需要每次都选定一段距离，每走一段距离之后，就重新确定当前所在位置的高度下降最快的地方。这样，这个人每次下山的方向都可以近似看作是每个距离段内高度下降最快的地方。</p>
+<p><center class="half">    
+    <img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_1.png" alt="梯度下降法-二维" width="350"><img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_2.png" alt="梯度下降法-三维" width="500">
+</center><br>将下山的例子中每一段路的距离取名叫<strong>学习率</strong>（Learning Rate，也称步长，用α表示），把一次下山走一段距离叫做一次<strong>迭代</strong>。算法详细过程：</p>
+<ol>
+<li>确定定参数的初始值，计算损失函数的<strong>偏导数</strong>。</li>
+<li>将参数代入偏导数计算出<strong>梯度</strong>。若<strong>梯度</strong>为 0，结束；否则转到 3。</li>
+<li>用<strong>步长乘以梯度</strong>，并对参数进行<strong>更新</strong>。</li>
+</ol>
+<p>重复2-3，对于多元线性回归来说，拟合函数为：</p>
+<script type="math/tex; mode=display">
+h_{\theta}(x)=\sum_{i=0}^{n} \theta_{i} x_{i}=\theta_{0}+\theta_{1} x+\cdots+\theta_{n} x_{n}</script><p>损失函数为：</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2 m} \sum_{i=0}^{n}\left(y^{(i)}-h_{\theta}\left(x^{(i)}\right)\right)^{2}</script><p>损失函数的偏导数为：</p>
+<script type="math/tex; mode=display">
+\frac{\partial J(\theta)}{\theta_{i}}=\frac{1}{m} \sum_{j=1}^{m}\left(h_{\theta}\left(x^{(j)}\right)-y^{(j)}\right) x_{i}^{(j)}=\frac{1}{m} \sum_{j=1}^{m}\left(\sum_{i=0}^{n} \theta_{i} x_{i}^{(j)}-y^{(j)}\right) x_{i}^{(j)},(i=0,1,2,3, \ldots, n)</script><p>每次更新参数的操作为：</p>
+<script type="math/tex; mode=display">
+\theta_{i}=\theta_{i}-\alpha \frac{\partial J(\theta)}{\theta_{i}}=\theta_{i}-\alpha \frac{1}{m} \sum_{j=1}^{m}\left(h_{\theta}\left(x^{(j)}\right)-y^{(j)}\right) x_{i}^{(j)}</script><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line">    h = X * theta;</span><br><span class="line">    temp(:,iter) = theta - ((alpha / m) * (X&#x27; * (h - y)));</span><br><span class="line">    theta = temp(:,iter);</span><br></pre></td></tr></table></figure>
+<p><img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent.gif" alt></p>
+<h3 id="四、正规方程（最小二乘-）"><a href="#四、正规方程（最小二乘-）" class="headerlink" title="四、正规方程（最小二乘 ）"></a>四、正规方程（最小二乘 ）</h3><p>得到多元线性回归的代价函数，可以通过求导和梯度下降来寻找最优的参数。</p>
+<p>一元线性回归是对<strong>a、b</strong>求<strong>偏导</strong>，多元线性回归是对<strong>θ</strong>求<strong>偏导</strong>，即：</p>
+<p>目标函数</p>
+<script type="math/tex; mode=display">
+J(\theta)=\frac{1}{2m} \sum_{i=1}^{m}\left(h_{\theta}\left(X^{(i)}\right)-y^{(i)}\right)^{2}=\frac{1}{2m}(X\theta-y)^T \cdot (X\theta - y)</script><p>对$\theta$求梯度：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\nabla_{\theta}J(\theta) &= \nabla_{\theta}\left(\frac{1}{2m}(X\theta-y)^T \cdot (X\theta - y)\right) \\
+&= \frac{1}{2m} \nabla_{\theta}\left(\left(\theta^TX^T-y^T\right) \cdot (X\theta - y)\right) \\
+&= \frac{1}{2m} \nabla_{\theta}\left(\theta^TX^TX\theta - \theta^TX^Ty - y^TX\theta + y^Ty\right) \\
+&= \frac{1}{2m} \left(\frac{\partial(\theta^TX^TX\theta)}{\partial \theta} - \frac{\partial(\theta^TX^Ty)}{\partial \theta} - \frac{\partial(y^TX\theta)}{\partial \theta} + \frac{\partial(y^Ty)}{\partial \theta} \right)
+\end{aligned}</script><p><strong>矩阵（向量）求导法则</strong></p>
+<div align="center">
+<img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/Matrix.png" alt="矩阵求导法则" style="zoom: 50%;">
+</div>
+
+<p>其中<strong>第一项</strong>：$ \frac{\partial}{\partial \theta} \theta^TX^TX\theta$，由矩阵求导法则：</p>
+<script type="math/tex; mode=display">
+\frac{\partial \theta^T A \theta}{\partial \theta} = (A + A^T) \theta （A是不含有X中包含项的矩阵）</script><p>将$X^TX$看作$A$，可得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial \theta^T X^T X \theta}{\partial \theta} = (X^TX + X^TX)\theta = 2X^TX\theta</script><p><strong>第二项</strong>：$\frac{\partial}{\partial \theta} \theta^TX^Ty$</p>
+<blockquote>
+<p>矩阵求导法则：</p>
+<script type="math/tex; mode=display">
+\frac{\partial X^TA}{\partial X} = A</script></blockquote>
+<p>将$X^Ty$看作$A$，可得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial(\theta^TX^Ty)}{\partial \theta} = X^Ty</script><p><strong>第三项</strong>：$\frac{\partial}{\partial \theta} y^TX\theta$</p>
+<blockquote>
+<p>矩阵求导法则：</p>
+<script type="math/tex; mode=display">
+\frac{\partial AX}{\partial X} = A^T</script></blockquote>
+<p>将$y^TX$看作$A$，可得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial(y^TX\theta)}{\partial \theta} = X^Ty</script><p><strong>第四项</strong>：$\frac{\partial}{\partial \theta} y^Ty$</p>
+<blockquote>
+<p>矩阵求导法则：</p>
+<script type="math/tex; mode=display">
+\frac{\partial A}{\partial X} = 0</script></blockquote>
+<p>将$y^Ty$看作$A$，可得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial(y^Ty)}{\partial \theta} = 0</script><p><strong>综上所述</strong></p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\nabla_{\theta}J(\theta) &= \frac{1}{2m} \left(\frac{\partial(\theta^TX^TX\theta)}{\partial \theta} - \frac{\partial(\theta^TX^Ty)}{\partial \theta} - \frac{\partial(y^TX\theta)}{\partial \theta} + \frac{\partial(y^Ty)}{\partial \theta} \right) \\
+& = \frac{1}{2m} \left(2X^TX\theta - 2X^Ty\right) \\
+& = \frac{1}{m} \left(X^TX\theta - X^Ty\right)
+\end{aligned}</script><p>当$\nabla_{\theta}J(\theta) = 0$时</p>
+<script type="math/tex; mode=display">
+X^TX\theta = X^Ty \\
+\theta = (X^TX)^{-1}X^Ty</script>
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -311,6 +506,19 @@ var _hmt = _hmt || [];
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
