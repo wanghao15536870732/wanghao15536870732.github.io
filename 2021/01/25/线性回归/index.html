@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent.gif">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/Matrix.png">
 <meta property="article:published_time" content="2021-01-25T00:05:43.000Z">
-<meta property="article:modified_time" content="2021-02-01T12:16:45.451Z">
+<meta property="article:modified_time" content="2021-02-01T14:34:13.470Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
@@ -203,7 +203,7 @@ var _hmt = _hmt || [];
 		<div id="toc-article" class="toc-article">
 			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
 			<strong class="toc-title">文章目录</strong>
-			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li></ol>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
 			 </div>
 	   <script type="text/javascript">
 		function showToc(){
@@ -397,6 +397,10 @@ X^TX\theta = X^Ty \\
 </tbody>
 </table>
 </div>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://cs229.stanford.edu/">cs299</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">《机器学习》 周志华著</a></li>
+</ul>
 
       
 
@@ -519,7 +523,7 @@ X^TX\theta = X^Ty \\
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          机器学习方法(三)：Logistic Regression 对数几率回归与正则化
+          机器学习方法(三)：Logistic Regression 对数几率回归
         
       </div>
     </a>
@@ -553,7 +557,7 @@ X^TX\theta = X^Ty \\
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
                     </div>
                 </span>
             </div>

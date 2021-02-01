@@ -6,11 +6,11 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>机器学习方法(三)：Logistic Regression 对数几率回归与正则化 | HowardWang的博客</title>
+  <title>机器学习方法(三)：Logistic Regression 对数几率回归 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="广义线性模型    对于线性回归而言，模型可以简写为：  \begin{equation} y &#x3D; w^Tx + b \ \ or \ \ y &#x3D; \theta^Tx (更常用\ 下面统一用该式子表示)\tag{1} \end{equation}假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：  \begin{equati">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习方法(三)：Logistic Regression 对数几率回归与正则化">
+<meta property="og:title" content="机器学习方法(三)：Logistic Regression 对数几率回归">
 <meta property="og:url" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
 <meta property="og:description" content="广义线性模型    对于线性回归而言，模型可以简写为：  \begin{equation} y &#x3D; w^Tx + b \ \ or \ \ y &#x3D; \theta^Tx (更常用\ 下面统一用该式子表示)\tag{1} \end{equation}假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：  \begin{equati">
@@ -26,8 +26,9 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/mnist.png">
 <meta property="article:published_time" content="2021-01-25T07:01:32.000Z">
-<meta property="article:modified_time" content="2021-02-01T12:10:23.338Z">
+<meta property="article:modified_time" content="2021-02-01T14:32:07.869Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
@@ -187,7 +188,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      机器学习方法(三)：Logistic Regression 对数几率回归与正则化
+      机器学习方法(三)：Logistic Regression 对数几率回归
     </h1>
   
 
@@ -406,18 +407,26 @@ g(z)'=\frac{-(-e^{-z})}{(1+e^{-z})^2} = \frac{1}{1+e^{-z} } \cdot \frac{e^{-z} }
 </div>
 
 <h3 id="5-1-One-vs-Rest"><a href="#5-1-One-vs-Rest" class="headerlink" title="5.1 One vs Rest"></a>5.1 One vs Rest</h3><div align="center">
-<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png" alt="one vs rest" style="zoom:67%;">
+<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png" alt="one_vs_rest" style="zoom:67%;">
 </div>
+
 
 <p><strong>思想</strong>：假设对$n$种类型的样本进行分类，依次将其中某一类当作<code>正类(positive)</code>，其他剩余的样本归为<code>负类(negtive)</code>，训练$n$个二元分类器，将待测样本传入这$n$个分类器中，得概率最高的那个分类器对应的样本类型即认为是该预测样本的类型。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one_vs_rest</span>(<span class="params">self, X, y, num_labels, learning_rate=<span class="number">1e-3</span>, num_iters=<span class="number">100</span>, batch_size=<span class="number">200</span>, verbose=<span class="literal">True</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;使用 OVR 的思想，分类标准：所得概率最高的那个模型对应的样本类型&quot;&quot;&quot;</span></span><br><span class="line">    X_b = np.hstack([np.ones((<span class="built_in">len</span>(X), <span class="number">1</span>)), X])</span><br><span class="line">    all_theta = np.zeros([X_b.shape[<span class="number">1</span>], num_labels])</span><br><span class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> <span class="built_in">range</span>(num_labels):</span><br><span class="line">        <span class="comment"># 多分类化为二分类的</span></span><br><span class="line">        y_train_t = []</span><br><span class="line">        <span class="comment"># 将当前类别标签设为 1，其他类标签设为 0</span></span><br><span class="line">        <span class="keyword">for</span> jt <span class="keyword">in</span> y:</span><br><span class="line">            <span class="keyword">if</span> jt == it:</span><br><span class="line">                y_train_t.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                y_train_t.append(<span class="number">0</span>)</span><br><span class="line">        self._theta = <span class="literal">None</span></span><br><span class="line">        self.train(X, np.array(y_train_it), learning_rate, num_iters, batch_size, verbose)</span><br><span class="line">        <span class="comment"># 保存每次训练得到的 theta 参数</span></span><br><span class="line">        self.theta[:, it] = self._theta</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_vs_all_predict</span>(<span class="params">self, X</span>):</span></span><br><span class="line">    labels = self.sigmoid(X.dot(self.theta))  <span class="comment"># 结果是保存着归为每个数字的概率</span></span><br><span class="line">    y_pred = np.argmax(labels,axis=<span class="number">1</span>)  <span class="comment"># 返回每行的最大位置的下标</span></span><br><span class="line">    <span class="keyword">return</span> y_pred</span><br></pre></td></tr></table></figure>
-<h3 id="5-2-One-vs-One"><a href="#5-2-One-vs-One" class="headerlink" title="5.2 One vs One"></a>5.2 One vs One</h3><p><div align="center">
-<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png" alt="one vs one" style="zoom:67%;">
-</div><br><strong>思想</strong>：对$n$种类型的样本进行分类，每次选出$2$种类型，两两结合，一共有$ C_n^2$ 种二分类情况，使用 $ C_n^2$ 种模型预测样本类型，对预测结果进行投票，出现次数最多的样本类型，即为该样本最终的预测类型。</p>
-<p><div align="center">
-<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png" alt="鸢尾花多分类" style="zoom:80%;">
-</div></p>
-<h2 id="六、手写数字识别"><a href="#六、手写数字识别" class="headerlink" title="六、手写数字识别"></a>六、手写数字识别</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<h3 id="5-2-One-vs-One"><a href="#5-2-One-vs-One" class="headerlink" title="5.2 One vs One"></a>5.2 One vs One</h3><div align="center">
+<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png" alt="one_vs_one" style="zoom:70%;">
+</div>
+
+<p><strong>思想</strong>：对$n$种类型的样本进行分类，每次选出$2$种类型，两两结合，一共有$ C_n^2$ 种二分类情况，使用 $ C_n^2$ 种模型预测样本类型，对预测结果进行投票，出现次数最多的样本类型，即为该样本最终的预测类型。</p>
+<div align="center">
+<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png" alt="鸢尾花分类" style="zoom:80%;">
+</div>
+
+<h2 id="六、手写数字识别"><a href="#六、手写数字识别" class="headerlink" title="六、手写数字识别"></a>六、手写数字识别</h2><div align="center">
+<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/mnist.png" alt="手写数字识别">
+</div>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
 <li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">《机器学习》 周志华著</a></li>
 <li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/33437381/">《统计学习方法（第2版）》李航著</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35356992">L1正则化与L2正则化</a></li>

@@ -21,7 +21,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/13/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/dijkstra_result_1.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/13/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/dijkstra_result_2.png">
 <meta property="article:published_time" content="2018-12-13T12:11:49.000Z">
-<meta property="article:modified_time" content="2021-02-01T12:40:25.649Z">
+<meta property="article:modified_time" content="2021-02-01T14:21:41.313Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
@@ -204,18 +204,22 @@ var _hmt = _hmt || [];
 <p>给定一个带权有向图 G=(V,E)。另外，还给定 V 中的一个顶点，称为源。现在我们要计算从源到所有其他各顶点的最短路径长度。这里的长度是指路上各边权之和。这个问题通常称为单源最短路径问题。</p>
  <a id="more"></a>
 <h3 id="Dijkstra算法的解决方案"><a href="#Dijkstra算法的解决方案" class="headerlink" title="Dijkstra算法的解决方案"></a>Dijkstra算法的解决方案</h3><p>即先求出长度最短的一条最短路径，再参照它求出长度次短的一条最短路径，依次类推，直到从源点v 到其它各顶点的最短路径全部求出为止。</p>
-<h3 id="Dijkstra算法的解题思想"><a href="#Dijkstra算法的解题思想" class="headerlink" title="Dijkstra算法的解题思想"></a>Dijkstra算法的解题思想</h3><p>1、选一顶点v为源点，并视从源点v出发的所有边为到各顶点的最短路径</p>
+<h3 id="Dijkstra算法的解题思想"><a href="#Dijkstra算法的解题思想" class="headerlink" title="Dijkstra算法的解题思想"></a>Dijkstra算法的解题思想</h3><ul>
+<li><p>选一顶点v为源点，并视从源点v出发的所有边为到各顶点的最短路径</p>
 <ul>
 <li>创建一个记录从源点v到其它各顶点的路径长度数组dist[],开始时，dist是源点v到顶点i的直接边长度，即dist中记录的是邻接阵的第v行</li>
 <li>设一个用来记录从源点到其它顶点的路径数组path[],path中存放路径上第i个顶点的前驱顶点）。</li>
 </ul>
-<p>2、在上述的最短路径dist[]中选一条最短的，并将其终点（即<v,k>）k加入到集合s中。</v,k></p>
-<p>3、调整T中各顶点到源点v的最短路径。 因为当顶点k加入到集合s中后，源点v到T中剩余的其它顶点j就又增加了经过顶点k到达j的路径,这条路径可能要比源点v到j原来的最短的还要短。</p>
-<ul>
-<li><p>调整方法是比较dist[k]+g[k,j]与dist[j]，取其中的较小者。<br>即算法当中得</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(min + g.edges[v][k] &lt; d[k])</span><br><span class="line">&#123;</span><br><span class="line">    d[k] = min + g.edges[v][k];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>4、再选出一个到源点v路径长度最小的顶点k,从T中删去后加入S中，再回去到第三步，如此重复，直到集合S中的包含图G的所有顶点。</p>
 </li>
+<li><p>在上述的最短路径dist[]中选一条最短的，并将其终点（即<v,k>）k加入到集合s中。</v,k></p>
+</li>
+<li><p>调整T中各顶点到源点v的最短路径。 因为当顶点k加入到集合s中后，源点v到T中剩余的其它顶点j就又增加了经过顶点k到达j的路径,这条路径可能要比源点v到j原来的最短的还要短。</p>
+<ul>
+<li><p>调整方法是比较dist[k]+g[k,j]与dist[j]，取其中的较小者。即算法当中的</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(min + g.edges[v][k] &lt; d[k])</span><br><span class="line">&#123;</span><br><span class="line">    d[k] = min + g.edges[v][k];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>再选出一个到源点v路径长度最小的顶点k,从T中删去后加入S中，再回去到第三步，如此重复，直到集合S中的包含图G的所有顶点。</li>
 </ul>
 <p><code>举个书上的题当作例子</code></p>
 <div align="center">
