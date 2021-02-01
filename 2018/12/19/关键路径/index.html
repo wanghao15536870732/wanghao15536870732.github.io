@@ -6,37 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>机器学习方法(一)：物以类聚 人以群分 K近邻算法 | HowardWang的博客</title>
+  <title>数据结构方法(二)：关键路径 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、KNN​算法概述k近邻算法是一种基本分类与回归的方法，在空间中如果一个样本附近的k​个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的​k​个实例中的多数属于的类。k&#x3D;1​时，为最近邻算法。 如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k​值，分类结果也会有所不同。     k&#x3D;3​时">
+  <meta name="description" content="一、关键路径1.1 网络 AOV网络：有向图，用顶点表示活动，用弧表示活动的先后顺序 AOE网络：有向图，用顶点表示事件，用弧表示活动，用权值表示活动消耗时间  1.2 名词解释 活动：业务逻辑中的行为，用边表示 事件：活动的结果或者触发条件 关键路径：具有最大路径长度（权重）的路径，可能不止一条  活动的两个属性：  e(i)表示最早开始时间 l(i)表示最晚开始时间  事件的两个属性：  ve">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习方法(一)：物以类聚 人以群分 K近邻算法">
-<meta property="og:url" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:title" content="数据结构方法(二)：关键路径">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
-<meta property="og:description" content="一、KNN​算法概述k近邻算法是一种基本分类与回归的方法，在空间中如果一个样本附近的k​个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的​k​个实例中的多数属于的类。k&#x3D;1​时，为最近邻算法。 如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k​值，分类结果也会有所不同。     k&#x3D;3​时">
+<meta property="og:description" content="一、关键路径1.1 网络 AOV网络：有向图，用顶点表示活动，用弧表示活动的先后顺序 AOE网络：有向图，用顶点表示事件，用弧表示活动，用权值表示活动消耗时间  1.2 名词解释 活动：业务逻辑中的行为，用边表示 事件：活动的结果或者触发条件 关键路径：具有最大路径长度（权重）的路径，可能不止一条  活动的两个属性：  e(i)表示最早开始时间 l(i)表示最晚开始时间  事件的两个属性：  ve">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/manhattan.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/chebyshev.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_2.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_2.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/kd_function.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/2DExample.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/search.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/result.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cifar-10.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/knn_bug.jpg">
-<meta property="article:published_time" content="2019-07-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-02-01T14:15:55.480Z">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/result_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/result_2.png">
+<meta property="article:published_time" content="2018-12-19T12:30:31.000Z">
+<meta property="article:modified_time" content="2021-02-01T12:47:10.415Z">
 <meta property="article:author" content="HowardWang">
-<meta property="article:tag" content="Machine Learning">
-<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -184,20 +174,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-K近邻算法" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-关键路径" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      机器学习方法(一)：物以类聚 人以群分 K近邻算法
+      数据结构方法(二)：关键路径
     </h1>
   
 
         
-        <a href="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2019-07-23T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
+        <a href="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/" class="archive-article-date">
+  	<time datetime="2018-12-19T12:30:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-19</time>
 </a>
         
       </header>
@@ -212,7 +202,7 @@ var _hmt = _hmt || [];
 		<div id="toc-article" class="toc-article">
 			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
 			<strong class="toc-title">文章目录</strong>
-			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81KNN%E2%80%8B%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">一、KNN​算法概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="toc-number">2.</span> <span class="toc-text">二、三要素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-k%E2%80%8B%E5%80%BC%E7%9A%84%E9%80%89%E5%8F%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 k​值的选取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 距离度量方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E6%AC%A7%E5%BC%8F%E8%B7%9D%E7%A6%BB-text-Euclidean-distance"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 欧式距离($\text{Euclidean distance}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB-text-Manhattan-distance"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 曼哈顿距离($\text{Manhattan distance}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB-text-Chebyshev-distance"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 切比雪夫距离($\text{Chebyshev distance}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%A4%B9%E8%A7%92%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.2.4 夹角余弦距离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5 汉明距离</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 特征归一化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%9C%80%E5%80%BC%E5%BD%92%E4%B8%80%E5%8C%96-text-normalization"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 最值归一化($\text{normalization}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%9D%87%E5%80%BC%E6%96%B9%E5%B7%AE%E5%BD%92%E4%B8%80%E5%8C%96-text-standardization"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 均值方差归一化($\text{standardization}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-text-scikit-learn-%E4%B8%AD%E7%9A%84%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 $\text{scikit_learn}$中的归一化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">三、算法实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%AE%80%E5%8D%95%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 简单方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-KD%E6%A0%91"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 KD树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%9E%84%E9%80%A0%E5%B9%B3%E8%A1%A1kd%E2%80%8B%E6%A0%91%E7%AE%97%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 构造平衡kd​树算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%90%9C%E7%B4%A2kd%E2%80%8B%E6%A0%91"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 搜索kd​树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81KNN%E2%80%8B%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">4.</span> <span class="toc-text">四、KNN​算法的缺陷</span></a></li></ol>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="toc-number">1.</span> <span class="toc-text">一、关键路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E7%BD%91%E7%BB%9C"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 名词解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AE%A1%E7%AE%97%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">二、计算关键路径的过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%B1%82ve-i-%E7%9A%84%E5%80%BC"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 求ve(i)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%B1%82vl-j-%E7%9A%84%E5%80%BC"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 求vl(j)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%B1%82e-i-%E7%9A%84%E5%80%BC"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 求e(i)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%B1%82l-i-%E7%9A%84%E5%80%BC"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 求l(i)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E6%B1%82%E5%87%BA%E5%85%B3%E9%94%AE%E8%BE%B9%E5%92%8C%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 求出关键边和关键路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">三、代码：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">四、文件格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">五、输出结果：</span></a></li></ol>
 			 </div>
 	   <script type="text/javascript">
 		function showToc(){
@@ -233,198 +223,456 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、KNN​算法概述"><a href="#一、KNN​算法概述" class="headerlink" title="一、KNN​算法概述"></a>一、KNN​算法概述</h2><p>k近邻算法是一种基本<strong>分类</strong>与<strong>回归</strong>的方法，在空间中如果一个样本附近的k​个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的​k​个实例中的多数属于的类。k=1​时，为最近邻算法。</p>
-<p>如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k​值，分类结果也会有所不同。</p>
-<div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png" alt="KNN例子">
-</div>
-
-<p>k=3​时，绿色圆点的最近的3​个邻居是​2个红色小三角形和​1个蓝色小正方形，少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于红色的三角形一类。</p>
-<p>k=5​时，绿色圆点的最近的5​个邻居是​2个红色三角形和​3个蓝色的正方形，还是少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于蓝色的正方形一类。</p>
- <a id="more"></a>
-<h2 id="二、三要素"><a href="#二、三要素" class="headerlink" title="二、三要素"></a>二、三要素</h2><p>KNN​算法需要考虑的三个重要因素：k值的选取、距离度量方式和分类决策规则。</p>
-<h3 id="2-1-k​值的选取"><a href="#2-1-k​值的选取" class="headerlink" title="2.1 k​值的选取"></a>2.1 k​值的选取</h3><p>k​值的选择没有一个固定的经验，一般取一个比较小的数值。通常采用<strong>交叉验证法</strong>来选择最优的k值。</p>
-<h3 id="2-2-距离度量方式"><a href="#2-2-距离度量方式" class="headerlink" title="2.2 距离度量方式"></a>2.2 距离度量方式</h3><p>特征空间中两个实例点的距离是两个实例点<strong>相似程度</strong>的反映。特征空间一般是$n$维实数向量空间$\pmb {R^n}$（欧式空间）。一般的$\pmb {L_p}$距离$(L_p distance)$或闵可夫斯基$(Minkowski)$距离定义：</p>
-<p>设特征空间$\chi $是$n$维实数向量空间$\pmb R^n$，$x_{i}, x_{j} \in \chi, x_{l}=\left(x_{i}^{(1)}, x_{i}^{(2)}, \ldots, x_{i}^{(n)}\right)^{T}, \quad x_{j}=\left(x_{j}^{(1)}, x_{j}^{(2)}, \ldots, x_{j}^{(n)}\right)^{T}, x_{i}, x_{j} $的$L_p$距离定义为：</p>
-<script type="math/tex; mode=display">
-L_{p}\left(x_{i}, x_{j}\right)=\left(\sum_{l=1}^{n}\left|x_{i}^{(l)}-x_{j}^{(l)}\right|^{p}\right)^{\frac{1}{p}}</script><ul>
-<li><p>这里$p ≥ 1$。当$p = 2$时，称为<strong>欧氏距离</strong>（Euclidean distance），即：</p>
-<script type="math/tex; mode=display">
-L_{2}\left(x_{i}, x_{j}\right)=\left(\sum_{l=1}^{n}\left|x_{i}^{(l)}-x_{j}^{(l)}\right|^{2}\right)^{\frac{1}{2}}</script></li>
-<li><p>当$p = 1$时，称为<strong>曼哈顿距离</strong>（Manhattan distance），即：</p>
-<script type="math/tex; mode=display">
-L_{1}\left(x_{i}, x_{j}\right)=\sum_{l=1}^{n}\left|x_{i}^{(l)}-x_{j}^{(l)}\right|</script></li>
+        <h2 id="一、关键路径"><a href="#一、关键路径" class="headerlink" title="一、关键路径"></a>一、关键路径</h2><h3 id="1-1-网络"><a href="#1-1-网络" class="headerlink" title="1.1 网络"></a>1.1 网络</h3><ul>
+<li>AOV网络：有向图，用顶点表示活动，用弧表示活动的先后顺序</li>
+<li>AOE网络：有向图，用顶点表示事件，用弧表示活动，用权值表示活动消耗时间</li>
 </ul>
-<h4 id="2-2-1-欧式距离-text-Euclidean-distance"><a href="#2-2-1-欧式距离-text-Euclidean-distance" class="headerlink" title="2.2.1 欧式距离($\text{Euclidean distance}$)"></a>2.2.1 欧式距离($\text{Euclidean distance}$)</h4><div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg" alt="欧氏距离">
-</div>
-
-<p>最常见的两点之间或多点之间的距离表示方法，又称为欧几里得度量。</p>
-<p>定义于欧几里得空间中，点$x=(x_1,…,x_n)$ 和$y=(y_1,…,y_n)$ 之间的距离为:</p>
-<script type="math/tex; mode=display">
-d(x, y)=\sqrt{\left(x_{1}-y_{1}\right)^{2}+\left(x_{2}-y_{2}\right)^{2}+\cdots+\left(x_{n}-y_{n}\right)^{2}}=\sqrt{\sum_{i=1}^{n}\left(x_{i}-y_{i}\right)^{2}}</script><h4 id="2-2-2-曼哈顿距离-text-Manhattan-distance"><a href="#2-2-2-曼哈顿距离-text-Manhattan-distance" class="headerlink" title="2.2.2 曼哈顿距离($\text{Manhattan distance}$)"></a>2.2.2 曼哈顿距离($\text{Manhattan distance}$)</h4><p>在欧几里得空间的固定直角坐标系上两点所形成的线段对<strong>轴</strong>产生的<strong>投影</strong>的距离总和。曼哈顿距离也称为“城市街区距离”(City Block distance)。例如在二维平面上，坐标$(x_1,y_1)$与坐标$(x_2,y_2)$的曼哈顿距离为：$|x_1-x_2|+|y_1-y_2|$。</p>
-<p>(1) 二维平面上两点$a(x_1,y_1)$与$ b(x_2,y_2) $间的曼哈顿距离：</p>
-<script type="math/tex; mode=display">
-d_{12}=\left|x_{1}-x_{2}\right|+\left|y_{1}-y_{2}\right|</script><p>(2) 两个$n$维向量$a(x_{11},x_{12},…,x_{1n})$与$b(x_{21},x_{22},…,x_{2n})$间的曼哈顿距离：</p>
-<script type="math/tex; mode=display">
-d_{12}=\sum_{k=1}^{n}\left|x_{1 k}-x_{2 k}\right|</script><div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/manhattan.png" alt="曼哈顿距离">
-</div>
-
-<p>两种距离的<strong>对比</strong>，如上图所示：红线代表曼哈顿距离，绿色代表<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/欧氏距离">欧氏距离</a>，也就是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/直线距离">直线距离</a>，而蓝色和黄色分别代表等价的曼哈顿距离。</p>
-<h4 id="2-2-3-切比雪夫距离-text-Chebyshev-distance"><a href="#2-2-3-切比雪夫距离-text-Chebyshev-distance" class="headerlink" title="2.2.3 切比雪夫距离($\text{Chebyshev distance}$)"></a>2.2.3 切比雪夫距离($\text{Chebyshev distance}$)</h4><p>向量空间中的一种度量，二个点之间的距离定义是其各坐标数值差绝对值的最大值。若二个向量或二个点$p、q$，其坐标分别为$p_i、q_i$，则两者之间的切比雪夫距离定义如下：</p>
-<script type="math/tex; mode=display">
-D(p, q)=\max \left|p_{i}-q_{i}\right|</script><p>(1)  二维平面两点$a(x_1,y_1)$与$b(x_2,y_2)$间的切比雪夫距离：</p>
-<script type="math/tex; mode=display">
-d_{12}=\max \left(\left|x_{1}-x_{2}\right|,\left|y_{1}-y_{2}\right|\right)</script><p>(2) 两个$n$维向量$a(x_{11},x_{12},…,x_{1n})$与$b(x_{21},x_{22},…,x_{2n})$间的切比雪夫距离：</p>
-<script type="math/tex; mode=display">
-d_{12}=\max _{i}\left(\left|x_{1 i}-x_{2 i}\right|\right)</script><p>这个公式的另一种等价形式是：</p>
-<script type="math/tex; mode=display">
-d_{12}=\lim _{k \rightarrow \infty}\left(\sum_{i=1}^{n}\left|x_{1 i}-x_{2 i}\right|^{k}\right)^{1 / k}</script><div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/chebyshev.jpg" alt="切比雪夫距离">
-</div>
-
-<p>国际象棋棋盘上，国王走一步能够移动到相邻的$8$个方格中的任意一个，其中切比雪夫距离指王要从一个位子移至另一个位子至少需要走的步数。你会发现，国王从格子$(x_1,y_1)$走到格子$(x_2,y_2)$最少需要的步数总是$max(|x_2-x_1|,|y_2-y_1|)$步 。</p>
-<h4 id="2-2-4-夹角余弦距离"><a href="#2-2-4-夹角余弦距离" class="headerlink" title="2.2.4 夹角余弦距离"></a>2.2.4 夹角余弦距离</h4><p>几何中夹角余弦可用来衡量 <strong>两个向量方向的差异</strong>，在机器学习中特征通常使用向量形式来表示，常用这一概念来衡量样本向量之间的差异。向量方向差异范围：$[-1,1]$</p>
-<ul>
-<li><p>二维空间中的向量$(x_1,y_1)$与向量$(x_2,y_2)$夹角余弦：</p>
-<script type="math/tex; mode=display">
-\cos \theta=\frac{x_{1} x_{2}+y_{1} y_{2}}{\sqrt{x_{1}^{2}+y_{1}^{2}} \sqrt{x_{2}^{2}+y_{2}^{2}}}</script></li>
-<li><p>给定两个特征向量$A(x_{11},x_{12},…,x_{1n})$和$B(x_{21},x_{22},…,x_{2n})$，其余弦相似性<em>θ</em>由点积和向量长度给出，如下所示:</p>
-<script type="math/tex; mode=display">
-\text { similarity }=\cos (\theta)=\frac{A \cdot B}{\|A\|\|B\|}=\frac{\sum_{i=1}^{n} A_{i} \times B_{i}}{\sqrt{\sum_{i=1}^{n}\left(A_{i}\right)^{2}} \times \sqrt{\sum_{i=1}^{n}\left(B_{i}\right)^{2}}} = \frac{\sum_{i=1}^{n} x_{1 i} x_{2 i}}{\sqrt{\sum_{i=1}^{n} x_{1 i}^{2}} \sqrt{\sum_{i=1}^{n} x_{2 i}{ }^{2}}}</script></li>
-</ul>
-<p><strong>余弦距离和欧氏距离的区别</strong></p>
-<div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg" alt="欧氏距离">
-</div>
-
-<p>从上图可以看出，欧氏距离衡量的是空间各点的绝对距离，跟各个点所在的位置坐标直接相关；而余弦距离衡量的是空间向量的夹角，更加体现在方向上的差异。余弦距离常用于形容两个特征向量之间的关系，例如人脸识别，推荐系统等。</p>
-<ul>
-<li>对于向量量$[0,1]$和向量$[1,0]$而言，二者的余弦距很大，而欧氏距离很小；</li>
-<li>对于向量$[1,10]$和向量$[10,100)]$而言，余弦距离会认为两个特征向量距离很近；但显然这两个特征向量是有着极大差异的，此时我们更关注数值的绝对差异，应当使用欧氏距离。</li>
-</ul>
-<blockquote>
-<p><strong>注：在CNN中，对特征向量进行L2范数归一化后，欧式距离等价于余弦距离。</strong></p>
+<h3 id="1-2-名词解释"><a href="#1-2-名词解释" class="headerlink" title="1.2 名词解释"></a>1.2 名词解释</h3><blockquote>
+<p><strong>活动</strong>：业务逻辑中的行为，用边表示</p>
+<p><strong>事件</strong>：活动的结果或者触发条件</p>
+<p><strong>关键路径</strong>：具有最大路径长度（权重）的路径，可能不止一条</p>
 </blockquote>
-<h4 id="2-2-5-汉明距离"><a href="#2-2-5-汉明距离" class="headerlink" title="2.2.5 汉明距离"></a>2.2.5 汉明距离</h4><p>汉明距离是使用在数据传输差错控制编码里面的，汉明距离是一个概念，它表示两个（相同长度）字对应位不同的数量。也即将其中一个变为另外一个所需要作的最小替换次数。例如1011101 与 1001001 之间的汉明距离是 2。</p>
-<h3 id="2-3-特征归一化"><a href="#2-3-特征归一化" class="headerlink" title="2.3 特征归一化"></a>2.3 特征归一化</h3><blockquote>
-<p>数据中不同特征值差距十分大，导致预测结果被某项特征主导，而忽略了其他特征的影响，所以需要进行数据的归一化。</p>
-<p>解决方案：将所有数据映射到同一尺度上。</p>
-</blockquote>
-<p>常用的特征归一化方法包括<strong>最值归一化</strong>和<strong>均值方差归一化</strong>。</p>
-<h4 id="2-3-1-最值归一化-text-normalization"><a href="#2-3-1-最值归一化-text-normalization" class="headerlink" title="2.3.1 最值归一化($\text{normalization}$)"></a>2.3.1 最值归一化($\text{normalization}$)</h4><p> 将所有数据映射到0-1之间：</p>
-<script type="math/tex; mode=display">
-x_{scale} = \frac {x - x_{min}} {x_{max} - x_{min}}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">x = np.random.randint(<span class="number">0</span>,<span class="number">100</span>,<span class="number">100</span>)</span><br><span class="line"><span class="comment"># 二维矩阵中分别对每列进行最值归一化</span></span><br><span class="line">x = np.random.randint(<span class="number">0</span>,<span class="number">100</span>,(<span class="number">50</span>,<span class="number">2</span>))</span><br><span class="line">x = np.array(x,dtype=<span class="built_in">float</span>)</span><br><span class="line">x[:,<span class="number">0</span>] = (x[:,<span class="number">0</span>] - np.<span class="built_in">min</span>(x[:,<span class="number">0</span>])) / (np.<span class="built_in">max</span>(x[:,<span class="number">0</span>]) - np.<span class="built_in">min</span>(x[:,<span class="number">0</span>]))</span><br><span class="line">x[:,<span class="number">1</span>] = (x[:,<span class="number">1</span>] - np.<span class="built_in">min</span>(x[:,<span class="number">1</span>])) / (np.<span class="built_in">max</span>(x[:,<span class="number">1</span>]) - np.<span class="built_in">min</span>(x[:,<span class="number">1</span>]))</span><br><span class="line">plt.scatter(x[:,<span class="number">0</span>],x[:,<span class="number">1</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p>运行结果（左图为归一化前，右图为归一化后）：</p>
-<center class="half">    
-    <img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_1.png" alt="最值归一化" width="350"><img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_2.png" alt="KD树构造结果" width="350">
-</center>
-
-<h4 id="2-3-2-均值方差归一化-text-standardization"><a href="#2-3-2-均值方差归一化-text-standardization" class="headerlink" title="2.3.2 均值方差归一化($\text{standardization}$)"></a>2.3.2 均值方差归一化($\text{standardization}$)</h4><p>将所有数据归一到均值为0方差为1的分布中：</p>
-<script type="math/tex; mode=display">
-x_{scale} = \frac {x - x_{mean}} {s}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># 二维矩阵中分别对每列进行均值方差归一化</span></span><br><span class="line">x2 = np.random.randint(<span class="number">0</span>,<span class="number">100</span>,(<span class="number">50</span>,<span class="number">2</span>))</span><br><span class="line">x2 = np.array(x2,dtype=<span class="built_in">float</span>)</span><br><span class="line">x2[:,<span class="number">0</span>] = (x2[:,<span class="number">0</span>] - np.mean(x2[:,<span class="number">0</span>])) / np.std(x2[:,<span class="number">0</span>])</span><br><span class="line">x2[:,<span class="number">1</span>] = (x2[:,<span class="number">1</span>] - np.mean(x2[:,<span class="number">1</span>])) / np.std(x2[:,<span class="number">1</span>])</span><br><span class="line">plt.scatter(x2[:,<span class="number">0</span>],x2[:,<span class="number">1</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-<p>运行结果（左图为归一化前，右图为归一化后）：</p>
-<center class="half">    
-    <img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_1.png" alt="最值归一化" width="350"><img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_2.png" alt="KD树构造结果" width="350">
-</center>
-
-<h4 id="2-3-3-text-scikit-learn-中的归一化"><a href="#2-3-3-text-scikit-learn-中的归一化" class="headerlink" title="2.3.3 $\text{scikit_learn}$中的归一化"></a>2.3.3 $\text{scikit_learn}$中的归一化</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#scikit_learn中的Scalar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#以鸢尾花的数据集为示例</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X=iris.data</span><br><span class="line">y=iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建训练数据集和测试数据集</span></span><br><span class="line">X_train,x_test,y_train,y_test=train_test_split(X,y,test_size=<span class="number">0.2</span>,random_state=<span class="number">666</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler  <span class="comment">#sklearn中的相应的类</span></span><br><span class="line"></span><br><span class="line">standardScaler = StandardScaler() <span class="comment">#  构造均值方差归一化对象</span></span><br><span class="line">standardScaler.fit(X_train) <span class="comment"># 求出相应的均值和方差（根据训练集）</span></span><br><span class="line">standardScaler.mean_ <span class="comment"># 均值 array([5.83416667, 3.0825    , 3.70916667, 1.16916667])</span></span><br><span class="line">standardScaler.scale_  <span class="comment"># 标准差array([0.81019502, 0.44076874, 1.76295187, 0.75429833])</span></span><br><span class="line"></span><br><span class="line">X_train=standardScaler.transform(X_train)  <span class="comment"># 根据fit计算出来的值来进行相应的数据归一化</span></span><br><span class="line"></span><br><span class="line">x_test_transform=standardScaler.transform(x_test)  <span class="comment"># 对测试集也使用同样的方法进行相应的数据归一化</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier  </span><br><span class="line"><span class="comment"># 创建一个kNN分类器</span></span><br><span class="line">knn_clf=KNeighborsClassifier(n_neighbors=<span class="number">3</span>)</span><br><span class="line">knn_clf.fit(X_train,y_train)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">KNeighborsClassifier(algorithm=&#x27;auto&#x27;, leaf_size=30, metric=&#x27;minkowski&#x27;,</span></span><br><span class="line"><span class="string">           metric_params=None, n_jobs=1, n_neighbors=3, p=2,</span></span><br><span class="line"><span class="string">           weights=&#x27;uniform&#x27;)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">print(knn_clf.score(x_test,y_test)) <span class="comment"># 数据归一化前的精确度</span></span><br><span class="line">print(knn_clf.score(x_test_transform,y_test)) <span class="comment"># 数据归一化后的精确度</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>运行结果：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.3333333333333333</span></span><br><span class="line"><span class="number">1.0</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<h2 id="三、算法实现"><a href="#三、算法实现" class="headerlink" title="三、算法实现"></a>三、算法实现</h2><h3 id="3-1-简单方法"><a href="#3-1-简单方法" class="headerlink" title="3.1 简单方法"></a>3.1 简单方法</h3><p>按照k邻近的思想，找到$k$个最近的邻居来进行预测，就需要计算出<strong>预测样本</strong>与<strong>所有训练集</strong>中样本的距离，然后计算出最小的k​个距离，接着进行<strong>投票表决</strong>，即可做出预测。这种思路简单直接，在<strong>样本量少、特征少</strong>的情况下有效。对于大量的数据而言，<strong>特证数</strong>和<strong>样本量</strong>都很大，如果要预测<strong>少量</strong>的测试集样本，算法的时间效率会很低。</p>
-<h3 id="3-2-KD树"><a href="#3-2-KD树" class="headerlink" title="3.2 KD树"></a>3.2 KD树</h3><p>kd​树<code>(K-dimension tree)</code>是一种对k维空间中的实例点进行存储以便对其进行快速检索的树形数据结构。​kd树是一种<strong>二叉树</strong>，表示对k维空间的一个<strong>划分</strong>，构造kd​树相当于不断地用垂直于坐标轴的超平面将<strong>k维空间切分</strong>，构成一系列的k维超矩形区域。利用​kd​树可以省去对大部分数据点的搜索，从而减少搜索的计算量。</p>
-<div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/kd_function.jpg" alt="KD方法方法输入输出">
-</div>
-
-<h3 id="3-3-构造平衡kd​树算法"><a href="#3-3-构造平衡kd​树算法" class="headerlink" title="3.3 构造平衡kd​树算法"></a>3.3 构造平衡kd​树算法</h3><p> 输入：<strong>k​维</strong>空间数据集$T={x_1,x_2,…,x_N}$，其中$x_{i}=\left(x_{i}^{(1)}, x_{i}^{(2)}, \ldots, x_{i}^{(k)}\right), i=1,2, \ldots N$</p>
+<p><strong>活动的两个属性</strong>：</p>
 <ul>
-<li>开始：构造根节点，选择$x^{(1)}$为坐标轴，以$T$中所有实例的$x^{(1)}$坐标的<strong>中位数</strong>为切点，将根结点对应的超矩形区域切分为两个<strong>子区域</strong>。由根节生成深度$1$的左右子节点，左、右子结点分别对应坐标$x^{(1)}$小于、大于切分点的子区域。<strong>将落在切分平面上的实例点保存在该结点。</strong></li>
-<li><p>重复：对深度为$\pmb j$的结点，选择$x^{(l)}$为切分的坐标轴，$\pmb {l=j\, \% \, k+1}$，以该结点的区域中所有实例的$x^{(l)}$坐标的中位数为切分点，将该结点对应的超矩形区域切分为左右两个子区域。<strong>将落在切分平面上的实例点保存在该结点。</strong></p>
-<p><strong>简单的二维平面的例子：</strong></p>
-</li>
+<li>e(i)表示最早开始时间</li>
+<li>l(i)表示最晚开始时间</li>
 </ul>
-<p>给定一个二维数据集：$T=\{(2,3),(5,4),(9,6),(4,7),(8,1),(7,2)\}$，构造一个平衡kd​树。</p>
+<p><strong>事件的两个属性</strong>：</p>
+<ul>
+<li>ve(j)最早开始时间</li>
+<li>vl(j)最晚开始时间</li>
+</ul>
+<p><strong>在下面的计算过程中，就可以理解这些属性的概念了</strong></p>
+<hr>
+<h2 id="二、计算关键路径的过程"><a href="#二、计算关键路径的过程" class="headerlink" title="二、计算关键路径的过程"></a>二、计算关键路径的过程</h2><p><strong>原理</strong>：</p>
 <ol>
-<li>开始：选择$x^{(1)}$轴， $6$个数据的坐$x^{(1)}$标<strong>中位数</strong>是$6$，这里选<strong>最接近的</strong>$(7,2)$点，以平面将$x^{(1)} = 7$空间分为左右两个子矩形，并将$(7,2)$点保存在根节点；</li>
-<li>重复：接着计算左矩形中${(2,3),(5,4),(4,7)}$点的${x^{(2)}}$坐 标中位数为$4$，左矩阵以${x^{(2)}=4}$分为两个子矩形，并将$(5,4)$点保存在左子节点；再计算右矩形中${(8,1),(9,6)}$点的${x^{(2)}}$坐标中位数为$6$，左矩阵以${x^{(2)} = 6}$分为两个子矩形，并将$(9,6)$点保存在右子节点；如此<strong>递归</strong>，最后得到如下图所示的平衡$kd$树。</li>
+<li>先求出每个顶点的ve和vl值</li>
+<li>通过这两个值就可以求出每条边的e和l值。</li>
+<li>取e(i)=l(i)的边就是<code>关键路径上的边</code>，关键路径不止一条</li>
 </ol>
 <div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/2DExample.png" alt="二维平面构造KD树">
+<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
 </div>
 
-<h3 id="3-4-搜索kd​树"><a href="#3-4-搜索kd​树" class="headerlink" title="3.4 搜索kd​树"></a>3.4 搜索kd​树</h3><p>利用kd​树可以省去对大部分数据点的搜索，从而减少搜索的计算量。给定一个目标点，搜索其最近邻，首先找到包含目标点的<strong>叶节点</strong>；然后从该叶结点出发，依次<strong>回退</strong>到<strong>父结点；</strong>不断查找与目标点最近邻的结点，当确定<strong>不可能存在更近</strong>的结点时终止。</p>
-<blockquote>
-<p> 输入：已构造的kd​树，目标点$x$;</p>
-</blockquote>
-<ol>
-<li>在kd​树中找出包含目标点x的叶结点：从根结点出发，递归的向下访问​kd​树。若目标点当前维的坐标值<strong>小于</strong>切分点的坐标值，则移动到左子结点，否则移动到右子结点。直到子结点为<strong>叶结点</strong>为止；</li>
-<li>以此叶结点为<strong>当前最近点</strong>；</li>
-<li>递归向上回退，如果<strong>该结点保存的实例点</strong>比<strong>当前最近点</strong>距目标点<strong>更近</strong>，则以该实例点为当前最近点；若当前最近点一定存在于该结点一个子结点对应的区域。检查该子结点的父结点的<strong>另一个子结点</strong>对应的区域是否有更近的点。</li>
-<li>回退到根节点，搜索结束。最后的<strong>当前最近点</strong>即为x的最近邻点。</li>
+<h3 id="2-1-求ve-i-的值"><a href="#2-1-求ve-i-的值" class="headerlink" title="2.1 求ve(i)的值"></a>2.1 求ve(i)的值</h3><ol>
+<li>从前向后，直接前驱节点的ve值＋当前节点的边的权值（有可能多条，取最大值）</li>
+<li>第一个顶点的ve等于0</li>
 </ol>
-<p><strong>以先前构建好的kd​树为例，查找目标点$(3,4.5)$的最近邻点：</strong></p>
-<ol>
-<li>首先，通过<strong>搜索路径</strong>$(7,2)→(5,4)→(4,7)$，找到<strong>根节点</strong>$(4,7)$,取$(4,7)$为当前最近节点。</li>
-<li>取$(4,7)$为当前最近邻点。以目标查找点为圆心，目标查找点到当前最近点的距离$2.69$为半径确定一个红色的圆。然后回溯到$(5,4)$，计算其与查找点之间的距离为$2.06$，则该结点比当前最近点距目标点更近，以$(5,4)$为当前最近点。</li>
-<li>同样的方法确定一个绿色的圆，该圆$y=4$平面相交，进入$(5,4)$结点的另一个子空间进行查找。结点$(2,3)$与目标点距离为$1.8$，比当前最近点要进，最近邻点更新为$(2,3)$。</li>
-<li>根据规则确定蓝色的圆，该圆<strong>与$x=7$平面不相交</strong>，不用再进入子空间进行查找。</li>
-<li>至此，回溯完毕，返回<strong>最近邻点</strong>$(2,3)$。</li>
-</ol>
-<p><center class="half">    
-    <img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/search.jpg" alt="搜索过程" width="350"><img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/result.png" alt="KD树构造结果" width="350">
-</center><br><strong>代码实现（cs231n）</strong></p>
-<div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cifar-10.png" alt="cs231n课程中使用K近邻算法对cifar-10数据分类">
-</div>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KNearestNeighbor</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;&quot;a kNN classifiers with L2 distance&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span>(<span class="params">self,X,y</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Train the classifier. For k-nearest neighbors this is just</span></span><br><span class="line"><span class="string">        memorizing the training data.</span></span><br><span class="line"><span class="string">        Inputs:</span></span><br><span class="line"><span class="string">        - X: A numpy array of shape (num_train, D) containing the training data</span></span><br><span class="line"><span class="string">          consisting of num_train samples each of dimension D.</span></span><br><span class="line"><span class="string">        - y: A numpy array of shape (N,) containing the training labels, where</span></span><br><span class="line"><span class="string">             y[i] is the label for X[i].</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.X_train = X</span><br><span class="line">        self.y_train = y</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict</span>(<span class="params">self,X,k=<span class="number">1</span>,num_loops=<span class="number">0</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param X: A numpy array of shape (num_test, D) containing test data consisting</span></span><br><span class="line"><span class="string">             of num_test samples each of dimension D.</span></span><br><span class="line"><span class="string">        :param k: The number of nearest neighbors that vote for the predicted labels.</span></span><br><span class="line"><span class="string">        :param num_loops: Determines which implementation to use to compute distances</span></span><br><span class="line"><span class="string">          between training points and testing points.</span></span><br><span class="line"><span class="string">        :return: A numpy array of shape (num_test,) containing predicted labels for the</span></span><br><span class="line"><span class="string">          test data, where y[i] is the predicted label for the test point X[i].</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> num_loops == <span class="number">0</span>:</span><br><span class="line">            dists = self.compute_distances_no_loops(X)</span><br><span class="line">        <span class="keyword">elif</span> num_loops == <span class="number">1</span>:</span><br><span class="line">            dists = self.compute_distances_one_loop(X)</span><br><span class="line">        <span class="keyword">elif</span> num_loops == <span class="number">2</span>:</span><br><span class="line">            dists = self.compute_distances_two_loops(X)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&#x27;Invalid value %d for num_loops&#x27;</span> % num_loops)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self.predict_labels(dists,k=k)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distances_two_loops</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Compute the distance between each test point in X and each training point</span></span><br><span class="line"><span class="string">        in self.X_train using a nested loop over both the training data and the</span></span><br><span class="line"><span class="string">        test data.</span></span><br><span class="line"><span class="string">        Inputs:</span></span><br><span class="line"><span class="string">        - X: A numpy array of shape (num_test, D) containing test data.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">        - dists: A numpy array of shape (num_test, num_train) where dists[i, j]</span></span><br><span class="line"><span class="string">          is the Euclidean distance between the ith test point and the jth training</span></span><br><span class="line"><span class="string">          point.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        num_test = X.shape[<span class="number">0</span>] <span class="comment"># 测试数据行数</span></span><br><span class="line">        num_train = self.X_train.shape[<span class="number">0</span>] <span class="comment"># 训练数据函行数</span></span><br><span class="line">        dists = np.zeros((num_test,num_train))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_test):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(num_train):</span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">                <span class="comment"># <span class="doctag">TODO:</span>                                                             #</span></span><br><span class="line">                <span class="comment"># Compute the l2 distance between the ith test point and the jth    #</span></span><br><span class="line">                <span class="comment"># training point, and store the result in dists[i, j]. You should   #</span></span><br><span class="line">                <span class="comment"># not use a loop over dimension.                                    #</span></span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">                num_test_i = X[i,:]  <span class="comment"># num_test的第i行</span></span><br><span class="line">                num_train_i = self.X_train[j,:]  <span class="comment"># num_train的第j行</span></span><br><span class="line">                 <span class="comment"># 求得测试数据的第i行跟第训练数据的第j行差值的平方和</span></span><br><span class="line">                num_sum = np.<span class="built_in">sum</span>((num_test_i - num_train_i) ** <span class="number">2</span>)</span><br><span class="line">                dists[i,j] = np.sqrt(num_sum)  <span class="comment"># 开平方根求距离</span></span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">                <span class="comment">#                       END OF YOUR CODE                            #</span></span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">        <span class="keyword">return</span> dists</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distances_one_loop</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Compute the distance between each test point in X and each training point</span></span><br><span class="line"><span class="string">        in self.X_train using a single loop over the test data.</span></span><br><span class="line"><span class="string">        Input / Output: Same as compute_distances_two_loops</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        num_test = X.shape[<span class="number">0</span>]</span><br><span class="line">        num_train = self.X_train.shape[<span class="number">0</span>]</span><br><span class="line">        dists = np.zeros((num_test,num_train))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_test):</span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">            <span class="comment"># <span class="doctag">TODO:</span>                                                               #</span></span><br><span class="line">            <span class="comment"># Compute the l2 distance between the ith test point and all training #</span></span><br><span class="line">            <span class="comment"># points, and store the result in dists[i, :].                        #</span></span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">            num_test_i = X[i,:]  <span class="comment"># 测试数据的第i行</span></span><br><span class="line">            num_row = np.<span class="built_in">sum</span>((num_test_i - self.X_train) ** <span class="number">2</span>,axis=<span class="number">1</span>)  <span class="comment"># 返回每行的计算平方和的结果</span></span><br><span class="line">            dists[i,:] = np.sqrt(num_row)  <span class="comment"># 直接赋值第i行</span></span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">            <span class="comment">#                         END OF YOUR CODE                            #</span></span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">        <span class="keyword">return</span> dists</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distances_no_loops</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Compute the distance between each test point in X and each training point</span></span><br><span class="line"><span class="string">        in self.X_train using no explicit loops.</span></span><br><span class="line"><span class="string">        Input / Output: Same as compute_distances_two_loops</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        num_test = X.shape[<span class="number">0</span>]  <span class="comment"># 第一维的大小</span></span><br><span class="line">        num_train = self.X_train.shape[<span class="number">0</span>]  <span class="comment"># 训练数据的第一维大小</span></span><br><span class="line">        dists = np.zeros((num_test,num_train))</span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="comment"># <span class="doctag">TODO:</span>                                                                 #</span></span><br><span class="line">        <span class="comment"># Compute the l2 distance between all test points and all training      #</span></span><br><span class="line">        <span class="comment"># points without using any explicit loops, and store the result in      #</span></span><br><span class="line">        <span class="comment"># dists.                                                                #</span></span><br><span class="line">        <span class="comment">#                                                                       #</span></span><br><span class="line">        <span class="comment"># You should implement this function using only basic array operations; #</span></span><br><span class="line">        <span class="comment"># in particular you should not use functions from scipy.                #</span></span><br><span class="line">        <span class="comment">#                                                                       #</span></span><br><span class="line">        <span class="comment"># HINT: Try to formulate the l2 distance using matrix multiplication    #</span></span><br><span class="line">        <span class="comment">#       and two broadcast sums.                                         #</span></span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        X_sum = np.<span class="built_in">sum</span>(np.power(X,<span class="number">2</span>),axis=<span class="number">1</span>)  <span class="comment"># 每一行平方和</span></span><br><span class="line">        X_C_1 = np.reshape(X_sum,(-<span class="number">1</span>,<span class="number">1</span>))  <span class="comment"># 行向量转为列向量</span></span><br><span class="line">        X_C_2 = -<span class="number">2</span> * np.dot(X,self.X_train.T)  <span class="comment"># -2倍的A·𝐵𝑇</span></span><br><span class="line">        X_C_3 = np.<span class="built_in">sum</span>(np.power(self.X_train,<span class="number">2</span>),axis=<span class="number">1</span>)</span><br><span class="line">        dists = np.sqrt(X_C_1 + X_C_2 + X_C_3)</span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="comment">#                         END OF YOUR CODE                              #</span></span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="keyword">return</span> dists</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict_labels</span>(<span class="params">self, dists, k=<span class="number">1</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Given a matrix of distances between test points and training points,</span></span><br><span class="line"><span class="string">        predict a label for each test point.</span></span><br><span class="line"><span class="string">        Inputs:</span></span><br><span class="line"><span class="string">        - dists: A numpy array of shape (num_test, num_train) where dists[i, j]</span></span><br><span class="line"><span class="string">          gives the distance betwen the ith test point and the jth training point.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">        - y: A numpy array of shape (num_test,) containing predicted labels for the</span></span><br><span class="line"><span class="string">          test data, where y[i] is the predicted label for the test point X[i].</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        num_test = dists.shape[<span class="number">0</span>]</span><br><span class="line">        y_pred = np.zeros(num_test)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_test):</span><br><span class="line">            <span class="comment"># A list of length k storing the labels of the k nearest neighbors to</span></span><br><span class="line">            <span class="comment"># the ith test point.</span></span><br><span class="line">            closest_y = []</span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="comment"># <span class="doctag">TODO:</span>                                                                 #</span></span><br><span class="line">            <span class="comment"># Use the distance matrix to find the k nearest neighbors of the ith    #</span></span><br><span class="line">            <span class="comment"># testing point, and use self.y_train to find the labels of these       #</span></span><br><span class="line">            <span class="comment"># neighbors. Store these labels in closest_y.                           #</span></span><br><span class="line">            <span class="comment"># Hint: Look up the function numpy.argsort.                             #</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            nearrest = np.argsort(dists[i,:])  <span class="comment"># 返回每一行排序后的结果索引</span></span><br><span class="line">            closest_y = [self.y_train[i] <span class="keyword">for</span> i <span class="keyword">in</span> nearrest[:k]]  <span class="comment"># 距离最近的前k个元素的y_train值</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="comment"># <span class="doctag">TODO:</span>                                                                 #</span></span><br><span class="line">            <span class="comment"># Now that you have found the labels of the k nearest neighbors, you    #</span></span><br><span class="line">            <span class="comment"># need to find the most common label in the list closest_y of labels.   #</span></span><br><span class="line">            <span class="comment"># Store this label in y_pred[i]. Break ties by choosing the smaller     #</span></span><br><span class="line">            <span class="comment"># label.                                                                #</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="built_in">dict</span> = &#123;&#125;</span><br><span class="line">            <span class="keyword">for</span> key <span class="keyword">in</span> closest_y:  <span class="comment"># 遍历计算每个key出现的次数</span></span><br><span class="line">                <span class="keyword">if</span> key <span class="keyword">in</span> <span class="built_in">dict</span>:</span><br><span class="line">                    <span class="built_in">dict</span>[key] += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="built_in">dict</span>[key] = <span class="number">1</span></span><br><span class="line">            <span class="comment"># for key in closest_y:  # 遍历计算每个key出现的次数</span></span><br><span class="line">            <span class="comment">#     dict[key] = dict.get(key,0) + 1</span></span><br><span class="line">            common_label,common_value = <span class="built_in">max</span>(<span class="built_in">dict</span>.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>])  <span class="comment"># 找出出现次数最多的label</span></span><br><span class="line">            y_pred[i] = common_label</span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="comment">#                           END OF YOUR CODE                            #</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="keyword">return</span> y_pred</span><br></pre></td></tr></table></figure>
-<h2 id="四、KNN​算法的缺陷"><a href="#四、KNN​算法的缺陷" class="headerlink" title="四、KNN​算法的缺陷"></a>四、KNN​算法的缺陷</h2><div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/knn_bug.jpg" alt="knn算法的缺陷">
-</div>
-
 <ul>
-<li>观察上图，可以看到对于样本$X_u$，通过$knn$算法，显然可以得到$X_u$应属于$w_1$，但对于样本$Y$，通过 knn​算法最终似乎得到了$Y$应属于$w_2$的结论，而这个结论直观来看并没有说服力。</li>
-<li>当样本<strong>不平衡</strong>时，knn似乎只关心哪类样本的数量最多，而不去把距离远近考虑在内</li>
-<li><strong>改进</strong>：可以采用<strong>权值</strong>的方法来改进。和该样本距离小的邻居权值大，和该样本距离大的邻居权值则相对较小，以此来避免因一个样本过大导致<strong>误判</strong>的情况。</li>
+<li>ve(1) = 0</li>
+<li>ve(2) = ve(1) + len(a1) = 0 + 3 = 3</li>
+<li>ve(3) = ve(1) + len(a3) = 0 + 2 = 2</li>
+<li>ve(4) = ve(1) + len(a2) = 0 + 6 = 6</li>
+<li>ve(5) = min{ve(2) + len(a4),ve(4) + len(a8)} = max{7,7} = 7</li>
+<li>ve(6) = ve(3) + len(a7) = 2 + 3 = 5</li>
+<li>ve(7) = min{ve(a5) + len(a9),ve(6) + len(a10)} = max{10,9} = 10</li>
 </ul>
+<p>下表为各顶点（事件）的ve值：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">顶点</th>
+<th style="text-align:center">ve(1)</th>
+<th style="text-align:center">ve(2)</th>
+<th style="text-align:center">ve(3)</th>
+<th style="text-align:center">ve(4)</th>
+<th style="text-align:center">ve（5)</th>
+<th style="text-align:center">ve(6)</th>
+<th style="text-align:center">ve(7)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ve(i)</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div align="center">
+<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
+</div>
 
+<h3 id="2-2-求vl-j-的值"><a href="#2-2-求vl-j-的值" class="headerlink" title="2.2 求vl(j)的值"></a>2.2 求vl(j)的值</h3><ol>
+<li>从后向前，直接后继节点的vl值－当前节点的边的权值（有可能多条，取最小值）</li>
+<li>终结点的vl等于它的ve</li>
+</ol>
+<ul>
+<li>vl(7) = ve(7) = 10</li>
+<li>vl(6) = vl(7) - len(a10) = 10 - 4 = 6</li>
+<li>vl(5) = vl(7) - len(a9) = 10 - 3 = 7</li>
+<li>vl(4) = vl(5) - len(a8) = 7 - 1 = 6</li>
+<li>vl(3) = min{<code>vl(6) - len(a7)</code>,<code>vl(4) - len(a6)</code>} = min{3,5} = 3</li>
+<li>vl(2) = min{<code>vl(5) - len(a4)</code>,<code>vl(4) - len(a5)</code>} = {3,4} = 3</li>
+<li>vl(1) = min{<code>vl(2) - len(a1)</code>,<code>vl(4) - len(a2)</code>,<code>vl(3) - len(a3)</code>} = min{0,0,1} = 0</li>
+</ul>
+<p>下表为各顶点（事件）的vl值：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">顶点</th>
+<th style="text-align:center">vl(1)</th>
+<th style="text-align:center">vl(2)</th>
+<th style="text-align:center">vl(3)</th>
+<th style="text-align:center">vl(4)</th>
+<th style="text-align:center">vl(5)</th>
+<th style="text-align:center">vl(6)</th>
+<th style="text-align:center">vl(7)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">vl(j)</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div align="center">
+<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
+</div>
+
+<h3 id="2-3-求e-i-的值"><a href="#2-3-求e-i-的值" class="headerlink" title="2.3 求e(i)的值"></a>2.3 求e(i)的值</h3><p>e(i):活动ai是由弧<vk,vj>表示，则活动的最早开始时间应该和事件vk的最早发生时间相等，因此，就有e(i)=ve(k)。即：<code>边（活动）的最早开始时间等于它发出的顶点(事件)的的最早发生时间</code></vk,vj></p>
+<p>参考之前的个顶点的ve和c：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">顶点</th>
+<th style="text-align:center">ve</th>
+<th style="text-align:center">vl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">v1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">v2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">v3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">v4</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">v5</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+</tr>
+<tr>
+<td style="text-align:center">v6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">v7</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>e(1)、e(2)、e(3) 活动（a1、a2、a3三条边）发出的顶点为v1，时间为0</li>
+<li>e(4) 即为<code>a4</code>这条边发出的顶点 <code>v2</code>的发生的时间<code>ve(2)</code> = 3</li>
+<li>e(5) 即为<code>a5</code>这条边发出的顶点 <code>v2</code>的发生的时间<code>ve(2)</code> = 3</li>
+<li>e(6) 即为<code>a6</code>这条边发出的顶点 <code>v3</code>的发生的时间<code>ve(3)</code> = 2</li>
+<li>e(7) 即为<code>a7</code>这条边发出的顶点 <code>v3</code>的发生的时间<code>ve(3)</code> = 2</li>
+<li>e(8) 即为<code>a8</code>这条边发出的顶点 <code>v4</code>的发生的时间<code>ve(4)</code> = 6</li>
+<li>e(9) 即为<code>a9</code>这条边发出的顶点 <code>v5</code>的发生的时间<code>ve(5)</code> = 7</li>
+<li>e(10) 即为<code>a10</code>这条边发出的顶点 <code>v6</code>的发生的时间<code>ve(6)</code> = 5</li>
+</ul>
+<p>得出的e(i)值：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">边</th>
+<th style="text-align:center">a1(3)</th>
+<th style="text-align:center">a2(6)</th>
+<th style="text-align:center">a3(2)</th>
+<th style="text-align:center">a4(4)</th>
+<th style="text-align:center">a5(2)</th>
+<th style="text-align:center">a6(1)</th>
+<th style="text-align:center">a7(3)</th>
+<th style="text-align:center">a8(1)</th>
+<th style="text-align:center">a9(3)</th>
+<th style="text-align:center">a10(4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">e(i)</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div align="center">
+<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
+</div>
+
+
+<h3 id="2-4-求l-i-的值"><a href="#2-4-求l-i-的值" class="headerlink" title="2.4 求l(i)的值"></a>2.4 求l(i)的值</h3><p>l(i):活动ai是由弧<vk,vj>表示，则ai的最晚发生时间要保证vj的最迟发生时间不拖后（vj最迟发生时间为9的话，ai的最迟时间就必须是 9-活动耗时 ）。因此，l(i)=vl(i)-len<vk,vj>，即：活动到达顶点的最晚发生时间减去边的权重</vk,vj></vk,vj></p>
+<p>参考之前的个顶点的ve和c：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">顶点</th>
+<th style="text-align:center">ve</th>
+<th style="text-align:center">vl</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">v1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">v2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">v3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">v4</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">v5</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+</tr>
+<tr>
+<td style="text-align:center">v6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">v7</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code>l(i) = 当前边的指向结点的最晚发生时间[vl(i)] - 当前时间（即边）所消耗的时间</code></p>
+<ul>
+<li>l(1) = vl(2) - len(a1) = 3 - 3 = 0</li>
+<li>l(2) = vl(4) - len(a2) = 6 - 6 = 0</li>
+<li>l(3) = vl(3) - len(a3) = 3 - 2 = 1</li>
+<li>l(4) = vl(5) - len(a4) = 7 - 4 = 3</li>
+<li>l(5) = vl(4) - len(a5) = 6 - 2 = 4</li>
+<li>l(6) = vl(4) - len(a6) = 6 - 1 = 5</li>
+<li>l(7) = vl(6) - len(a7) = 6 - 3 = 3</li>
+<li>l(8) = vl(5) - len(a8) = 7 - 1 = 6</li>
+<li>l(9) = vl(7) - len(a9) = 10 - 3 = 7</li>
+<li>l(10) = vl(7) - len(a10) = 10 - 4 = 6</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">边</th>
+<th style="text-align:center">a1(3)</th>
+<th style="text-align:center">a2(6)</th>
+<th style="text-align:center">a3(2)</th>
+<th style="text-align:center">a4(4)</th>
+<th style="text-align:center">a5(2)</th>
+<th style="text-align:center">a6(1)</th>
+<th style="text-align:center">a7(3)</th>
+<th style="text-align:center">a8(1)</th>
+<th style="text-align:center">a9(3)</th>
+<th style="text-align:center">a10(4)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">l(i)</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2-5-求出关键边和关键路径"><a href="#2-5-求出关键边和关键路径" class="headerlink" title="2.5 求出关键边和关键路径"></a>2.5 求出关键边和关键路径</h3><p>列出总表：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">顶点</th>
+<th style="text-align:center">ve</th>
+<th style="text-align:center">vl</th>
+<th style="text-align:center">活动</th>
+<th style="text-align:center">e</th>
+<th style="text-align:center">l</th>
+<th style="text-align:center">l - e</th>
+<th style="text-align:center">关键路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">v1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">a1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">v2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">a2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">v3</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">a3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">v4</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">a4</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center">v5</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">a5</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">v6</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">a6</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">v7</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">a7</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">a8</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">a9</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">a10</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>其中<code>e(i)==l(i)的边</code>：a1 a2 a4 a8 a9</p>
+<p><code>所组成的路径即为关键路径</code>：a1-&gt;a4-&gt;a9 和 a2-&gt;a8-&gt;a9</p>
+<h2 id="三、代码："><a href="#三、代码：" class="headerlink" title="三、代码："></a>三、代码：</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdlib.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> M 20 <span class="comment">/*预定义图的最大顶点数*/</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;string.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span>   <span class="comment">//边表结点</span></span><br><span class="line">    <span class="keyword">int</span> adjvex; <span class="comment">//邻接点</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; edgenode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">vnode</span></span></span><br><span class="line"><span class="class">&#123;</span>   <span class="comment">//头节点类型</span></span><br><span class="line">    <span class="keyword">char</span> vertex;    <span class="comment">//顶点信息</span></span><br><span class="line">    edgenode *firstedge; <span class="comment">//邻接表表头指针</span></span><br><span class="line">    <span class="keyword">int</span> id;</span><br><span class="line">&#125; vertexnode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span>   <span class="comment">//邻接表类型</span></span><br><span class="line">    vertexnode adjlist[M]; <span class="comment">//存放头节点的顺序表</span></span><br><span class="line">    <span class="keyword">int</span> n, e;   <span class="comment">//图的顶点数与边数</span></span><br><span class="line">&#125; linkedgraph;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> visited[M];</span><br><span class="line"></span><br><span class="line"><span class="function">linkedgraph <span class="title">create</span><span class="params">(<span class="keyword">char</span> *filename, <span class="keyword">int</span> c)</span> <span class="comment">//c = 0表示创建无向图</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    linkedgraph g;</span><br><span class="line">    <span class="keyword">int</span> i, j, k;</span><br><span class="line">    <span class="keyword">int</span> weight = <span class="number">0</span>; <span class="comment">//边的权值</span></span><br><span class="line">    edgenode *s;</span><br><span class="line">    FILE *fp;</span><br><span class="line">    fp = fopen(filename, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (fp)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fscanf</span>(fp, <span class="string">&quot;%d%d\n&quot;</span>, &amp;g.n, &amp;g.e);</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; g.n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fscanf</span>(fp, <span class="string">&quot;%c%d &quot;</span>, &amp;g.adjlist[i].vertex, &amp;g.adjlist[i].id);</span><br><span class="line">            g.adjlist[i].firstedge = <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; g.e; k++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fscanf</span>(fp, <span class="string">&quot;%d%d%d&quot;</span>, &amp;i, &amp;j, &amp;weight);</span><br><span class="line">            s = (edgenode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(edgenode));</span><br><span class="line">            s-&gt;adjvex = j;</span><br><span class="line">            s-&gt;len = weight;</span><br><span class="line">            s-&gt;next = g.adjlist[i].firstedge;</span><br><span class="line">            g.adjlist[i].firstedge = s;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) <span class="comment">//无向图</span></span><br><span class="line">            &#123;</span><br><span class="line">                s = (edgenode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(edgenode));</span><br><span class="line">                s-&gt;adjvex = i;</span><br><span class="line">                s-&gt;len = weight;</span><br><span class="line">                s-&gt;next = g.adjlist[j].firstedge;</span><br><span class="line">                g.adjlist[i].firstedge = s;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        fclose(fp); <span class="comment">//关闭文件流</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        g.n = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;文件打开失败！\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//求AOE网络中时间的最早发生时间</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">事件最早发生的事件向量ve[],AOE网络的拓扑排序向量seq[]</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">EarlistTime</span><span class="params">(linkedgraph *gout, <span class="keyword">int</span> ve[], <span class="keyword">int</span> seq[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>; <span class="comment">//计数器</span></span><br><span class="line">    <span class="keyword">int</span> flag[M];   <span class="comment">//定义标记数组</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">queue</span>[M];  <span class="comment">//定义队列</span></span><br><span class="line">    <span class="keyword">int</span> front = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> rear = <span class="number">0</span>;</span><br><span class="line">    edgenode *p;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gout-&gt;n; i++) <span class="comment">//初始化每个顶点的最早开始时间ve[i]为0</span></span><br><span class="line">        ve[i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; gout-&gt;n; j++) <span class="comment">//初始化标记数组</span></span><br><span class="line">        flag[j] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gout-&gt;n; i++)</span><br><span class="line">        <span class="keyword">if</span> (gout-&gt;adjlist[i].id == <span class="number">0</span> &amp;&amp; flag[i] == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">queue</span>[rear++] = i;</span><br><span class="line">            flag[i] = <span class="number">1</span>; <span class="comment">//标记被访问过</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">while</span> (front &lt; rear)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = <span class="built_in">queue</span>[front++]; <span class="comment">//队首元素出栈</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c-----&gt;&quot;</span>, gout-&gt;adjlist[v].vertex);</span><br><span class="line">        seq[count] = v; <span class="comment">//记录拓扑排序当前元素</span></span><br><span class="line">        count++;		<span class="comment">//计数器 + 1</span></span><br><span class="line">        p = gout-&gt;adjlist[v].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (--gout-&gt;adjlist[j].id == <span class="number">0</span> &amp;&amp; flag[j] == <span class="number">0</span>) <span class="comment">//若入度为0则将其入队</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">queue</span>[rear++] = j;</span><br><span class="line">                flag[j] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ve[v] + p-&gt;len &gt; ve[j])</span><br><span class="line">                ve[j] = ve[v] + p-&gt;len; <span class="comment">//ve[j]的值是从源点到顶点j的最长距离</span></span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//求AOE网络中时间的最晚发生时间</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Aov网的入边表gin，事件发生</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LateTime</span><span class="params">(linkedgraph *gin, <span class="keyword">int</span> ve[], <span class="keyword">int</span> vl[], <span class="keyword">int</span> seq[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = gin-&gt;n - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> v = <span class="number">0</span>;</span><br><span class="line">    edgenode *p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gin-&gt;n; i++)</span><br><span class="line">        vl[i] = ve[seq[gin-&gt;n - <span class="number">1</span>]];</span><br><span class="line">    <span class="keyword">while</span> (k &gt; <span class="number">-1</span>) <span class="comment">//按照拓扑排序求个事件的最晚开始时间</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//v = seq[k];</span></span><br><span class="line">        p = gin-&gt;adjlist[k].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (vl[j] - p-&gt;len &lt; vl[k])</span><br><span class="line">                vl[k] = vl[j] - p-&gt;len;</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        k--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LateTime2</span><span class="params">(linkedgraph *gin, <span class="keyword">int</span> ve[], <span class="keyword">int</span> vl[], <span class="keyword">int</span> seq[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = gin-&gt;n - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> v = <span class="number">0</span>;</span><br><span class="line">    edgenode *p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gin-&gt;n; i++)</span><br><span class="line">        vl[i] = ve[seq[gin-&gt;n - <span class="number">1</span>]];</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n拓扑排序序列：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d-----&gt;&quot;</span>, seq[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (k &gt; <span class="number">-1</span>) <span class="comment">//按照拓扑排序求个事件的最晚开始时间</span></span><br><span class="line">    &#123;</span><br><span class="line">        v = seq[k];</span><br><span class="line">        p = gin-&gt;adjlist[v].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> ((vl[j] - p-&gt;len) &lt; vl[v])</span><br><span class="line">                vl[v] = vl[j] - p-&gt;len;</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        k--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">TopSort</span><span class="params">(linkedgraph *g)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>, i, j, v, flag[M];</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">queue</span>[M]; <span class="comment">//定义队列</span></span><br><span class="line">    <span class="keyword">int</span> front, rear;</span><br><span class="line">    edgenode *p;</span><br><span class="line">    front = rear = <span class="number">0</span>; <span class="comment">//初始化队列</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; g-&gt;n; i++)</span><br><span class="line">        flag[i] = <span class="number">0</span>; <span class="comment">//访问标记初始化</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; g-&gt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (g-&gt;adjlist[i].id == <span class="number">0</span> &amp;&amp; flag[i] == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">queue</span>[rear++] = i;</span><br><span class="line">            flag[i] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n该AOV网的拓扑排序为：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (front &lt; rear) <span class="comment">// 如果当前队列不为空</span></span><br><span class="line">    &#123;</span><br><span class="line">        v = <span class="built_in">queue</span>[front++]; <span class="comment">//队列首位元素出列</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c &quot;</span>, g-&gt;adjlist[v].vertex);</span><br><span class="line">        k++; <span class="comment">//计数器加1</span></span><br><span class="line">        p = g-&gt;adjlist[v].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p) <span class="comment">//将所有于v邻接的顶点的入度减1</span></span><br><span class="line">        &#123;</span><br><span class="line">            j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (--g-&gt;adjlist[j].id == <span class="number">0</span> &amp;&amp; flag[j] == <span class="number">0</span>) <span class="comment">//如果入度为0则将进队</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">queue</span>[rear++] = j;</span><br><span class="line">                flag[j] = <span class="number">1</span>; <span class="comment">//标记已经被访问过</span></span><br><span class="line">            &#125;</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> k; <span class="comment">//返回输出的结点个数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> ve[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;;  <span class="comment">//时间最早发生时间向量</span></span><br><span class="line">    <span class="keyword">int</span> vl[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;;  <span class="comment">//时间晚发生时间向量</span></span><br><span class="line">    <span class="keyword">int</span> seq[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;; <span class="comment">//拓扑排序向量</span></span><br><span class="line">    <span class="keyword">char</span> filename[<span class="number">30</span>] = <span class="string">&quot;D:\\Desktop\\Test.txt&quot;</span>;</span><br><span class="line">    linkedgraph h;</span><br><span class="line">    h = create(filename, <span class="number">1</span>);</span><br><span class="line">    number = EarlistTime(&amp;h, ve, seq);</span><br><span class="line">    LateTime2(&amp;h, ve, vl, seq);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;时间最早发生时间向量：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d-----&gt;&quot;</span>, ve[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;时间最晚发生时间向量：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d-----&gt;&quot;</span>, vl[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;关键路径为:\n&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> m, i,n;</span><br><span class="line">    <span class="keyword">int</span> earlist[<span class="number">15</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="keyword">int</span> late[<span class="number">15</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    m = <span class="number">0</span>;</span><br><span class="line">    n = <span class="number">0</span>;</span><br><span class="line">    vertexnode vert;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; h.n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        edgenode *p = h.adjlist[i].firstedge;</span><br><span class="line">        vert = h.adjlist[i];</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> k = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (ve[i] == vl[k] - p-&gt;len)</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;%c-&quot;</span>, vert.vertex);</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, vert.vertex);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="四、文件格式"><a href="#四、文件格式" class="headerlink" title="四、文件格式"></a>四、文件格式</h2><div align="center">
+<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/result_1.png" alt="文件格式">
+</div>
+
+<h2 id="五、输出结果："><a href="#五、输出结果：" class="headerlink" title="五、输出结果："></a>五、输出结果：</h2><div align="center">
+<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/result_2.png" alt="输出结果">
+</div>
       
 
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/img/alipay.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assets/img/wechat.png">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -435,11 +683,7 @@ x_{scale} = \frac {x - x_{mean}} {s}</script><figure class="highlight python"><t
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据结构</a>
         		</li>
       		
 		</ul>
@@ -495,7 +739,7 @@ x_{scale} = \frac {x - x_{mean}} {s}</script><figure class="highlight python"><t
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" alt="微信分享二维码">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -509,18 +753,18 @@ x_{scale} = \frac {x - x_{mean}} {s}</script><figure class="highlight python"><t
   
 <nav id="article-nav">
   
-    <a href="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/07/22/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          机器学习方法(二)：线性回归
+          Hello World
         
       </div>
     </a>
   
   
-    <a href="/2019/07/22/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+    <a href="/2018/12/13/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构方法(一)：图之单源最短路径</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -547,7 +791,7 @@ x_{scale} = \frac {x - x_{mean}} {s}</script><figure class="highlight python"><t
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81KNN%E2%80%8B%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">一、KNN​算法概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="toc-number">2.</span> <span class="toc-text">二、三要素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-k%E2%80%8B%E5%80%BC%E7%9A%84%E9%80%89%E5%8F%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 k​值的选取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 距离度量方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E6%AC%A7%E5%BC%8F%E8%B7%9D%E7%A6%BB-text-Euclidean-distance"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 欧式距离($\text{Euclidean distance}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB-text-Manhattan-distance"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 曼哈顿距离($\text{Manhattan distance}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB-text-Chebyshev-distance"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 切比雪夫距离($\text{Chebyshev distance}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%A4%B9%E8%A7%92%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.2.4 夹角余弦距离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5 汉明距离</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 特征归一化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%9C%80%E5%80%BC%E5%BD%92%E4%B8%80%E5%8C%96-text-normalization"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 最值归一化($\text{normalization}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%9D%87%E5%80%BC%E6%96%B9%E5%B7%AE%E5%BD%92%E4%B8%80%E5%8C%96-text-standardization"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 均值方差归一化($\text{standardization}$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-text-scikit-learn-%E4%B8%AD%E7%9A%84%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 $\text{scikit_learn}$中的归一化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">三、算法实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%AE%80%E5%8D%95%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 简单方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-KD%E6%A0%91"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 KD树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%9E%84%E9%80%A0%E5%B9%B3%E8%A1%A1kd%E2%80%8B%E6%A0%91%E7%AE%97%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 构造平衡kd​树算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%90%9C%E7%B4%A2kd%E2%80%8B%E6%A0%91"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 搜索kd​树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81KNN%E2%80%8B%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">4.</span> <span class="toc-text">四、KNN​算法的缺陷</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="toc-number">1.</span> <span class="toc-text">一、关键路径</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E7%BD%91%E7%BB%9C"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 名词解释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AE%A1%E7%AE%97%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">二、计算关键路径的过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%B1%82ve-i-%E7%9A%84%E5%80%BC"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 求ve(i)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%B1%82vl-j-%E7%9A%84%E5%80%BC"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 求vl(j)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%B1%82e-i-%E7%9A%84%E5%80%BC"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 求e(i)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%B1%82l-i-%E7%9A%84%E5%80%BC"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 求l(i)的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E6%B1%82%E5%87%BA%E5%85%B3%E9%94%AE%E8%BE%B9%E5%92%8C%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 求出关键边和关键路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E7%A0%81%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">三、代码：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F"><span class="toc-number">4.</span> <span class="toc-text">四、文件格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C%EF%BC%9A"><span class="toc-number">5.</span> <span class="toc-text">五、输出结果：</span></a></li></ol>
                     </div>
                 </span>
             </div>

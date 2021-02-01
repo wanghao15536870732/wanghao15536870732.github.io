@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
   <meta charset="utf-8">
   
@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent.gif">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/Matrix.png">
 <meta property="article:published_time" content="2021-01-25T00:05:43.000Z">
-<meta property="article:modified_time" content="2021-01-30T14:48:27.864Z">
+<meta property="article:modified_time" content="2021-02-01T12:16:45.451Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
@@ -304,7 +304,7 @@ h_{\theta}(x)=\sum_{i=0}^{n} \theta_{i} x_{i}=\theta_{0}+\theta_{1} x+\cdots+\th
 <script type="math/tex; mode=display">
 J(\theta)=\frac{1}{2 m} \sum_{i=0}^{n}\left(y^{(i)}-h_{\theta}\left(x^{(i)}\right)\right)^{2}</script><p>损失函数的偏导数为：</p>
 <script type="math/tex; mode=display">
-\frac{\partial J(\theta)}{\theta_{i}}=\frac{1}{m} \sum_{j=1}^{m}\left(h_{\theta}\left(x^{(j)}\right)-y^{(j)}\right) x_{i}^{(j)}=\frac{1}{m} \sum_{j=1}^{m}\left(\sum_{i=0}^{n} \theta_{i} x_{i}^{(j)}-y^{(j)}\right) x_{i}^{(j)},(i=0,1,2,3, \ldots, n)</script><p>每次更新参数的操作为：</p>
+\frac{\partial J(\theta)}{\partial \theta_{i}}=\frac{1}{m} \sum_{j=1}^{m}\left(h_{\theta}\left(x^{(j)}\right)-y^{(j)}\right) x_{i}^{(j)}=\frac{1}{m} \sum_{j=1}^{m}\left(\sum_{i=0}^{n} \theta_{i} x_{i}^{(j)}-y^{(j)}\right) x_{i}^{(j)},(i=0,1,2,3, \ldots, n)</script><p>每次更新参数的操作为：</p>
 <script type="math/tex; mode=display">
 \theta_{i}=\theta_{i}-\alpha \frac{\partial J(\theta)}{\theta_{i}}=\theta_{i}-\alpha \frac{1}{m} \sum_{j=1}^{m}\left(h_{\theta}\left(x^{(j)}\right)-y^{(j)}\right) x_{i}^{(j)}</script><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line">    h = X * theta;</span><br><span class="line">    temp(:,iter) = theta - ((alpha / m) * (X&#x27; * (h - y)));</span><br><span class="line">    theta = temp(:,iter);</span><br></pre></td></tr></table></figure>
 <p><img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent.gif" alt></p>
@@ -358,7 +358,46 @@ J(\theta)=\frac{1}{2m} \sum_{i=1}^{m}\left(h_{\theta}\left(X^{(i)}\right)-y^{(i)
 \end{aligned}</script><p>当$\nabla_{\theta}J(\theta) = 0$时</p>
 <script type="math/tex; mode=display">
 X^TX\theta = X^Ty \\
-\theta = (X^TX)^{-1}X^Ty</script>
+\theta = (X^TX)^{-1}X^Ty</script><p>如果$X^TX$不可逆，可能有两个原因：</p>
+<ol>
+<li>列向量线性相关，即训练集中存在冗余特征，此时应该剔除掉多余特征；</li>
+<li>特征过多，此时应该去掉影响较小的特征，或使用“正则化”；</li>
+</ol>
+<p><strong>方法选择</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">梯度下降法</th>
+<th style="text-align:center">正规方程法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">学习率$\alpha$</td>
+<td style="text-align:center">需要</td>
+<td style="text-align:center">不需要</td>
+</tr>
+<tr>
+<td style="text-align:center">特征归一化</td>
+<td style="text-align:center">需要</td>
+<td style="text-align:center">不需要</td>
+</tr>
+<tr>
+<td style="text-align:center">计算次数</td>
+<td style="text-align:center">需要迭代很多次</td>
+<td style="text-align:center">不需要迭代</td>
+</tr>
+<tr>
+<td style="text-align:center">特征数量</td>
+<td style="text-align:center">受特征数量影响较小，即使$n$很大也可以正常工作</td>
+<td style="text-align:center">如果$n$很大计算速度会很慢</td>
+</tr>
+</tbody>
+</table>
+</div>
+
       
 
       
@@ -652,15 +691,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">逻辑回归</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
               </li>
             
             <div class="clearfix"></div>
