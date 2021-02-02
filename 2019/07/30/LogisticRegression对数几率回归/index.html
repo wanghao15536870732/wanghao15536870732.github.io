@@ -6,20 +6,34 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>相册 | HowardWang的博客</title>
+  <title>机器学习方法(三)：Logistic Regression 对数几率回归 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Photos 	待续   	图片正在加载中…     (function() {     var loadScript &#x3D; function(path) {       var $script &#x3D; document.createElement(&#39;script&#39;)       document.getElementsByTagName(&#39;body&#39;)[0].appendChild($scrip">
-<meta property="og:type" content="website">
-<meta property="og:title" content="相册">
-<meta property="og:url" content="https://wanghao15536870732.github.io/photos/index.html">
+  <meta name="description" content="广义线性模型    对于线性回归而言，模型可以简写为：  \begin{equation} y &#x3D; w^Tx + b \ \ or \ \ y &#x3D; \theta^Tx (更常用\ 下面统一用该式子表示)\tag{1} \end{equation}假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：  \begin{equati">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习方法(三)：Logistic Regression 对数几率回归">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
-<meta property="og:description" content="Photos 	待续   	图片正在加载中…     (function() {     var loadScript &#x3D; function(path) {       var $script &#x3D; document.createElement(&#39;script&#39;)       document.getElementsByTagName(&#39;body&#39;)[0].appendChild($scrip">
+<meta property="og:description" content="广义线性模型    对于线性回归而言，模型可以简写为：  \begin{equation} y &#x3D; w^Tx + b \ \ or \ \ y &#x3D; \theta^Tx (更常用\ 下面统一用该式子表示)\tag{1} \end{equation}假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：  \begin{equati">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-01-24T08:17:52.422Z">
-<meta property="article:modified_time" content="2018-11-27T13:11:37.000Z">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/SigmoidFunction.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/DecisionBoundary.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/NonLinearDecisionBoundaries.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/OneVsOneOneVsRest.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/mnist.png">
+<meta property="article:published_time" content="2019-07-30T07:01:32.000Z">
+<meta property="article:modified_time" content="2021-02-02T15:26:58.195Z">
 <meta property="article:author" content="HowardWang">
-<meta property="article:tag" content="Machine Learning,Python,Android">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -167,55 +181,310 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-photos" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-LogisticRegression对数几率回归" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      相册
+      机器学习方法(三)：Logistic Regression 对数几率回归
     </h1>
   
 
+        
+        <a href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
+  	<time datetime="2019-07-30T07:01:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-30</time>
+</a>
         
       </header>
     
 	
 	<!-- 目录内容 -->
-			   
+	
+		<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+			  <span class="btn-bg"></span>
+			  <span class="btn-text">文章导航</span>
+			  </p>
+		<div id="toc-article" class="toc-article">
+			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+			<strong class="toc-title">文章目录</strong>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">一、对数几率回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%88Decision-Boundary%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">二、决策边界（Decision Boundary）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%88Cost-Function%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">三、代价函数（Cost Function）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">四、使用梯度下降法求解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">五、解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-One-vs-Rest"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 One vs Rest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-One-vs-One"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 One vs One</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">六、手写数字识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">8.</span> <span class="toc-text">Reference</span></a></li></ol>
+			 </div>
+	   <script type="text/javascript">
+		function showToc(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:block");
+			show_toc_btn.setAttribute("style","display:none");
+			};
+		function showBtn(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:none");
+			show_toc_btn.setAttribute("style","display:block");
+			};
+	   </script>
+    		   
 	<!-- 目录内容结束 -->
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <link rel="stylesheet" href="./ins.css">
-<div class="photos-btn-wrap">
-	<a class="photos-btn active" href="javascript:void(0)">Photos</a>
-	<a class="photos-btn" href="#">待续</a>
+        <h2 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h2><div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom: 50%;">
 </div>
-<div class="instagram itemscope">
-	<a href="https://www.instagram.com/lawlitewang20/" target="_blank" class="open-ins">图片正在加载中…</a>
+
+<p>对于线性回归而言，模型可以简写为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y = w^Tx + b \ \ or \ \ y = \theta^Tx (更常用\ 下面统一用该式子表示)\tag{1}
+\end{equation}</script><p>假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+ln\,y = w^Tx + b \ \  or \ \  ln\,y = \theta^Tx \tag{2}
+\end{equation}</script><p>这就是“对数线性回归”<code>(log-linear regression)</code>，如上图中的红线映射到黑色的指数线，这就是广义线性模型的思想。更一般的考虑单调可微函数<code>g(·)</code>，令：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y = g(w^Tx + b)\ \ or \ \ y = g(\theta^Tx) \tag{3}
+\end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
+<a id="more"></a>
+<h2 id="一、对数几率回归"><a href="#一、对数几率回归" class="headerlink" title="一、对数几率回归"></a>一、对数几率回归</h2><p>虽然被称为“回归”，但是对数几率回归<code>(Logistic Regression)</code>不是用来解决回归问题的，而是用来解决分类问题的。对于简单的二分类问题，实际上是样本点到一个值域$y∈\{0,1\}$的函数，表示这个点分在<code>正类(postive)</code>或者<code>反类(negtive)</code>的概率，若该样本非常可能是<code>正类</code>，那么输出的概率值越接近1；反之，若该样本非常可能是<code>负类</code>，则输出的概率值越接近0。</p>
+<p>而线性回归模型产生的预测值$y=w^T + b$是实数值，于是需要一个理想的函数来实现输出实数值$z$到$0/1$值的转化。最理想的是单位阶跃函数<code>(uint-step function)</code>：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y=\left\{\begin{array}{ll}
+0, & z<0 \\
+0.5, & z=0 \\
+1, & z>0
+\end{array}\right.\tag{4}
+\end{equation}</script><p>然而该函数不连续，于是我们希望能够找到一个近似单位越界函数，并且单调可微的函数来代替。</p>
+<p>对数几率函数<code>(sigmoid function)</code>正是一个常用的替代函数:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+g(z) = \frac{1}{1+e^{-z} }\tag{5}
+\end{equation}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">y = <span class="number">1.</span> / (<span class="number">1</span> + exp(-z))</span><br></pre></td></tr></table></figure>
+<p>它将<code>z</code>的值转化为一个接近<code>0</code>或<code>1</code>的<code>y</code>值，将对数几率函数作为</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+h_{\theta}(x)=\frac{1}{1+\mathrm{e}^{-\theta^{T} x} }\tag{6}
+\end{equation}</script><p>二者的图像如下图所示：</p>
+<div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/SigmoidFunction.png" alt="Simoid函数">
 </div>
-<script>
-  (function() {
-    var loadScript = function(path) {
-      var $script = document.createElement('script')
-      document.getElementsByTagName('body')[0].appendChild($script)
-      $script.setAttribute('src', path)
-    }
-    setTimeout(function() {
-      loadScript('./ins.js')
-    }, 0)
-  })()
-</script>
+
+<p>从上图可以看出，它将$z$值转换为一个接近$0$或$1$的$y$值，我们可以将其视为类$1$的后验概率估计$h_\theta = P(y=1|x;\theta)$，即输入一个测试数据$x$，通过$Sigmoid$函数计算出来的结果即为该点$x$输入类别$1$的概率大小。</p>
+<p>通常我们将$g(z)≥0.5$ 的归为类别$1$，即预测 结果$y=1$；$g(z)&lt;0.5$ 的归为类$0$， 即预测结果$y=0$：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\hat{y}=\left\{\begin{array}{ll}
+1, & h_{\theta}(x)≥0.5 \\
+0, & h_{\theta}(x)<0.5 
+\end{array}\right. \ \ \ h_{\theta}(x)=g(\theta^Tx),  g(z) = \frac{1}{1+e^{-z} }\tag{7}
+\end{equation}</script><p>对于式$(1)$，式$(6)$, 可变换为$ln\,\frac{y}{1-y}=\theta^Tx$，若将$y$视为样本$x$作为正例的可能性，则$1−y$是其反例的可能性，两者的比值$\frac{y}{1-y}$称为<code>几率（odds）</code>，反映了$x$作为正例的相对可能性。对几率取对数则得到了<code>对数几率（log odds ，亦称logit)</code>，将$y$视为后验概率估计，重写公式有：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+ln\,\frac{y}{1-y}=ln\,\frac{P(y\ =\ 1|x)}{P(y\ =\ 0|x)}=ln\,\frac{P(y\ =\ 1|x)}{1 -P(y\ =\ 1|x)}=ln\,(\frac{1}{1 -P(y\ =\ 1|x)} - 1)=\theta^Tx\tag{8}
+\end{equation}</script><p>由式$(8)$可得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\left\{\begin{array}{ll}
+p(y\ =\ 1|x) = 1 - \frac{1}{1+e^{\theta^Tx} } = \frac{e^{\theta^Tx} }{1+e^{\theta^Tx} } = \frac{1}{1+e^{-\theta^Tx} } \\
+p(y\ =\ 0|x) = \frac{1}{1+e^{\theta^Tx} }
+\end{array}\right.\tag{9}
+\end{equation}</script><h2 id="二、决策边界（Decision-Boundary）"><a href="#二、决策边界（Decision-Boundary）" class="headerlink" title="二、决策边界（Decision Boundary）"></a>二、决策边界（Decision Boundary）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">决策边界</th>
+<th style="text-align:center">非线性决策边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/DecisionBoundary.png" alt="DecisionBoundary"></td>
+<td style="text-align:center"><img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/NonLinearDecisionBoundaries.png" alt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="三、代价函数（Cost-Function）"><a href="#三、代价函数（Cost-Function）" class="headerlink" title="三、代价函数（Cost Function）"></a>三、代价函数（Cost Function）</h2><p>确定逻辑回归的数学形式后，接下来需要做的就是给定<code>训练集</code>，通过最小化<code>代价函数</code>，找出模型的最优参数$\theta$。线性回归中的代价函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+J(\theta)=\frac{1}{2m}\sum_{i = 1}^{m}{(h_\theta(x^{(i)}) - y^{(i)})^2}，\tag{10}
+\end{equation}</script><p>我们可以类比线性回归，使用平均误差平方来作为代价函数。但是对于逻辑回归而言，$h_\theta(x)$函数$(h_\theta(x)= \frac{1}{1 + e^{-\theta^Tx} })$是一个非常复杂的<code>非线性函数</code>，如果将$Sigmoid$函数带入式$(9)$，并画出$J(\theta)$的图像，你会发现$J(\theta)$是个非凸函数，这就意味代价函数有着许多的局部最小值，如下图<code>non-convex</code>所示，如果将<code>梯度下降法</code>应用到该函数上，无法保证可以收敛到最小值，这很不利于我们的求解。</p>
+<div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png" alt="非凸函数和凸函数">
+</div>
+
+<p>因此，通常使用<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=C6a-SMY0H50">极大似然估计</a>来求解，即找到一组参数，使得在这组参数下，我们的数据的似然度（概率）最大。</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\left\{\begin{array}{ll}
+p(y\ =\ 1|x) = h_{\theta}(x) \\
+p(y\ =\ 0|x) = 1 - h_{\theta}(x)
+\end{array}\right.\tag{11}
+\end{equation}</script><p>式$(11)$可以写成一般形式：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+p(y|x;\theta)=h_{\theta}(x)^y(1-h_{\theta}(x))^{1-y}\tag{12}
+\end{equation}</script><p>使用极大似然估计得到似然函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+L(\theta)=\prod_{i=1}^{m}{p(y^{(i)}|x^{(i)};\theta)}=\prod_{i=1}^{m}{(h_{\theta}(x^{(i)})^{y^{(i)} }(1-h_{\theta}(x^{(i)}))^{1-y^{(i)} })}\tag{13}
+\end{equation}</script><p>为了方便求解，对式$(13)$两边同时取对数，得：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+l(\theta) &= lnL(\theta)\\
+&= \sum_{i=1}^{m}{[y^{(i)}ln(h_{\theta}(x^{(i)})) + (1-y^{(i)})ln(1-h_{\theta}(x^{(i)}))]}\\
+&= \sum_{i=1}^{m}{[y^{(i)}ln\frac{h_{\theta}(x^{(i)})}{1 - h_{\theta}(x^{(i)})} + ln(1-h_{\theta}(x^{(i)}))]}\\
+&= \sum_{i=1}^{m}{[y^{(i)}(\theta^Tx) - ln(1+e^{\theta^Tx})]}\tag{14}
+\end{align*}</script><p>现在的目标是使得$l(\theta)$最大，则在其基础上使用梯度下降法求解$-l(\theta)$的最小值即可：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+J(\theta)=-l(\theta)=-\frac{1}{m}\sum_{i=1}^{m}{[y^{(i)}ln(h_{\theta}(x^{(i)})) + (1-y^{(i)})ln(1-h_{\theta}(x^{(i)}))]}\tag{15}
+\end{equation}</script><p>为了更好的理解推导出的代价函数，可以写出代价$Cost(h_{\theta}(x),y)$与$h_{\theta}$的关系函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+Cost(h_{\theta}(x),y)=-yln(h_{\theta}(x)) + (1-y)ln(1-h_{\theta}(x))\tag{16}
+\end{equation}</script><p>即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+Cost(h_{\theta}(x),y)=\left\{\begin{array}{ll}
+- ln(h_{\theta}(x)) \ \quad \quad  if \ y = 1 \\ 
+- ln(1 - h_{\theta}(x)) \ \ if \ y = 0
+\end{array}\right.\tag{17}
+\end{equation}</script><p>绘制该函数图像：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$- ln(h_{\theta}(x))$</th>
+<th style="text-align:center">$- ln(1 - h_{\theta}(x))$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function.png" alt="损失函数"></td>
+<td style="text-align:center"><img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function_1.png" alt="损失函数_1"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>从上图可以看出，如果样本值$y$为$1$的话，预测值$h_{\theta}(x)$越接近$1$损失越小，反之越大；同样，如果样本值$y$为$0$的话，预测值$h_{\theta}(x)$越接近$0$损失越小，反之越大。</p>
+<h2 id="四、使用梯度下降法求解"><a href="#四、使用梯度下降法求解" class="headerlink" title="四、使用梯度下降法求解"></a>四、使用梯度下降法求解</h2><script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m}\sum_{i=1}^{m}{[y^{(i)}ln(h_{\theta}(x^{(i)})) + (1-y^{(i)})ln(1-h_{\theta}(x^{(i)}))]}</script><p>对式$(5)$求导不难发现，$Sigmoid$函数有一个特性，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+g(z)'=\frac{-(-e^{-z})}{(1+e^{-z})^2} = \frac{1}{1+e^{-z} } \cdot \frac{e^{-z} }{1+e^{-z} } = \frac{1}{1+e^{-z} } \cdot (1-\frac{1}{1+e^{-z} }) = g(x)(1-g(x))\tag{18}
+\end{equation}</script><p>使用梯度下降法需要先求解梯度：</p>
+<script type="math/tex; mode=display">
+\begin{align*}
+\frac{\partial J(\theta)}{\theta_{j} } &= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}\frac{\partial(h_{\theta}(x^{(i)})) }{\partial \theta_{j} }\\
+& = -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} \frac{1}{h_{\theta}(x^{(i)})}-(1-y^{(i)}) \frac{1}{1- h_{\theta}(x^{(i)})})}h_{\theta}(x^{(i)})(1-h_{\theta}(x^{(i)})) \frac{\partial(\theta_j^Tx^{(i)})} { \partial \theta_{j} }\\
+&= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)} (1-h_{\theta}(x^{(i)})-(1-y^{(i)})}h_{\theta}(x^{(i)})) x_j^{(i)}\\
+&= -\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)}
+\end{align*}</script><p>公式最终简化如下如下：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\frac{\partial J(\theta)}{\theta_{j} }=-\frac{1}{m}\sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)} = \frac{1}{m}\sum_{i=1}^{m}{(h_{\theta}(x^{(i)}) - y^{(i)})}x_j^{(i)} \tag{19}
+\end{equation}</script><p>梯度下降法更新权重：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\theta_j := \theta_j + \eta \sum_{i=1}^{m}{(y^{(i)}-h_{\theta}(x^{(i)})}x_j^{(i)}\tag{20}
+\end{equation}</script><p>或：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\theta_j := \theta_j - \eta \sum_{i=1}^{m}{(h_{\theta}(x^{(i)})-y^{(i)})}x_j^{(i)}\tag{20}
+\end{equation}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># calculation J</span></span><br><span class="line">z = X * theta.T</span><br><span class="line">t = -y.T * log(sigmoid(z)) - (<span class="number">1</span> - y.T) * log(<span class="number">1</span> - sigmoid(z))</span><br><span class="line">J = t / m</span><br><span class="line"> </span><br><span class="line"><span class="comment"># calculation grad</span></span><br><span class="line">grad_t = (sigmoid(z) - y)</span><br><span class="line">grad = (X.T * grad_t ) / m</span><br></pre></td></tr></table></figure>
+<h2 id="五、解决多分类问题"><a href="#五、解决多分类问题" class="headerlink" title="五、解决多分类问题"></a>五、解决多分类问题</h2><p>我们已经知道，逻辑回归<code>（对数几率回归, Logistic Regression）</code>只能用于解决二分类问题<code>(Binary Classification)</code>，想要解决多分类问题，就需要对逻辑回归进行改进。</p>
+<p>有两种方法可以使得逻辑回归解决多分类任务：</p>
+<ul>
+<li>将多分类问题拆分为多个二分类问题，利用逻辑回归分类器进行投票求解。</li>
+<li>改进逻辑回归的损失函数，使其不再只考虑二分类非$1$就$0$的损失，而是具体考虑每个样本的损失，这种方法被称为$SoftMax$回归。</li>
+</ul>
+<div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/OneVsOneOneVsRest.png" alt="OneVsRest与OneVsOne" style="zoom: 50%;">
+</div>
+
+<h3 id="5-1-One-vs-Rest"><a href="#5-1-One-vs-Rest" class="headerlink" title="5.1 One vs Rest"></a>5.1 One vs Rest</h3><div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png" alt="one_vs_rest" style="zoom:67%;">
+</div>
+
+
+<p><strong>思想</strong>：假设对$n$种类型的样本进行分类，依次将其中某一类当作<code>正类(positive)</code>，其他剩余的样本归为<code>负类(negtive)</code>，训练$n$个二元分类器，将待测样本传入这$n$个分类器中，得概率最高的那个分类器对应的样本类型即认为是该预测样本的类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one_vs_rest</span>(<span class="params">self, X, y, num_labels, learning_rate=<span class="number">1e-3</span>, num_iters=<span class="number">100</span>, batch_size=<span class="number">200</span>, verbose=<span class="literal">True</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;使用 OVR 的思想，分类标准：所得概率最高的那个模型对应的样本类型&quot;&quot;&quot;</span></span><br><span class="line">    X_b = np.hstack([np.ones((<span class="built_in">len</span>(X), <span class="number">1</span>)), X])</span><br><span class="line">    all_theta = np.zeros([X_b.shape[<span class="number">1</span>], num_labels])</span><br><span class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> <span class="built_in">range</span>(num_labels):</span><br><span class="line">        <span class="comment"># 多分类化为二分类的</span></span><br><span class="line">        y_train_t = []</span><br><span class="line">        <span class="comment"># 将当前类别标签设为 1，其他类标签设为 0</span></span><br><span class="line">        <span class="keyword">for</span> jt <span class="keyword">in</span> y:</span><br><span class="line">            <span class="keyword">if</span> jt == it:</span><br><span class="line">                y_train_t.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                y_train_t.append(<span class="number">0</span>)</span><br><span class="line">        self._theta = <span class="literal">None</span></span><br><span class="line">        self.train(X, np.array(y_train_it), learning_rate, num_iters, batch_size, verbose)</span><br><span class="line">        <span class="comment"># 保存每次训练得到的 theta 参数</span></span><br><span class="line">        self.theta[:, it] = self._theta</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_vs_all_predict</span>(<span class="params">self, X</span>):</span></span><br><span class="line">    labels = self.sigmoid(X.dot(self.theta))  <span class="comment"># 结果是保存着归为每个数字的概率</span></span><br><span class="line">    y_pred = np.argmax(labels,axis=<span class="number">1</span>)  <span class="comment"># 返回每行的最大位置的下标</span></span><br><span class="line">    <span class="keyword">return</span> y_pred</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-One-vs-One"><a href="#5-2-One-vs-One" class="headerlink" title="5.2 One vs One"></a>5.2 One vs One</h3><div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png" alt="one_vs_one" style="zoom:70%;">
+</div>
+
+<p><strong>思想</strong>：对$n$种类型的样本进行分类，每次选出$2$种类型，两两结合，一共有$ C_n^2$ 种二分类情况，使用 $ C_n^2$ 种模型预测样本类型，对预测结果进行投票，出现次数最多的样本类型，即为该样本最终的预测类型。</p>
+<div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png" alt="鸢尾花分类" style="zoom:80%;">
+</div>
+
+<h2 id="六、手写数字识别"><a href="#六、手写数字识别" class="headerlink" title="六、手写数字识别"></a>六、手写数字识别</h2><div align="center">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/mnist.png" alt="手写数字识别">
+</div>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">《机器学习》 周志华著</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/33437381/">《统计学习方法（第2版）》李航著</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35356992">L1正则化与L2正则化</a></li>
+</ul>
 
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -266,7 +535,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/photos/" alt="微信分享二维码">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -278,6 +547,25 @@ var _hmt = _hmt || [];
 </article>
 
   
+<nav id="article-nav">
+  
+    <a href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          机器学习方法(五)：正则化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">机器学习方法(二)：线性回归</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -292,10 +580,33 @@ var _hmt = _hmt || [];
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">一、对数几率回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%88Decision-Boundary%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">二、决策边界（Decision Boundary）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%88Cost-Function%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">三、代价函数（Cost Function）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">四、使用梯度下降法求解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">五、解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-One-vs-Rest"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 One vs Rest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-One-vs-One"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 One vs One</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">六、手写数字识别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">8.</span> <span class="toc-text">Reference</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
 
+
+  
+  
+  
+
+  
+
+  
+
+  
 
 
 
@@ -319,7 +630,7 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

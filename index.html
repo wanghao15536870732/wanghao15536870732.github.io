@@ -165,20 +165,20 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-遥感图像分割" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/31/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
+      <a class="article-title" href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/">遥感图像语义分割 小记</a>
     </h1>
   
 
         
-        <a href="/2021/01/31/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2021-01-31T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-31</time>
+        <a href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" class="archive-article-date">
+  	<time datetime="2020-12-04T15:29:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-04</time>
 </a>
         
       </header>
@@ -190,27 +190,107 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、过拟合问题"><a href="#一、过拟合问题" class="headerlink" title="一、过拟合问题"></a>一、过拟合问题</h2><div align="center">
-    <img src="/2021/01/31/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_2.png" height="300" alt="线性回归过拟合" style="zoom: 70%;">
-    <img src="/2021/01/31/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_1.png" height="300" alt="逻辑回归过拟合" style="zoom: 70%;">
+        <h2 id="语义分割网络"><a href="#语义分割网络" class="headerlink" title="语义分割网络"></a>语义分割网络</h2><p><strong>SegNet:</strong> A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation（一种用于图像分割的深度卷积编码器/解码器架构）<strong>，</strong>也称为语义像素分割。该网络由一个编码器网络，一个相应的解码器网络，以及一个像素分类层组成[1]。对输入图像进行低维编码，然后在解码器中利用方向不变性能力恢复图像。SegNet的创新之处在于解码器对较低分辨率的特征图进行上采样的方式。SegNet的网络结构如下图所示。</p>
+<div align="center">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/Segnet.png" alt="Segnet网络结构" width="800">
 </div>
 
-<p>指的是我们设计的模型过度拟合训练集$J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \approx 0$，导致它在训练集上表现很好，但是在测试集上却表现很差，无法泛化到新的样本中，难以对新样本进行预测。</p>
-<p>那么如何预防过拟合？</p>
-<blockquote>
-<p>减少特征的数量    </p>
-<ul>
-<li>人工选择哪些特征应该保留，那些应该舍弃；</li>
-<li>模型选择算法（Model selection algorithm）；</li>
-</ul>
-<p>正则化</p>
-<ul>
-<li>保留所有的特征，但减小参数$(\theta_j)$的幅值；</li>
-<li>当数据有很多特性时，每个特性都对预测y有一点贡献；</li>
-</ul>
-</blockquote>
+<p>左边通过卷积提取特征，并通过pooling 增大感受野，同时图片缩小，该过程成为Encoder。右边是反卷积与upsampling，通过反卷积使得图像分类后特征得以重现，upsampling还原到图像原始尺寸，该过程称为Decoder。每个编码器层都对应一个解码器层，最终解码器的输出被送入soft-max分类器以独立的为每个像素产生类概率。编码器/解码器体系结构如下图所示。</p>
+<div align="center">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/encoder-decoder.png" alt="encoder-decoer结构" width="800">
+</div>
         
-          <a class="article-more-a" href="/2021/01/31/%E6%AD%A3%E5%88%99%E5%8C%96/#more">more >></a>
+          <a class="article-more-a" href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">语义分割</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
+    <article id="post-神经网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">机器学习方法(六)：神经网络中的反向传播算法</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="archive-article-date">
+  	<time datetime="2019-08-07T06:37:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="反向传播算法"><a href="#反向传播算法" class="headerlink" title="反向传播算法"></a>反向传播算法</h2><div align="center">
+<img src="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/neural_network_1.png" alt="神经网络反向传播算法">
+</div>
+
+<p>第一层是输入层，包含两个神经元i1、i2，和截距项b1；第二层是隐含层，包含两个神经元h1、h2和截距项b2，第三层是输出o1、o2，每条线上标的wi是层与层之间连接的权重，激活函数默认为sigmoid函数。</p>
+        
+          <a class="article-more-a" href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/#more">more >></a>
         
       
 
@@ -238,7 +318,7 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/31/%E6%AD%A3%E5%88%99%E5%8C%96/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">展开全文 >></a>
         </p>
       
 
@@ -276,13 +356,13 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/">机器学习方法(四)：决策树（Decision Tree）</a>
+      <a class="article-title" href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/">机器学习方法(四)：决策树（Decision Tree）</a>
     </h1>
   
 
         
-        <a href="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2021-01-28T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
+        <a href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2019-08-04T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
 </a>
         
       </header>
@@ -295,13 +375,13 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="一、什么是决策树？"><a href="#一、什么是决策树？" class="headerlink" title="一、什么是决策树？"></a>一、什么是决策树？</h2><div align="center">
-<img src="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
+<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
 </div>
 
 <p>假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十…</p>
 <p>每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的就是为了产生一颗<strong>泛化能力强，即处理未见数据强</strong>的决策树。</p>
         
-          <a class="article-more-a" href="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/#more">more >></a>
+          <a class="article-more-a" href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/#more">more >></a>
         
       
 
@@ -329,7 +409,111 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/28/%E5%86%B3%E7%AD%96%E6%A0%91/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
+    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2019-08-02T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-02</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、过拟合问题"><a href="#一、过拟合问题" class="headerlink" title="一、过拟合问题"></a>一、过拟合问题</h2><div align="center">
+    <img src="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_2.png" height="300" alt="线性回归过拟合" style="zoom: 70%;">
+    <img src="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_1.png" height="300" alt="逻辑回归过拟合" style="zoom: 70%;">
+</div>
+
+<p>指的是我们设计的模型过度拟合训练集$J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \approx 0$，导致它在训练集上表现很好，但是在测试集上却表现很差，无法泛化到新的样本中，难以对新样本进行预测。</p>
+<p>那么如何预防过拟合？</p>
+<blockquote>
+<p>减少特征的数量    </p>
+<ul>
+<li>人工选择哪些特征应该保留，那些应该舍弃；</li>
+<li>模型选择算法（Model selection algorithm）；</li>
+</ul>
+<p>正则化</p>
+<ul>
+<li>保留所有的特征，但减小参数$(\theta_j)$的幅值；</li>
+<li>当数据有很多特性时，每个特性都对预测y有一点贡献；</li>
+</ul>
+</blockquote>
+        
+          <a class="article-more-a" href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/">展开全文 >></a>
         </p>
       
 
@@ -367,13 +551,13 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">机器学习方法(三)：Logistic Regression 对数几率回归</a>
+      <a class="article-title" href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">机器学习方法(三)：Logistic Regression 对数几率回归</a>
     </h1>
   
 
         
-        <a href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2021-01-25T07:01:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-25</time>
+        <a href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
+  	<time datetime="2019-07-30T07:01:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-30</time>
 </a>
         
       </header>
@@ -386,7 +570,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h2><div align="center">
-<img src="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom: 50%;">
+<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom: 50%;">
 </div>
 
 <p>对于线性回归而言，模型可以简写为：</p>
@@ -403,7 +587,7 @@ ln\,y = w^Tx + b \ \  or \ \  ln\,y = \theta^Tx \tag{2}
 y = g(w^Tx + b)\ \ or \ \ y = g(\theta^Tx) \tag{3}
 \end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
         
-          <a class="article-more-a" href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/#more">more >></a>
+          <a class="article-more-a" href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/#more">more >></a>
         
       
 
@@ -431,7 +615,7 @@ y = g(w^Tx + b)\ \ or \ \ y = g(\theta^Tx) \tag{3}
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">展开全文 >></a>
         </p>
       
 
@@ -469,13 +653,13 @@ y = g(w^Tx + b)\ \ or \ \ y = g(\theta^Tx) \tag{3}
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">机器学习方法(二)：线性回归</a>
+      <a class="article-title" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">机器学习方法(二)：线性回归</a>
     </h1>
   
 
         
-        <a href="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2021-01-25T00:05:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-25</time>
+        <a href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" class="archive-article-date">
+  	<time datetime="2019-07-28T00:05:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
 </a>
         
       </header>
@@ -490,7 +674,7 @@ y = g(w^Tx + b)\ \ or \ \ y = g(\theta^Tx) \tag{3}
         <h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
 <h3 id="一、-单变量线性回归"><a href="#一、-单变量线性回归" class="headerlink" title="一、 单变量线性回归"></a>一、 单变量线性回归</h3><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
 <div align="center">
-<img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png" alt="一元线性回归">
+<img src="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png" alt="一元线性回归">
 </div>
 
 <p>对于一元线性回归，函数用可以用一个公式来表示，即假设$x$和$h_{\theta}(x)$之间存在这样的关系：</p>
@@ -513,7 +697,7 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
 <p>Goal：$\underset{\theta_{0}, \theta_{1}}{\operatorname{minimize}} J\left(\theta_{0}, \theta_{1}\right)$</p>
 </blockquote>
         
-          <a class="article-more-a" href="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/#more">more >></a>
+          <a class="article-more-a" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/#more">more >></a>
         
       
 
@@ -541,7 +725,7 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">展开全文 >></a>
         </p>
       
 
@@ -1492,6 +1676,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Deep Learning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">语义分割</a>
               </li>
             
             <div class="clearfix"></div>

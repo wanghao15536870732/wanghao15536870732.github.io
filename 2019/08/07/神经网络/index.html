@@ -6,28 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>机器学习方法(二)：线性回归 | HowardWang的博客</title>
+  <title>机器学习方法(六)：神经网络中的反向传播算法 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未知数据。回归问题按照输入变量的个数可以分为一元回归和多元回归。 一、 单变量线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未">
+  <meta name="description" content="反向传播算法    第一层是输入层，包含两个神经元i1、i2，和截距项b1；第二层是隐含层，包含两个神经元h1、h2和截距项b2，第三层是输出o1、o2，每条线上标的wi是层与层之间连接的权重，激活函数默认为sigmoid函数。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习方法(二)：线性回归">
-<meta property="og:url" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/index.html">
+<meta property="og:title" content="机器学习方法(六)：神经网络中的反向传播算法">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
-<meta property="og:description" content="线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未知数据。回归问题按照输入变量的个数可以分为一元回归和多元回归。 一、 单变量线性回归线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条函数曲线使其训练数据很好的拟合已知函数，并很好的预测未">
+<meta property="og:description" content="反向传播算法    第一层是输入层，包含两个神经元i1、i2，和截距项b1；第二层是隐含层，包含两个神经元h1、h2和截距项b2，第三层是输出o1、o2，每条线上标的wi是层与层之间连接的权重，激活函数默认为sigmoid函数。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_mul.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_2.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent.gif">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/Matrix.png">
-<meta property="article:published_time" content="2021-01-25T00:05:43.000Z">
-<meta property="article:modified_time" content="2021-02-01T14:34:13.470Z">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/neural_network_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/neural_network_2.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/output_1_backprop-4.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/nn-calculation.png">
+<meta property="article:published_time" content="2019-08-07T06:37:27.000Z">
+<meta property="article:modified_time" content="2021-02-02T15:27:44.134Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/neural_network_1.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -175,20 +173,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-线性回归" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-神经网络" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      机器学习方法(二)：线性回归
+      机器学习方法(六)：神经网络中的反向传播算法
     </h1>
   
 
         
-        <a href="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2021-01-25T00:05:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-25</time>
+        <a href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="archive-article-date">
+  	<time datetime="2019-08-07T06:37:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
 </a>
         
       </header>
@@ -203,7 +201,7 @@ var _hmt = _hmt || [];
 		<div id="toc-article" class="toc-article">
 			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
 			<strong class="toc-title">文章目录</strong>
-			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">反向传播算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-number">1.1.</span> <span class="toc-text">前向传播</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%B1%82%E2%80%94-gt-%E9%9A%90%E5%90%AB%E5%B1%82"><span class="toc-number">1.1.1.</span> <span class="toc-text">输入层—&gt;隐含层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%90%AB%E5%B1%82%E2%80%94-gt-%E8%BE%93%E5%87%BA%E5%B1%82"><span class="toc-number">1.1.2.</span> <span class="toc-text">隐含层—&gt;输出层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%80%BB%E8%AF%AF%E5%B7%AE"><span class="toc-number">1.1.3.</span> <span class="toc-text">计算总误差</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-number">1.2.</span> <span class="toc-text">反向传播</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E5%B1%82%E2%80%94-gt-%E9%9A%90%E5%90%AB%E5%B1%82"><span class="toc-number">1.2.1.</span> <span class="toc-text">输出层—&gt;隐含层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%90%AB%E5%B1%82%E2%80%94-gt-%E8%BE%93%E5%85%A5%E5%B1%82"><span class="toc-number">1.2.2.</span> <span class="toc-text">隐含层—&gt;输入层</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
 			 </div>
 	   <script type="text/javascript">
 		function showToc(){
@@ -224,182 +222,159 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
-<h3 id="一、-单变量线性回归"><a href="#一、-单变量线性回归" class="headerlink" title="一、 单变量线性回归"></a>一、 单变量线性回归</h3><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
-<div align="center">
-<img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png" alt="一元线性回归">
+        <h2 id="反向传播算法"><a href="#反向传播算法" class="headerlink" title="反向传播算法"></a>反向传播算法</h2><div align="center">
+<img src="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/neural_network_1.png" alt="神经网络反向传播算法">
 </div>
 
-<p>对于一元线性回归，函数用可以用一个公式来表示，即假设$x$和$h_{\theta}(x)$之间存在这样的关系：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-h_{\theta}(x)  = \theta_0 + \theta_1 x \tag{1}
-\end{equation}</script><p>$h_{\theta}(x)$即我们预测的数值，该值与实际数值之间的差异，即为误差：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-error=|y- h_{\theta}(x)| \tag{2}
-\end{equation}</script><p>由于求绝对值过于繁琐，我们将其视为误差平方和，并对齐求均值，即代价（损失）函数：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)}) - y^{(i)}\right)^{2}=\frac{1}{2m}\sum_{i=1}^{m}\left(\theta_0 + \theta_1x_i-y^{(i)}\right)^{2} \tag{3}
-\end{equation}</script><p>我们的目的就是使得预测值尽可能地接近实际值，即误差越小越好。即找到一组$(\theta_0,\theta_1)$，使得误差平方和最小。</p>
-<blockquote>
-<p>Hypothesis：$h_{\theta}(x)  = \theta_0 + \theta_1 x$</p>
-<p>Parameters：$\theta_0,\theta_1$</p>
-<p>Cost Function：$J(\theta_0,\theta_1) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)}) - y^{(i)}\right)^{2}$</p>
-<p>Goal：$\underset{\theta_{0}, \theta_{1}}{\operatorname{minimize}} J\left(\theta_{0}, \theta_{1}\right)$</p>
-</blockquote>
+<p>第一层是输入层，包含两个神经元i1、i2，和截距项b1；第二层是隐含层，包含两个神经元h1、h2和截距项b2，第三层是输出o1、o2，每条线上标的wi是层与层之间连接的权重，激活函数默认为sigmoid函数。</p>
 <a id="more"></a>
-<h3 id="二、多元线性回归"><a href="#二、多元线性回归" class="headerlink" title="二、多元线性回归"></a>二、多元线性回归</h3><div align="center">
-<img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_mul.png" alt="多元线性回归">
-</div>
-
-<p>对于多元线性回归而言：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\begin{aligned}
-h_{\theta}(x) &=\theta_{0}+\theta_{1} x_{1}+\theta_{2} x_{2}+\cdots+\theta_{n} x_{n} \\
-&=\sum_{i=0}^{n} \theta_{i} x_{i}=\theta^{T} x
-\end{aligned}  \tag{4}
-\end{equation}</script><p>使用极大似然函数来解释最小二乘：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-y^{(i)}=\theta^{T} X^{(i)}+\varepsilon^{(i)} \tag{5}
-\end{equation}</script><p>根据中心极限定理，误差$\varepsilon^{(i)}(1≤i≤n)$是独立同分布的，服从均值为0，方差为特定$\sigma^2$的高斯分布。</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-P(\varepsilon^{(i)})=\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(\varepsilon^{(i)}\right)^{2}}{2 \sigma^{2}}\right) \tag{6}
-\end{equation}</script><p>将式$(5)$带入式$(6)$中可得：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-P\left(y^{(i)}|x^{(i)};\theta\right)=\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{\left(y^{(i)}-\theta^TX^{(i)}\right)^{2}}{2 \sigma^{2}}\right) \tag{7}
-\end{equation}</script><p>其似然函数：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-L(\theta) &=\prod_{i=1}^{m} P\left(y^{(i)} \mid x^{(i)} ; \theta\right) \\
-&=\prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(\frac{\left.-( y^{(i)}-\theta^{T} x^{(i)}\right)^{2}}{2 \sigma^{2}}\right)
-\end{aligned}</script><p>高斯的对数似然与最小二乘</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-l(\theta) &= logL(\theta) \\
-&= log\left(\prod_{i=1}^{m} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(\frac{\left.-( y^{(i)}-\theta^{T} x^{(i)}\right)^{2}}{2 \sigma^{2}}\right)\right) \\
-&= \sum_{i=1}^{m} log\left(\frac{1}{\sqrt{2 \pi} \sigma} \exp \left(\frac{\left.-( y^{(i)}-\theta^{T} x^{(i)}\right)^{2}}{2 \sigma^{2}}\right)\right) \\
-&= m\cdot log\frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{\sigma^2} \cdot \frac{1}{2} \sum_{i=1}^{m}\left(y^{(i)} - \theta^TX^{(i)} \right)^2 \\
-\end{aligned}</script><p>其中$m\cdot log\frac{1}{\sqrt{2\pi}\sigma}$为常数，则关于θ的代价函数为：</p>
-<script type="math/tex; mode=display">
-J(\theta)=\frac{1}{2} \sum_{i=1}^{m}\left(h_{\theta}\left(X^{(i)}\right)-y^{(i)}\right)^{2}</script><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">temp=(X * theta - y)&#x27; * (X * theta - y);</span><br><span class="line">J=<span class="number">1</span> / (<span class="number">2</span> * m) * temp;</span><br></pre></td></tr></table></figure>
-<h3 id="三、梯度下降算法"><a href="#三、梯度下降算法" class="headerlink" title="三、梯度下降算法"></a>三、梯度下降算法</h3><p>可以理解为一个人下山的过程，如果想要快速走下山，但是又不知道方向，怎么办呢？显然很容易想到的是一定往下山的方向走。但是选哪个方向呢？这就需要有冒险精神，每次选择<strong>最陡峭</strong>的方向，即山高度下降最快的地方，这样下山最快。</p>
-<p>但是，又有一个问题来了，没有办法每次选择的都是最陡峭的地方。这就需要每次都选定一段距离，每走一段距离之后，就重新确定当前所在位置的高度下降最快的地方。这样，这个人每次下山的方向都可以近似看作是每个距离段内高度下降最快的地方。</p>
-<p><center class="half">    
-    <img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_1.png" alt="梯度下降法-二维" width="350"><img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent_2.png" alt="梯度下降法-三维" width="500">
-</center><br>将下山的例子中每一段路的距离取名叫<strong>学习率</strong>（Learning Rate，也称步长，用α表示），把一次下山走一段距离叫做一次<strong>迭代</strong>。算法详细过程：</p>
-<ol>
-<li>确定定参数的初始值，计算损失函数的<strong>偏导数</strong>。</li>
-<li>将参数代入偏导数计算出<strong>梯度</strong>。若<strong>梯度</strong>为 0，结束；否则转到 3。</li>
-<li>用<strong>步长乘以梯度</strong>，并对参数进行<strong>更新</strong>。</li>
-</ol>
-<p>重复2-3，对于多元线性回归来说，拟合函数为：</p>
-<script type="math/tex; mode=display">
-h_{\theta}(x)=\sum_{i=0}^{n} \theta_{i} x_{i}=\theta_{0}+\theta_{1} x+\cdots+\theta_{n} x_{n}</script><p>损失函数为：</p>
-<script type="math/tex; mode=display">
-J(\theta)=\frac{1}{2 m} \sum_{i=0}^{n}\left(y^{(i)}-h_{\theta}\left(x^{(i)}\right)\right)^{2}</script><p>损失函数的偏导数为：</p>
-<script type="math/tex; mode=display">
-\frac{\partial J(\theta)}{\partial \theta_{i}}=\frac{1}{m} \sum_{j=1}^{m}\left(h_{\theta}\left(x^{(j)}\right)-y^{(j)}\right) x_{i}^{(j)}=\frac{1}{m} \sum_{j=1}^{m}\left(\sum_{i=0}^{n} \theta_{i} x_{i}^{(j)}-y^{(j)}\right) x_{i}^{(j)},(i=0,1,2,3, \ldots, n)</script><p>每次更新参数的操作为：</p>
-<script type="math/tex; mode=display">
-\theta_{i}=\theta_{i}-\alpha \frac{\partial J(\theta)}{\theta_{i}}=\theta_{i}-\alpha \frac{1}{m} \sum_{j=1}^{m}\left(h_{\theta}\left(x^{(j)}\right)-y^{(j)}\right) x_{i}^{(j)}</script><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> iter = <span class="number">1</span>:num_iters</span><br><span class="line">    h = X * theta;</span><br><span class="line">    temp(:,iter) = theta - ((alpha / m) * (X&#x27; * (h - y)));</span><br><span class="line">    theta = temp(:,iter);</span><br></pre></td></tr></table></figure>
-<p><img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/gradient_descent.gif" alt></p>
-<h3 id="四、正规方程（最小二乘-）"><a href="#四、正规方程（最小二乘-）" class="headerlink" title="四、正规方程（最小二乘 ）"></a>四、正规方程（最小二乘 ）</h3><p>得到多元线性回归的代价函数，可以通过求导和梯度下降来寻找最优的参数。</p>
-<p>一元线性回归是对<strong>a、b</strong>求<strong>偏导</strong>，多元线性回归是对<strong>θ</strong>求<strong>偏导</strong>，即：</p>
-<p>目标函数</p>
-<script type="math/tex; mode=display">
-J(\theta)=\frac{1}{2m} \sum_{i=1}^{m}\left(h_{\theta}\left(X^{(i)}\right)-y^{(i)}\right)^{2}=\frac{1}{2m}(X\theta-y)^T \cdot (X\theta - y)</script><p>对$\theta$求梯度：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\nabla_{\theta}J(\theta) &= \nabla_{\theta}\left(\frac{1}{2m}(X\theta-y)^T \cdot (X\theta - y)\right) \\
-&= \frac{1}{2m} \nabla_{\theta}\left(\left(\theta^TX^T-y^T\right) \cdot (X\theta - y)\right) \\
-&= \frac{1}{2m} \nabla_{\theta}\left(\theta^TX^TX\theta - \theta^TX^Ty - y^TX\theta + y^Ty\right) \\
-&= \frac{1}{2m} \left(\frac{\partial(\theta^TX^TX\theta)}{\partial \theta} - \frac{\partial(\theta^TX^Ty)}{\partial \theta} - \frac{\partial(y^TX\theta)}{\partial \theta} + \frac{\partial(y^Ty)}{\partial \theta} \right)
-\end{aligned}</script><p><strong>矩阵（向量）求导法则</strong></p>
+<p>为了更好的进行计算，这里初始化权重weights、偏置项biases和神经网络的输入/输出:</p>
 <div align="center">
-<img src="/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/Matrix.png" alt="矩阵求导法则" style="zoom: 50%;">
+<img src="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/neural_network_2.png" alt="参数初始化">
 </div>
 
-<p>其中<strong>第一项</strong>：$ \frac{\partial}{\partial \theta} \theta^TX^TX\theta$，由矩阵求导法则：</p>
-<script type="math/tex; mode=display">
-\frac{\partial \theta^T A \theta}{\partial \theta} = (A + A^T) \theta （A是不含有X中包含项的矩阵）</script><p>将$X^TX$看作$A$，可得：</p>
-<script type="math/tex; mode=display">
-\frac{\partial \theta^T X^T X \theta}{\partial \theta} = (X^TX + X^TX)\theta = 2X^TX\theta</script><p><strong>第二项</strong>：$\frac{\partial}{\partial \theta} \theta^TX^Ty$</p>
 <blockquote>
-<p>矩阵求导法则：</p>
-<script type="math/tex; mode=display">
-\frac{\partial X^TA}{\partial X} = A</script></blockquote>
-<p>将$X^Ty$看作$A$，可得：</p>
-<script type="math/tex; mode=display">
-\frac{\partial(\theta^TX^Ty)}{\partial \theta} = X^Ty</script><p><strong>第三项</strong>：$\frac{\partial}{\partial \theta} y^TX\theta$</p>
-<blockquote>
-<p>矩阵求导法则：</p>
-<script type="math/tex; mode=display">
-\frac{\partial AX}{\partial X} = A^T</script></blockquote>
-<p>将$y^TX$看作$A$，可得：</p>
-<script type="math/tex; mode=display">
-\frac{\partial(y^TX\theta)}{\partial \theta} = X^Ty</script><p><strong>第四项</strong>：$\frac{\partial}{\partial \theta} y^Ty$</p>
-<blockquote>
-<p>矩阵求导法则：</p>
-<script type="math/tex; mode=display">
-\frac{\partial A}{\partial X} = 0</script></blockquote>
-<p>将$y^Ty$看作$A$，可得：</p>
-<script type="math/tex; mode=display">
-\frac{\partial(y^Ty)}{\partial \theta} = 0</script><p><strong>综上所述</strong></p>
+<ul>
+<li><p>输入数据  i1=0.05，i2=0.10;</p>
+</li>
+<li><p>输出数据 o1=0.01,o2=0.99;</p>
+</li>
+<li><p>初始权重  w1=0.15, w2=0.20, w3=0.25, w4=0.30; w5=0.40, w6=0.45, w7=0.50, w8=0.55;</p>
+</li>
+</ul>
+</blockquote>
+<p>反向传播的目标是优化权重，以便神经网络可以学习如何正确地将任意输入映射到输出。</p>
+<p>目标：给定输入数据i1(0.05)和i2(0.10)，使输出尽可能与原始输出o1(0.01)和o2(0.99)接近。</p>
+<h3 id="前向传播"><a href="#前向传播" class="headerlink" title="前向传播"></a>前向传播</h3><p>首先，让我们看一下在给定的权重和偏差以及输入为0.05和0.10的情况下，神经网络当前的输出。</p>
+<h4 id="输入层—-gt-隐含层"><a href="#输入层—-gt-隐含层" class="headerlink" title="输入层—&gt;隐含层"></a>输入层—&gt;隐含层</h4><p>计算神经元$h_1$的输入加权和：</p>
 <script type="math/tex; mode=display">
 \begin{aligned}
-\nabla_{\theta}J(\theta) &= \frac{1}{2m} \left(\frac{\partial(\theta^TX^TX\theta)}{\partial \theta} - \frac{\partial(\theta^TX^Ty)}{\partial \theta} - \frac{\partial(y^TX\theta)}{\partial \theta} + \frac{\partial(y^Ty)}{\partial \theta} \right) \\
-& = \frac{1}{2m} \left(2X^TX\theta - 2X^Ty\right) \\
-& = \frac{1}{m} \left(X^TX\theta - X^Ty\right)
-\end{aligned}</script><p>当$\nabla_{\theta}J(\theta) = 0$时</p>
+net_{h1} &= w_{1} * i_{1}+w_{2} * i_{2}+b_{1} * 1 \\
+&= 0.15 * 0.05+0.2 * 0.1+0.35 * 1=0.3775
+\end{aligned}</script><p>使用Sigmoid函数计算神经元$h_1$的输出：</p>
 <script type="math/tex; mode=display">
-X^TX\theta = X^Ty \\
-\theta = (X^TX)^{-1}X^Ty</script><p>如果$X^TX$不可逆，可能有两个原因：</p>
-<ol>
-<li>列向量线性相关，即训练集中存在冗余特征，此时应该剔除掉多余特征；</li>
-<li>特征过多，此时应该去掉影响较小的特征，或使用“正则化”；</li>
-</ol>
-<p><strong>方法选择</strong></p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th style="text-align:center">梯度下降法</th>
-<th style="text-align:center">正规方程法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">学习率$\alpha$</td>
-<td style="text-align:center">需要</td>
-<td style="text-align:center">不需要</td>
-</tr>
-<tr>
-<td style="text-align:center">特征归一化</td>
-<td style="text-align:center">需要</td>
-<td style="text-align:center">不需要</td>
-</tr>
-<tr>
-<td style="text-align:center">计算次数</td>
-<td style="text-align:center">需要迭代很多次</td>
-<td style="text-align:center">不需要迭代</td>
-</tr>
-<tr>
-<td style="text-align:center">特征数量</td>
-<td style="text-align:center">受特征数量影响较小，即使$n$很大也可以正常工作</td>
-<td style="text-align:center">如果$n$很大计算速度会很慢</td>
-</tr>
-</tbody>
-</table>
+\text out_{h1}=\frac{1}{1+e^{-net_{h 1}}}=\frac{1}{1+e^{-0.3775}}=0.593269992</script><p>同理，可以计算出神经元$h_2$的输出：</p>
+<script type="math/tex; mode=display">
+\text out_{h2}=0.596884378</script><h4 id="隐含层—-gt-输出层"><a href="#隐含层—-gt-输出层" class="headerlink" title="隐含层—&gt;输出层"></a>隐含层—&gt;输出层</h4><p>计算输出层神经元o1的值：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\text {net}_{o1}=w_{5} * \text { out }_{h 1}+w_{6} * \text { out }_{h 2}+b_{2} * 1 \\
+\text {net}_{o1}=0.4 * 0.593269992+0.45 * 0.596884378+0.6 * 1=1.105905967 \\
+\text {out}_{o1}=\frac{1}{1+e^{-n c t_{o 1}}}=\frac{1}{1+e^{-1.105905967}}=0.75136507
+\end{array}</script><p>同理，可计算输出层神经元o2的值：</p>
+<script type="math/tex; mode=display">
+\text {out}_{o2}=0.772928465</script><h4 id="计算总误差"><a href="#计算总误差" class="headerlink" title="计算总误差"></a>计算总误差</h4><p>使用<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Backpropagation#Derivation">平方误差函数</a>计算每个输出神经元的<a target="_blank" rel="noopener" href="http://en.wikipedia.org/wiki/Backpropagation#Derivation">误差</a>，并对它们求和以得出总误差：</p>
+<script type="math/tex; mode=display">
+E_{total}=\sum \frac{1}{2}(\text {target}-\text {output})^{2}</script><p>因为有两个输出，所以分别计算o1的误差：</p>
+<script type="math/tex; mode=display">
+E_{o 1}=\frac{1}{2}\left(\text {target}_{o 1}-\text {out}_{o 1}\right)^{2}=\frac{1}{2}(0.01-0.75136507)^{2}=0.274811083</script><p>和计算o2的误差：</p>
+<script type="math/tex; mode=display">
+E_{o 2}=0.023560026</script><p>总误差为两者之和：</p>
+<script type="math/tex; mode=display">
+E_{total}=E_{o 1}+E_{o 2}=0.274811083+0.023560026=0.298371109</script><h3 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h3><h4 id="输出层—-gt-隐含层"><a href="#输出层—-gt-隐含层" class="headerlink" title="输出层—&gt;隐含层"></a>输出层—&gt;隐含层</h4><blockquote>
+<p>反向传播的目标是更新网络中的每个权重，以便它们使实际输出更接近目标输出，从而将每个输出神经元和整个网络的误差降到最低。</p>
+</blockquote>
+<p>对于$w_5$来讲，如果我们想知道$w5$对整体误差产生了多少影响，可以用整体误差对$w5$求偏导求出，由求导的链式法则可得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial E_{\text {total}}}{\partial w_{5}}=\frac{\partial E_{\text {total}}}{\partial \text {out}_{o1}} * \frac{\partial out_{o1}}{\partial \text {net}_{o1}} * \frac{\partial \text {net}_{o1}}{\partial w_{5}}</script><p>下图可以直观上理解误差是如何反向传播的：</p>
+<div align="center">
+<img src="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/output_1_backprop-4.png" alt="视觉直观">
 </div>
+
+<p>我们需要找出这个方程式中的每一部分：首先，计算总误差相对于输出的梯度$\frac{\partial E_{total}}{\partial out_{o1}}$：</p>
+<script type="math/tex; mode=display">
+E_{total}=\frac{1}{2}\left(\text {target}_{o1}-\text {out}_{\text {ol}}\right)^{2}+\frac{1}{2}\left(\text {target }_{o 2}-\text {out}_{o 2}\right)^{2} \\
+\begin{aligned}
+\frac{\partial E_{total}}{\partial out_{o1}} &= 2 * \frac{1}{2}\left(\text {target}_{o1}-\text {out}_{\text {o1}}\right)^{2-1} *-1+0 \\
+& = -\left(\text {target}_{o 1}-\text {out}_{\text {o1}}\right) \\
+&= -(0.01-0.75136507) \\
+&= 0.74136507
+\end{aligned}</script><p>在上图神经元中，输出$out_{o1}$与输入$net_{01}$存在以下函数关系：</p>
+<script type="math/tex; mode=display">
+out_{o1}=\frac{1}{1+e^{-net_{o1}}}</script><p>由于逻辑函数的偏导数是输出乘以1减去本身，可得：</p>
+<script type="math/tex; mode=display">
+\frac{\partial out_{o1}}{ \partial net_{o l}}=out_{o 1}\left(1-out_{o1}\right)=0.75136507(1-0.75136507)=0.186815602</script><p>继续计算$\frac{\partial net_{o1}}{\partial w_{5}}$：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+net_{o1}=w_{5} * \text {out}_{h1}+w_{6} * \text {out}_{h2}+b_{2} * 1 \\
+\frac{\partial net_{o1}}{\partial w_{5}}=1 * \text {out}_{h1} * w_{5}^{(1-1)}+0+0=\text {out}_{h 1}=0.593269992\end{array}</script><p>最后，相乘计算$\frac{\partial E_{\text {total}}}{\partial w_{5}}$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial E_{total}}{\partial w_{5}}&=\frac{\partial E_{total}}{\partial out_{o1}} * \frac{\partial out_{o1}}{\partial net_{o1}} * \frac{\partial net_{o1}}{\partial w_{5}}\\
+&= 0.74136507 * 0.186815602 * 0.593269992 \\
+&= 0.082167041
+\end{aligned}</script><blockquote>
+<p>由上面可以得知，整体误差的偏导常常以以下形式组合在一起：</p>
+<script type="math/tex; mode=display">
+\frac{\partial E_{total}}{\partial w_{5}}=-\left(\text {target}_{o1}-\text {out}_{o1}\right) * \text {out}_{\text {o1}}\left(1-\text {out}_{o1}\right) * \text {out}_{h 1}</script><p>为了表达方便，用$\delta_{o1}$来表示输出层的误差：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}\delta_{o1}=\frac{\partial E_{total}}{\partial out_{\text {o1}}} * \frac{\partial out_{o1}}{\partial net_{o1}}=\frac{\partial E_{total}}{\partial net_{o1}} \\\delta_{o1}=-\left(\text {target}_{o1}-\text {out}_{o1}\right) * \text {out}_{o1}\left(1-\text {out}_{o1}\right)\end{array}</script><p>因此，整体误差$E(total)$对$w5$的偏导公式可以写成：</p>
+<script type="math/tex; mode=display">
+\frac{\partial E_{\text {total}}}{\partial w_{5}}=\delta_{o1} \text {out}_{h1}</script></blockquote>
+<p>最后使用梯度下降来更新$w_5$：</p>
+<script type="math/tex; mode=display">
+w_{5}:=w_{5}-\eta * \frac{\partial E_{total}}{\partial w_{5}}=0.4-0.5 * 0.082167041=0.35891648</script><blockquote>
+<p>有些地方使用$\alpha$表示学习率，这里使用$\eta$来表示。</p>
+</blockquote>
+<p>我们可以重复这个过程来更新其他权重：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}w_{6}:=0.408666186 \\w_{7}:=0.511301270 \\w_{8}:=0.561370121\end{array}</script><h4 id="隐含层—-gt-输入层"><a href="#隐含层—-gt-输入层" class="headerlink" title="隐含层—&gt;输入层"></a>隐含层—&gt;输入层</h4><p>下面接着向后传递通过计算$w_1、w_2、w_3、w_4$，首先计算$\frac{\partial E_{\text {total }}}{\partial w_{1}}$：</p>
+<script type="math/tex; mode=display">
+\frac{\partial E_{total}}{\partial w_{1}}=\frac{\partial E_{total}}{\partial out_{h1}} * \frac{\partial out_{h 1}}{\partial net_{h1}} * \frac{\partial net_{h1}}{\partial w_{1}}</script><p>我使用与输出层类似的过程，但略有不同，因为每个隐藏层神经元的输出会影响多个输出神经元的输出（$out_{h_1}$会影响$out_{o1}$和$out_{o2}$）。直观上理解：</p>
+<div align="center">
+<img src="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/nn-calculation.png" alt="隐藏层" style="zoom:80%">
+</div>
+
+<p>在隐含层之间的权值更新时，$out(h1)—&gt;net(h1)—&gt;w1$，而$out(h1)$会接受$E(o1)$和$E(o2)$两个地方传来的误差，所以这个地方两个都要计算。</p>
+<script type="math/tex; mode=display">
+\frac{\partial E_{total}}{\partial \text {out}_{h1}}=\frac{\partial E_{o1}}{\partial \text {out}_{h1}}+\frac{\partial E_{o2}}{\partial \text {out}_{h1}}</script><p>计算$\frac{\partial E_{o1}}{\partial \text {out}_{h1}}$：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial E_{o1}}{\partial out_{h1}} &= \frac{\partial E_{o1}}{\partial net_{o1}} * \frac{\partial net_{o1}}{\partial out_{h1}}\\ \\
+\frac{\partial E_{o1}}{\partial net_{o1}} &= \frac{\partial E_{o1}}{\partial out_{o1}} * \frac{\partial out_{o1}}{\partial net_{o1}}=0.74136507 * 0.186815602=0.138498562 \\ \\
+net_{o 1}&=w_{5} * \text { out }_{h 1}+w_{6} * \text { out }_{h 2}+b_{2} * 1 \\ \\
+\frac{\partial n e t_{o 1}}{\partial o u t_{h 1}}&=w_{5}=0.40 \\ \\
+\frac{\partial E_{o 1}}{\partial o u t_{h 1}}&=\frac{\partial E_{o 1}}{\partial n e t_{o 1}} * \frac{\partial n e t_{01}}{\partial o u t_{h 1}}=0.138498562 * 0.40=0.055399425
+\end{aligned}</script><p>按照此过程，同样求出：</p>
+<script type="math/tex; mode=display">
+\frac{\partial E_{o 2}}{\partial o u t_{h 1}}=-0.019049119</script><p>得到总值：</p>
+<script type="math/tex; mode=display">
+\frac{\partial E_{total}}{\partial out_{h1}}=\frac{\partial E_{o1}}{\partial out_{h1}}+\frac{\partial E_{o2}}{\partial \text {out}_{h1}}=0.055399425+-0.019049119=0.036350306</script><p>现在，我们求出了$\frac{\partial E_{total}}{\partial out_{h1}}$，，还需要弄清楚$\frac{\partial out_{h 1}}{\partial net_{h1}}$以及$ \frac{\partial net_{h1}}{\partial w_{1}}$，其中：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\text {out}_{h1}&=\frac{1}{1+e^{-net_{h1}}} \\
+\frac{\partial out_{h1}}{\partial net_{h1}}&=\text {out}_{h1}\left(1-\text {out}_{h1}\right)=0.59326999(1-0.59326999)=0.241300709
+\end{aligned}</script><p>计算$h_1$相对于$w_1$输出神经元的总输入的偏导数：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}
+\text {net}_{h1}=w_{1} * i_{1}+w_{3} * i_{2}+b_{1} * 1 \\
+\frac{\partial net_{n1}}{\partial w_{1}}=i_{1}=0.05
+\end{array}</script><p>最后可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial E_{total}}{\partial out_{h1}}&=\frac{\partial E_{o1}}{\partial out_{h1}}+\frac{\partial E_{o2}}{\partial out_{h1}}\\
+&=0.036350306 * 0.241300709 * 0.05=0.000438568
+\end{aligned}</script><p>&gt;<br>&gt;</p>
+<blockquote>
+<p>简化公式，使用$\delta_{h_1}$表示隐含层单元$h1$的误差</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial E_{total}}{\partial w_{1}}&=\left(\sum_{o} \frac{\partial E_{total}}{\partial  out_{o}} * \frac{\partial out_{o}}{\partial net_{o}} * \frac{\partial net_{o}}{\partial out_{h1}}\right) * \frac{\partial out_{h 1}}{\partial net_{h 1}} * \frac{\partial net_{h 1}}{\partial w_{1}} \\
+\frac{\partial E_{total}}{\partial w_{1}}&=\left(\sum_{o} \delta_{o} * w_{ho}\right) * out_{h1}\left(1-out_{h1}\right) * i_{1} \\
+\frac{\partial E_{total}}{\partial w_{1}}&=\delta_{h 1} i_{1}
+\end{aligned}</script></blockquote>
+<p>更新$w_1$的值：</p>
+<script type="math/tex; mode=display">
+w_{1}:=w_{1}-\eta * \frac{\partial E_{total}}{\partial w_{1}}=0.15-0.5 * 0.000438568=0.149780716</script><p>同理，可得：</p>
+<script type="math/tex; mode=display">
+\begin{array}{l}w_{2}:=0.19956143 \\w_{3}:=0.24975114 \\w_{4}:=0.29950229\end{array}</script><p>这样误差反向传播法就完成了，最后我们再把更新的权值重新计算，不停地迭代，在这个例子中第一次迭代之后，总误差E(total)由0.298371109下降至0.291027924。迭代10000次后，总误差为0.000035085，输出为0.015912196,0.984065734(原输出为[0.01,0.99]),</p>
+<p>最初以0.05和0.1作为输入时，网络上的误差为0.298371109。经过第一轮反向传播后，总误差现在降至0.291027924。看起来似乎不多，但是在重复此过程10,000次之后，总误差降至0.0000351085。最终，当我们以0.05和0.1作为输入进行前向传播时，两个输出神经元生成0.015912196（相对于0.01）和0.984065734（相对于0.99），证明误差传播算法还是有效的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   参数解释：</span></span><br><span class="line"><span class="comment">#   &quot;pd_&quot; ：作为一个变量前缀的意思是 偏导数</span></span><br><span class="line"><span class="comment">#   &quot;d_&quot; ：作为一个变量前缀的意思是 导数</span></span><br><span class="line"><span class="comment">#   &quot;w_ho&quot; ：隐含层到输出层的权重系数索引</span></span><br><span class="line"><span class="comment">#   &quot;w_ih&quot; ：输入层到隐含层的权重系数的索引</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NeuralNetwork</span>:</span></span><br><span class="line">    LEARNING_RATE = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, num_inputs, num_hidden, num_outputs, hidden_layer_weights=<span class="literal">None</span>, hidden_layer_bias=<span class="literal">None</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 output_layer_weights=<span class="literal">None</span>, output_layer_bias=<span class="literal">None</span></span>):</span></span><br><span class="line">        self.num_inputs = num_inputs</span><br><span class="line"></span><br><span class="line">        self.hidden_layer = NeuronLayer(num_hidden, hidden_layer_bias)</span><br><span class="line">        self.output_layer = NeuronLayer(num_outputs, output_layer_bias)</span><br><span class="line"></span><br><span class="line">        self.init_weights_from_inputs_to_hidden_layer_neurons(hidden_layer_weights)</span><br><span class="line">        self.init_weights_from_hidden_layer_neurons_to_output_layer_neurons(output_layer_weights)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_weights_from_inputs_to_hidden_layer_neurons</span>(<span class="params">self, hidden_layer_weights</span>):</span></span><br><span class="line">        weight_num = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> h <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.hidden_layer.neurons)):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.num_inputs):</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> hidden_layer_weights:</span><br><span class="line">                    self.hidden_layer.neurons[h].weights.append(random.random())</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    self.hidden_layer.neurons[h].weights.append(hidden_layer_weights[weight_num])</span><br><span class="line">                weight_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_weights_from_hidden_layer_neurons_to_output_layer_neurons</span>(<span class="params">self, output_layer_weights</span>):</span></span><br><span class="line">        weight_num = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> o <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.output_layer.neurons)):</span><br><span class="line">            <span class="keyword">for</span> h <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.hidden_layer.neurons)):</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> output_layer_weights:</span><br><span class="line">                    self.output_layer.neurons[o].weights.append(random.random())</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    self.output_layer.neurons[o].weights.append(output_layer_weights[weight_num])</span><br><span class="line">                weight_num += <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inspect</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;------&#x27;</span>)</span><br><span class="line">        print(<span class="string">&#x27;* Inputs: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(self.num_inputs))</span><br><span class="line">        print(<span class="string">&#x27;------&#x27;</span>)</span><br><span class="line">        print(<span class="string">&#x27;Hidden Layer&#x27;</span>)</span><br><span class="line">        self.hidden_layer.inspect()</span><br><span class="line">        print(<span class="string">&#x27;------&#x27;</span>)</span><br><span class="line">        print(<span class="string">&#x27;* Output Layer&#x27;</span>)</span><br><span class="line">        self.output_layer.inspect()</span><br><span class="line">        print(<span class="string">&#x27;------&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">feed_forward</span>(<span class="params">self, inputs</span>):</span></span><br><span class="line">        hidden_layer_outputs = self.hidden_layer.feed_forward(inputs)</span><br><span class="line">        <span class="keyword">return</span> self.output_layer.feed_forward(hidden_layer_outputs)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Uses online learning, ie updating the weights after each training case</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span>(<span class="params">self, training_inputs, training_outputs</span>):</span></span><br><span class="line">        self.feed_forward(training_inputs)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 1. 输出神经元的值</span></span><br><span class="line">        pd_errors_wrt_output_neuron_total_net_input = [<span class="number">0</span>] * <span class="built_in">len</span>(self.output_layer.neurons)</span><br><span class="line">        <span class="keyword">for</span> o <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.output_layer.neurons)):</span><br><span class="line">            <span class="comment"># ∂E/∂zⱼ</span></span><br><span class="line">            pd_errors_wrt_output_neuron_total_net_input[o] = self.output_layer.neurons[</span><br><span class="line">                o].calculate_pd_error_wrt_total_net_input(training_outputs[o])</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 2. 隐含神经元的值</span></span><br><span class="line">        pd_errors_wrt_hidden_neuron_total_net_input = [<span class="number">0</span>] * <span class="built_in">len</span>(self.hidden_layer.neurons)</span><br><span class="line">        <span class="keyword">for</span> h <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.hidden_layer.neurons)):</span><br><span class="line"></span><br><span class="line">            <span class="comment"># We need to calculate the derivative of the error with respect to the output of each hidden layer neuron</span></span><br><span class="line">            <span class="comment"># dE/dyⱼ = Σ ∂E/∂zⱼ * ∂z/∂yⱼ = Σ ∂E/∂zⱼ * wᵢⱼ</span></span><br><span class="line">            d_error_wrt_hidden_neuron_output = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> o <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.output_layer.neurons)):</span><br><span class="line">                d_error_wrt_hidden_neuron_output += pd_errors_wrt_output_neuron_total_net_input[o] * \</span><br><span class="line">                                                    self.output_layer.neurons[o].weights[h]</span><br><span class="line"></span><br><span class="line">            <span class="comment"># ∂E/∂zⱼ = dE/dyⱼ * ∂zⱼ/∂</span></span><br><span class="line">            pd_errors_wrt_hidden_neuron_total_net_input[h] = d_error_wrt_hidden_neuron_output * \</span><br><span class="line">                                                             self.hidden_layer.neurons[</span><br><span class="line">                                                                 h].calculate_pd_total_net_input_wrt_input()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 3. 更新输出层权重系数</span></span><br><span class="line">        <span class="keyword">for</span> o <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.output_layer.neurons)):</span><br><span class="line">            <span class="keyword">for</span> w_ho <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.output_layer.neurons[o].weights)):</span><br><span class="line">                <span class="comment"># ∂Eⱼ/∂wᵢⱼ = ∂E/∂zⱼ * ∂zⱼ/∂wᵢⱼ</span></span><br><span class="line">                pd_error_wrt_weight = pd_errors_wrt_output_neuron_total_net_input[o] * self.output_layer.neurons[</span><br><span class="line">                    o].calculate_pd_total_net_input_wrt_weight(w_ho)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># Δw = α * ∂Eⱼ/∂wᵢ</span></span><br><span class="line">                self.output_layer.neurons[o].weights[w_ho] -= self.LEARNING_RATE * pd_error_wrt_weight</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 4. 更新隐含层权重系数</span></span><br><span class="line">        <span class="keyword">for</span> h <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.hidden_layer.neurons)):</span><br><span class="line">            <span class="keyword">for</span> w_ih <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.hidden_layer.neurons[h].weights)):</span><br><span class="line">                <span class="comment"># ∂Eⱼ/∂wᵢ = ∂E/∂zⱼ * ∂zⱼ/∂wᵢ</span></span><br><span class="line">                pd_error_wrt_weight = pd_errors_wrt_hidden_neuron_total_net_input[h] * self.hidden_layer.neurons[</span><br><span class="line">                    h].calculate_pd_total_net_input_wrt_weight(w_ih)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># Δw = α * ∂Eⱼ/∂wᵢ</span></span><br><span class="line">                self.hidden_layer.neurons[h].weights[w_ih] -= self.LEARNING_RATE * pd_error_wrt_weight</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_total_error</span>(<span class="params">self, training_sets</span>):</span></span><br><span class="line">        total_error = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> t <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(training_sets)):</span><br><span class="line">            training_inputs, training_outputs = training_sets[t]</span><br><span class="line">            self.feed_forward(training_inputs)</span><br><span class="line">            <span class="keyword">for</span> o <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(training_outputs)):</span><br><span class="line">                total_error += self.output_layer.neurons[o].calculate_error(training_outputs[o])</span><br><span class="line">        <span class="keyword">return</span> total_error</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NeuronLayer</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, num_neurons, bias</span>):</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 同一层的所有神经元共享一个截距项b</span></span><br><span class="line">        self.bias = bias <span class="keyword">if</span> bias <span class="keyword">else</span> random.random()</span><br><span class="line"></span><br><span class="line">        self.neurons = []</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_neurons):</span><br><span class="line">            self.neurons.append(Neuron(self.bias))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inspect</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;Neurons:&#x27;</span>, <span class="built_in">len</span>(self.neurons))</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.neurons)):</span><br><span class="line">            print(<span class="string">&#x27; Neuron&#x27;</span>, n)</span><br><span class="line">            <span class="keyword">for</span> w <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.neurons[n].weights)):</span><br><span class="line">                print(<span class="string">&#x27;  Weight:&#x27;</span>, self.neurons[n].weights[w])</span><br><span class="line">            print(<span class="string">&#x27;  Bias:&#x27;</span>, self.bias)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">feed_forward</span>(<span class="params">self, inputs</span>):</span></span><br><span class="line">        outputs = []</span><br><span class="line">        <span class="keyword">for</span> neuron <span class="keyword">in</span> self.neurons:</span><br><span class="line">            outputs.append(neuron.calculate_output(inputs))</span><br><span class="line">        <span class="keyword">return</span> outputs</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_outputs</span>(<span class="params">self</span>):</span></span><br><span class="line">        outputs = []</span><br><span class="line">        <span class="keyword">for</span> neuron <span class="keyword">in</span> self.neurons:</span><br><span class="line">            outputs.append(neuron.output)</span><br><span class="line">        <span class="keyword">return</span> outputs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Neuron</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, bias</span>):</span></span><br><span class="line">        self.bias = bias</span><br><span class="line">        self.weights = []</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_output</span>(<span class="params">self, inputs</span>):</span></span><br><span class="line">        self.inputs = inputs</span><br><span class="line">        self.output = self.squash(self.calculate_total_net_input())</span><br><span class="line">        <span class="keyword">return</span> self.output</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_total_net_input</span>(<span class="params">self</span>):</span></span><br><span class="line">        total = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.inputs)):</span><br><span class="line">            total += self.inputs[i] * self.weights[i]</span><br><span class="line">        <span class="keyword">return</span> total + self.bias</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Apply the logistic function to squash the output of the neuron</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">squash</span>(<span class="params">self, total_net_input</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span> / (<span class="number">1</span> + math.exp(-total_net_input))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Determine how much the neuron&#x27;s total input has to change to move closer to the expected output</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="comment"># Now that we have the partial derivative of the error with respect to the output (∂E/∂yⱼ) and</span></span><br><span class="line">    <span class="comment"># the derivative of the output with respect to the total net input (dyⱼ/dzⱼ) we can calculate</span></span><br><span class="line">    <span class="comment"># the partial derivative of the error with respect to the total net input.</span></span><br><span class="line">    <span class="comment"># This value is also known as the delta (δ) [1]</span></span><br><span class="line">    <span class="comment"># δ = ∂E/∂zⱼ = ∂E/∂yⱼ * dyⱼ/dzⱼ</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_pd_error_wrt_total_net_input</span>(<span class="params">self, target_output</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.calculate_pd_error_wrt_output(target_output) * self.calculate_pd_total_net_input_wrt_input();</span><br><span class="line"></span><br><span class="line">    <span class="comment"># The error for each neuron is calculated by the Mean Square Error method:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_error</span>(<span class="params">self, target_output</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.5</span> * (target_output - self.output) ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 每一个神经元的误差是由平方差公式计算的</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_pd_error_wrt_output</span>(<span class="params">self, target_output</span>):</span></span><br><span class="line">        <span class="keyword">return</span> -(target_output - self.output)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_pd_total_net_input_wrt_input</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.output * (<span class="number">1</span> - self.output)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">calculate_pd_total_net_input_wrt_weight</span>(<span class="params">self, index</span>):</span></span><br><span class="line">        <span class="keyword">return</span> self.inputs[index]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 文中的例子</span></span><br><span class="line"></span><br><span class="line">nn = NeuralNetwork(<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>, hidden_layer_weights=[<span class="number">0.15</span>, <span class="number">0.2</span>, <span class="number">0.25</span>, <span class="number">0.3</span>], hidden_layer_bias=<span class="number">0.35</span>,</span><br><span class="line">                   output_layer_weights=[<span class="number">0.4</span>, <span class="number">0.45</span>, <span class="number">0.5</span>, <span class="number">0.55</span>], output_layer_bias=<span class="number">0.6</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10000</span>):</span><br><span class="line">    nn.train([<span class="number">0.05</span>, <span class="number">0.1</span>], [<span class="number">0.01</span>, <span class="number">0.99</span>])</span><br><span class="line">    print(i, <span class="built_in">round</span>(nn.calculate_total_error([[[<span class="number">0.05</span>, <span class="number">0.1</span>], [<span class="number">0.01</span>, <span class="number">0.99</span>]]]), <span class="number">9</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># XOR 另外一个例子:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># training_sets = [</span></span><br><span class="line"><span class="comment">#     [[0, 0], [0]],</span></span><br><span class="line"><span class="comment">#     [[0, 1], [1]],</span></span><br><span class="line"><span class="comment">#     [[1, 0], [1]],</span></span><br><span class="line"><span class="comment">#     [[1, 1], [0]]</span></span><br><span class="line"><span class="comment"># ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># nn = NeuralNetwork(len(training_sets[0][0]), 5, len(training_sets[0][1]))</span></span><br><span class="line"><span class="comment"># for i in range(10000):</span></span><br><span class="line"><span class="comment">#     training_inputs, training_outputs = random.choice(training_sets)</span></span><br><span class="line"><span class="comment">#     nn.train(training_inputs, training_outputs)</span></span><br><span class="line"><span class="comment">#     print(i, nn.calculate_total_error(training_sets))</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a target="_blank" rel="noopener" href="http://cs229.stanford.edu/">cs299</a></li>
-<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">《机器学习》 周志华著</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/">A Step by Step Backpropagation Example</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://www.cedar.buffalo.edu/%7Esrihari/CSE574/Chap5/Chap5.3-BackProp.pdf">Chap5.3-Backpropagation.pdf</a></p>
+</li>
 </ul>
 
       
@@ -505,7 +480,7 @@ X^TX\theta = X^Ty \\
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2021/01/25/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" alt="微信分享二维码">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -519,18 +494,18 @@ X^TX\theta = X^Ty \\
   
 <nav id="article-nav">
   
-    <a href="/2021/01/25/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          机器学习方法(三)：Logistic Regression 对数几率回归
+          遥感图像语义分割 小记
         
       </div>
     </a>
   
   
-    <a href="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">机器学习方法(一)：物以类聚 人以群分 K近邻算法</div>
+    <a href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">机器学习方法(四)：决策树（Decision Tree）</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -557,7 +532,7 @@ X^TX\theta = X^Ty \\
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.</span> <span class="toc-text">线性回归</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81-%E5%8D%95%E5%8F%98%E9%87%8F%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">一、 单变量线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%9A%E5%85%83%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.2.</span> <span class="toc-text">二、多元线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">三、梯度下降算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%AD%A3%E8%A7%84%E6%96%B9%E7%A8%8B%EF%BC%88%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98-%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">四、正规方程（最小二乘 ）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD%E7%AE%97%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">反向传播算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-number">1.1.</span> <span class="toc-text">前向传播</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E5%B1%82%E2%80%94-gt-%E9%9A%90%E5%90%AB%E5%B1%82"><span class="toc-number">1.1.1.</span> <span class="toc-text">输入层—&gt;隐含层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%90%AB%E5%B1%82%E2%80%94-gt-%E8%BE%93%E5%87%BA%E5%B1%82"><span class="toc-number">1.1.2.</span> <span class="toc-text">隐含层—&gt;输出层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%80%BB%E8%AF%AF%E5%B7%AE"><span class="toc-number">1.1.3.</span> <span class="toc-text">计算总误差</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-number">1.2.</span> <span class="toc-text">反向传播</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E5%B1%82%E2%80%94-gt-%E9%9A%90%E5%90%AB%E5%B1%82"><span class="toc-number">1.2.1.</span> <span class="toc-text">输出层—&gt;隐含层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9A%90%E5%90%AB%E5%B1%82%E2%80%94-gt-%E8%BE%93%E5%85%A5%E5%B1%82"><span class="toc-number">1.2.2.</span> <span class="toc-text">隐含层—&gt;输入层</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">2.</span> <span class="toc-text">Reference</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -704,6 +679,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Deep Learning</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">语义分割</a>
               </li>
             
             <div class="clearfix"></div>
