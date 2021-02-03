@@ -6,45 +6,34 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>机器学习方法(四)：决策树（Decision Tree） | HowardWang的博客</title>
+  <title>机器学习方法(三)：Logistic Regression 对数几率回归 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、什么是决策树？    假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十… 每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的">
+  <meta name="description" content="广义线性模型    对于线性回归而言，模型可以简写为：  \begin{equation} y&#x3D;w^Tx+b \ \  or \ \ y&#x3D;θ^Tx(更常用 下面统一用该式子表示) \tag{1} \end{equation}假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：  \begin{equation} ln\, y&#x3D;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习方法(四)：决策树（Decision Tree）">
-<meta property="og:url" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/index.html">
+<meta property="og:title" content="机器学习方法(三)：Logistic Regression 对数几率回归">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
-<meta property="og:description" content="一、什么是决策树？    假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十… 每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的">
+<meta property="og:description" content="广义线性模型    对于线性回归而言，模型可以简写为：  \begin{equation} y&#x3D;w^Tx+b \ \  or \ \ y&#x3D;θ^Tx(更常用 下面统一用该式子表示) \tag{1} \end{equation}假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：  \begin{equation} ln\, y&#x3D;">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/EntFunction.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/tennis_data.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_sunny.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_overcast.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_rainy.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/outlook.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/humidity.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/final_tree.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/visual_decision.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/visual_tree.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris_visual.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/id3_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/id3_2.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/c45.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/handle_cart.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/regression_tree_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/regression_tree_2.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/over_fit.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_gua.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_clip.png">
-<meta property="article:published_time" content="2019-08-04T08:45:43.000Z">
-<meta property="article:modified_time" content="2021-02-02T15:27:10.025Z">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/SigmoidFunction.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/DecisionBoundary.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/NonLinearDecisionBoundaries.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/OneVsOneOneVsRest.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/mnist.png">
+<meta property="article:published_time" content="2019-07-31T12:11:49.000Z">
+<meta property="article:modified_time" content="2021-02-03T14:50:56.035Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -123,7 +112,9 @@ var _hmt = _hmt || [];
 		        
 					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/be-forever-82" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="mail" target="_blank" href="/hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
+					<a class="jianshu" target="_blank" href="https://www.jianshu.com/u/964bc0f1e88e" title="jianshu"><i class="icon-jianshu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
 		        
 			</div>
 		</nav>
@@ -164,7 +155,9 @@ var _hmt = _hmt || [];
 			        
 						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/be-forever-82" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="mail" target="_blank" href="/hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
+						<a class="jianshu" target="_blank" href="https://www.jianshu.com/u/964bc0f1e88e" title="jianshu"><i class="icon-jianshu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
@@ -192,20 +185,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-决策树" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-LogisticRegression对数几率回归" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      机器学习方法(四)：决策树（Decision Tree）
+      机器学习方法(三)：Logistic Regression 对数几率回归
     </h1>
   
 
         
-        <a href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2019-08-04T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
+        <a href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
+  	<time datetime="2019-07-31T12:11:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-31</time>
 </a>
         
       </header>
@@ -220,7 +213,7 @@ var _hmt = _hmt || [];
 		<div id="toc-article" class="toc-article">
 			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
 			<strong class="toc-title">文章目录</strong>
-			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%B3%E7%AD%96%E6%A0%91%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、什么是决策树？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%BF%A1%E6%81%AF%E7%86%B5"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 信息熵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 信息增益</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%9F%BA%E5%B0%BC%E7%B3%BB%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 基尼系数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-number">2.</span> <span class="toc-text">二、决策树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 鸢尾花数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%86%B3%E7%AD%96%E6%A0%91%E6%9E%84%E9%80%A0%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 决策树构造算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-ID3-%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 $ID3$算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-C4-5-%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 $C4.5$算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-CART-%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 $CART$算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 核心算法描述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E4%BF%A1%E6%81%AF%E7%86%B5%E3%80%81%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 信息熵、信息增益的计算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-ID3%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 ID3算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-C4-5%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 C4.5算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-CART%E7%AE%97%E6%B3%95%EF%BC%88%E5%88%86%E7%B1%BB%E6%A0%91%EF%BC%89"><span class="toc-number">2.3.4.</span> <span class="toc-text">2.3.4 CART算法（分类树）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-CART%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E5%BD%92%E6%A0%91%EF%BC%89"><span class="toc-number">2.3.5.</span> <span class="toc-text">2.3.5 CART算法（回归树）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%89%AA%E6%9E%9D"><span class="toc-number">3.</span> <span class="toc-text">三、剪枝</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%A2%84%E5%89%AA%E6%9E%9D"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 预剪枝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%90%8E%E5%89%AA%E6%9E%9D"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 后剪枝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">四、问题及解决办法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">一、对数几率回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%88Decision-Boundary%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">二、决策边界（Decision Boundary）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%88Cost-Function%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">三、代价函数（Cost Function）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">四、使用梯度下降法求解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">五、解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-One-vs-Rest"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 One vs Rest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-One-vs-One"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 One vs One</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">六、手写数字识别</span></a></li></ol>
 			 </div>
 	   <script type="text/javascript">
 		function showToc(){
@@ -241,223 +234,202 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、什么是决策树？"><a href="#一、什么是决策树？" class="headerlink" title="一、什么是决策树？"></a>一、什么是决策树？</h2><div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
+        <h2 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h2><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom:40%;">
 </div>
 
-<p>假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十…</p>
-<p>每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的就是为了产生一颗<strong>泛化能力强，即处理未见数据强</strong>的决策树。</p>
- <a id="more"></a>
-<h3 id="1-1-信息熵"><a href="#1-1-信息熵" class="headerlink" title="1.1 信息熵"></a>1.1 信息熵</h3><p>“信息熵”是度量样本集合<strong>纯度</strong>的一种指标，也为随机变量的<strong>不确定度</strong>的度量。假定当前样本集合$D$中第$k$类样本所占比例为$p_{k}(k=1,2,3 \ldots N)$，则$D$的信息熵定义为：</p>
+<p>对于线性回归而言，模型可以简写为：</p>
 <script type="math/tex; mode=display">
-\operatorname{Ent}(D)=-\sum_{k=1}^{|y|} p_{k} \log _{2} p_{k}</script><p>$\operatorname{Ent}(D)$的值越小，集合$D$的纯度越高，不确定度越低，确定性越强。</p>
-<p>例如：当$D_1=\left\{\frac{1}{3}, \frac{1}{3}, \frac{1}{3}\right\}$时，$D_1$的信息熵$\operatorname{Ent}\left(D_{1}\right)=-\frac{1}{3} \log _{2}\left(\frac{1}{3}\right)-\frac{1}{3} \log _{2}\left(\frac{1}{3}\right)-\frac{1}{3} \log _{2}\left(\frac{1}{3}\right)=1.5846$</p>
-<p>当$D_2=\left\{\frac{1}{10}, \frac{2}{10}, \frac{7}{10}\right\}$}时，$D_2$的信息熵$\operatorname{Ent}\left(D_{2}\right)=-\frac{1}{10} \log _{2}\left(\frac{1}{10}\right)-\frac{2}{10} \log _{2}\left(\frac{2}{10}\right)-\frac{7}{10} \log _{2}\left(\frac{7}{10}\right)=1.15678$</p>
-<p>显然集合$D_2$的信息熵是<strong>低于</strong>集合$D_1$的，从集合$D_2$的样本也可看出，数据更偏向于比例为$\frac{7}{10}$的类别，<strong>确定性</strong>更大，<strong>不确定性</strong>小。而集合$D_1$的三种类别比例相同，不确定性更大。</p>
+\begin{equation}
+y=w^Tx+b \ \  or \ \ y=θ^Tx(更常用 下面统一用该式子表示) \tag{1}
+\end{equation}</script><p>假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+ln\, y=w^Tx+b \ \ or \ \ ln\, y=θ^Tx\tag{2}
+\end{equation}</script><p>这就是“对数线性回归”<code>(log-linear regression)</code>，如上图中的红线映射到黑色的指数线，这就是广义线性模型的思想。更一般的考虑单调可微函数<code>g(·)</code>，令：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y=g(w^Tx+b) \ \ or \ \ y=g(θ^Tx) \tag{3}
+\end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
+<h2 id="一、对数几率回归"><a href="#一、对数几率回归" class="headerlink" title="一、对数几率回归"></a>一、对数几率回归</h2><p>虽然被称为“回归”，但是对数几率回归<code>(Logistic Regression)</code>不是用来解决回归问题的，而是用来解决分类问题的。对于简单的二分类问题，实际上是样本点到一个值域y∈{0,1}y∈{0,1}的函数，表示这个点分在<code>正类(postive)</code>或者<code>反类(negtive)</code>的概率，若该样本非常可能是<code>正类</code>，那么输出的概率值越接近1；反之，若该样本非常可能是<code>负类</code>，则输出的概率值越接近0。</p>
+<p>而线性回归模型产生的预测值$y=wT+b$是实数值，于是需要一个理想的函数来实现输出实数值z到0/1值的转化。最理想的是单位阶跃函数<code>(uint-step function)</code>：</p>
+<p>而线性回归模型产生的预测值y=wT+by=wT+b是实数值，于是需要一个理想的函数来实现输出实数值zz到0/10/1值的转化。最理想的是单位阶跃函数<code>(uint-step function)</code>：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y=\left\{\begin{array}{ll}
+0, & z<0 \\
+0.5, & z=0 \\
+1, & z>0
+\end{array}\right. \tag{4}
+\end{equation}</script><p>然而该函数不连续，于是我们希望能够找到一个近似单位越界函数，并且单调可微的函数来代替。</p>
+<p>对数几率函数<code>(sigmoid function)</code>正是一个常用的替代函数:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+g(z)=\frac{1}{1+e^{-z}} \tag{5}
+\end{equation}</script><p>它将<code>z</code>的值转化为一个接近<code>0</code>或<code>1</code>的<code>y</code>值，将对数几率函数作为式$(3)$中的$g(·)$，可得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+h_{\theta}(x)=\frac{1}{1+\mathrm{e}^{-\theta^{T_{x}}}} \tag{6}
+\end{equation}</script><p>二者的图像如下图所示：</p>
 <div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/EntFunction.png" alt="Entropy函数图像">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/SigmoidFunction.png" alt="Sigmoid函数图像">
 </div>
 
-<p>以二分类为例，信息熵$\operatorname{Ent}(D)=-x \log _{2} x-(1-x) \log _{2}(1-x)$，函数图像如上图所示。</p>
-<p>可以看出，当$x$趋向于两端时，也即数据倾向于一类时，整个集合的不确定性越小，信息熵越小。</p>
-<h3 id="1-2-信息增益"><a href="#1-2-信息增益" class="headerlink" title="1.2 信息增益"></a>1.2 信息增益</h3><p>假设离散集$a$有$V$个可能的取值$\left\{a^{1}, a^{2}, a^{3}, \ldots, a^{V}\right\}$，其中第$v$个分支包含的集合记为$D^v$,该分支所占的权重记为，$\frac{|D^{v}|}{|D|}$样本越多的分支节点影响越大，下面即可计算出属性$a$对样本集$D$进行划分所产生的信息增益为：</p>
+<p>从上图可以看出，它将$z$值转换为一个接近$0$或$1$的$y$值，我们可以将其视为类$1$的后验概率估计$hθ=P(y=1|x;θ)hθ=P(y=1|x;θ)$，即输入一个测试数据$x$，通过$Sigmoid$函数计算出来的结果即为该点$x$输入类别$1$的概率大小。</p>
+<p>通常我们将$g(z)≥0.5$ 的归为类别$1$，即预测结果$y=1$；$g(z)&lt;0.5$ 的归为类$0$， 即预测结果$y=0$：</p>
 <script type="math/tex; mode=display">
-\operatorname{Gain}(D, a)=\operatorname{Ent}(D)-\sum_{v=1}^{|y|} \frac{\left|D^{v}\right|}{|D|} \operatorname{Ent}\left(D^{v}\right)</script><p>对于以下的$tennis$数据（<strong>下图</strong>），根据天气、温度、湿度、是否有风决定是否打网球，使用<strong>信息熵、信息增益</strong>来构造该数据的<strong>决策树</strong>：</p>
+\begin{equation}
+\hat{y}=\left\{\begin{array}{ll}
+1, & h_{\theta}(x) \geq 0.5 \\
+0, & h_{\theta}(x)<0.5
+\end{array} \quad h_{\theta}(x)=g\left(\theta^{T} x\right), g(z)=\frac{1}{1+e^{-z}}\right. \tag{7}
+\end{equation}</script><p>对于式 $(1),$ 式 $(6),$ 可变换为 $\ln \frac{y}{1-y}=\theta^{T} x,$ 若将 $y$ 视为样本 $x$ 作为正例的可能性, 则 $1-y$ 是其反例的可能性, 两者的比值 $\frac{y}{1-y}$ 称为几率 $(\mathrm{odds}),$ 反映了 $x$ 作为正例的相对可能性。对几率取对数则得到了对数几率 <code>(log odds，亦称logit)</code>，将 $y$ 视为后验概率估计，重写公式有:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\ln \frac{y}{1-y}=\ln \frac{P(y=1 \mid x)}{P(y=0 \mid x)}=\ln \frac{P(y=1 \mid x)}{1-P(y=1 \mid x)}=\ln \left(\frac{1}{1-P(y=1 \mid x)}-1\right)=\theta^{T} x \tag{8}
+\end{equation}</script><p>由式$(8)$可得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\left\{\begin{array}{l}
+p(y=1 \mid x)=1-\frac{1}{1+e^{\theta T_{x}}}=\frac{e^{\theta^{T} x}}{1+e^{\theta T_{x}}}=\frac{1}{1+e^{-\theta} T_{x}} \\
+p(y=0 \mid x)=\frac{1}{1+e^{\theta^{T} x}}
+\end{array}\right. \tag{9}
+\end{equation}</script><h2 id="二、决策边界（Decision-Boundary）"><a href="#二、决策边界（Decision-Boundary）" class="headerlink" title="二、决策边界（Decision Boundary）"></a>二、决策边界（Decision Boundary）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">决策边界</th>
+<th style="text-align:center">非线性决策边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/DecisionBoundary.png" alt="决策边界"></td>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/NonLinearDecisionBoundaries.png" alt="非线性决策边界"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="三、代价函数（Cost-Function）"><a href="#三、代价函数（Cost-Function）" class="headerlink" title="三、代价函数（Cost Function）"></a>三、代价函数（Cost Function）</h2><p>确定逻辑回归的数学形式后, 接下来需要做的就是给定训练集, 通过最小化代价函数, 找出模型的最优参数 $\theta_{\circ}$ 线性回归中的代价函数:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \tag{10}
+\end{equation}</script><p>我们可以类比线性回归, 使用平均误差平方来作为代价函数。</p>
+<p>但是对于逻辑回归而言, $h_{\theta}(x)$ 函数 $\left(h_{\theta}(x)=\frac{1}{1+e^{-\theta T_{x}}}\right)$ 是一个非常复杂的非线性救, 如果将 $\operatorname{Sigmoid}$ 函数带入式 $(9),$ 并画出 $J(\theta)$ 的图像, 你会发现 $J(\theta)$ 是个非凸函数, 这就意味代价函数有着许多的局部最小值, 如下图<code>non-convex</code>所示, 如果将梯度下降法应用到该函数上, 无法保证可以收敘到最小值, 这很不利于我们的求解。</p>
 <div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/tennis_data.jpg" alt="tennis数据集">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png" alt="凸函数和非凸函数">
 </div>
 
-<p>对于$outlook$决策分支的数据，有$sunny、overcast、rainy$三个分支（<strong>右侧三组数据</strong>），分别计算三类数据的信息熵：</p>
+<p>因此，通常使用<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=C6a-SMY0H50">极大似然估计</a>来求解，即找到一组参数，使得在这组参数下，我们数据的似然度（概率）最大。</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\left\{\begin{array}{l}
+p(y=1 \mid x)=h_{\theta}(x) \\
+p(y=0 \mid x)=1-h_{\theta}(x)
+\end{array}\right. \tag{11}
+\end{equation}</script><p>式$(11)$可以写成一般形式:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+p(y \mid x ; \theta)=h_{\theta}(x)^{y}\left(1-h_{\theta}(x)\right)^{1-y} \tag{12}
+\end{equation}</script><p>使用极大似然估计得到似然函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+L(\theta)=\prod_{i=1}^{m} p\left(y^{(i)} \mid x^{(i)} ; \theta\right)=\prod_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)^{y^{(i)}}\left(1-h_{\theta}\left(x^{(i)}\right)\right)^{1-y^{(i)}}\right) \tag{13}
+\end{equation}</script><p>为了方便求解，对式$(13)$两边同时取对数，得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{aligned}
+l(\theta) &=\ln L(\theta) \\
+&=\sum_{i=1}^{m}\left[y^{(i)} \ln \left(h_{\theta}\left(x^{(i)}\right)\right)+\left(1-y^{(i)}\right) \ln \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right] \\
+&=\sum_{i=1}^{m}\left[y^{(i)} \ln \frac{h_{\theta}\left(x^{(i)}\right)}{1-h_{\theta}\left(x^{(i)}\right)}+\ln \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right] \\
+&=\sum_{i=1}^{m}\left[y^{(i)}\left(\theta^{T} x\right)-\ln \left(1+e^{\theta^{T} x}\right)\right] 
+\end{aligned} \tag{14}
+\end{equation}</script><p>现在的目标是使得$l(\theta)$最大，则在其基础上使用梯度下降法求解$-l(\theta)$的最小值即可：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+J(\theta)=-l(\theta)=-\frac{1}{m} \sum_{i=1}^{m}[y^{(i)} \ln (h_{\theta}(x^{(i)}))+(1-y^{(i)}) \ln (1-h_{\theta}(x^{(i)}))] \tag{15}
+\end{equation}</script><p>为了更好的理解推导出的代价函数，可以写出代价$Cost(h_\theta(x),y)$与$h_θ$的关系函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\operatorname{Cost}\left(h_{\theta}(x), y\right)=-\operatorname{yln}\left(h_{\theta}(x)\right)+(1-y) \ln \left(1-h_{\theta}(x)\right) \tag{16}
+\end{equation}</script><p>即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\operatorname{Cost}\left(h_{\theta}(x), y\right)=\left\{\begin{array}{ll}
+-\ln \left(h_{\theta}(x)\right) & \text { if } y=1 \\
+-\ln \left(1-h_{\theta}(x)\right) & \text { if } y=0
+\end{array}\right. \tag{17}
+\end{equation}</script><p>绘制该函数图像：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$−ln(h_\theta(x))$</th>
+<th style="text-align:center">$−ln(1−h_\theta(x))$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function.png" alt="损失函数1"></td>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function_1.png" alt="损失函数2"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>从上图可以看出，如果样本值$y$为$1$的话，预测值$h_\theta(x)$越接近$1$损失越小，反之越大；同样，如果样本值$y$为$0$的话，预测值$h_\theta(x)$越接近0损失越小，反之越大。</p>
+<h2 id="四、使用梯度下降法求解"><a href="#四、使用梯度下降法求解" class="headerlink" title="四、使用梯度下降法求解"></a>四、使用梯度下降法求解</h2><script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m} \sum_{i=1}^{m}\left[y^{(i)} \ln \left(h_{\theta}\left(x^{(i)}\right)\right)+\left(1-y^{(i)}\right) \ln \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right]</script><p>对式$(5)求导不难发现，$Sigmoid$函数有一个特性，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+g(z)^{\prime}=\frac{-\left(-e^{-z}\right)}{\left(1+e^{-z}\right)^{2}}=\frac{1}{1+e^{-z}} \cdot \frac{e^{-z}}{1+e^{-z}}=\frac{1}{1+e^{-z}} \cdot=(1-\frac{1}{1+e^{-z}}=)=g(x)(1-g(x)) \tag{18}
+\end{equation}</script><p>使用梯度下降法需要先求解梯度：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial J(\theta)}{\theta_{j}} &=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)} \frac{1}{h_{\theta}\left(x^{(i)}\right)}-\left(1-y^{(i)}\right) \frac{1}{1-h_{\theta}\left(x^{(i)}\right)}\right) \frac{\partial\left(h_{\theta}\left(x^{(i)}\right)\right)}{\partial \theta_{j}} \\
+&=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)} \frac{1}{h_{\theta}\left(x^{(i)}\right)}-\left(1-y^{(i)}\right) \frac{1}{1-h_{\theta}\left(x^{(i)}\right)}\right) h_{\theta}\left(x^{(i)}\right)\left(1-h_{\theta}\left(x^{(i)}\right)\right) \frac{\partial\left(\theta_{j}^{T} x^{(i)}\right)}{\partial \theta_{j}} \\
+&=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)}\left(1-h_{\theta}\left(x^{(i)}\right)-\left(1-y^{(i)}\right) h_{\theta}\left(x^{(i)}\right)\right) x_{j}^{(i)}\right.\\
+&=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)}-h_{\theta}(x^{(i)})\right) x_{j}^{(i)})
+\end{aligned}</script><p>公式最终简化如下如下：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\frac{\partial J(\theta)}{\theta_{j}}=-\frac{1}{m} \sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)}) x_{j}^{(i)}=\frac{1}{m} \sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}) x_{j}^{(i)} \tag{19}
+\end{equation}</script><p>梯度下降法更新权重：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\theta_{j}:=\theta_{j}+\eta \sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)})) x_{j}^{(i)} \tag{20}
+\end{equation}</script><p>或：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\theta_{j}:=\theta_{j}-\eta \sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}) x_{j}^{(i)} \tag{20}
+\end{equation}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># calculation J</span></span><br><span class="line">z = X * theta.T</span><br><span class="line">t = -y.T * log(sigmoid(z)) - (<span class="number">1</span> - y.T) * log(<span class="number">1</span> - sigmoid(z))</span><br><span class="line">J = t / m</span><br><span class="line"> </span><br><span class="line"><span class="comment"># calculation grad</span></span><br><span class="line">grad_t = (sigmoid(z) - y)</span><br><span class="line">grad = (X.T * grad_t ) / m</span><br></pre></td></tr></table></figure>
+<h2 id="五、解决多分类问题"><a href="#五、解决多分类问题" class="headerlink" title="五、解决多分类问题"></a>五、解决多分类问题</h2><p>我们已经知道，逻辑回归<code>（对数几率回归, Logistic Regression）</code>只能用于解决二分类问题<code>(Binary Classification)</code>，想要解决多分类问题，就需要对逻辑回归进行改进。</p>
+<p>有两种方法可以使得逻辑回归解决多分类任务：</p>
+<ul>
+<li>将多分类问题拆分为多个二分类问题，利用逻辑回归分类器进行投票求解。</li>
+<li>改进逻辑回归的损失函数，使其不再只考虑二分类非1就0的损失，而是具体考虑每个样本的损失，这种方法被称为<code>SoftMax</code>回归。</li>
+</ul>
 <div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_sunny.jpg" alt="tennis数据集-天气晴朗">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/OneVsOneOneVsRest.png" alt="OneVsOne与OneVsRest" style="zoom:60%;">
 </div>
 
-<script type="math/tex; mode=display">
-\text { Ent }(\text { sunn } y)=-\sum_{i=1}^{n} p_{i} \log _{2} p_{i}=-\left(\frac{2}{5} \log _{2} \frac{2}{5}+\frac{3}{5} \log _{2} \frac{3}{5}\right) \approx 0.971</script><div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_overcast.jpg" alt="tennis数据集-阴天">
+<h3 id="5-1-One-vs-Rest"><a href="#5-1-One-vs-Rest" class="headerlink" title="5.1 One vs Rest"></a>5.1 One vs Rest</h3><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png" alt="one_vs_rest" style="zoom:70%;">
 </div>
 
-<script type="math/tex; mode=display">
-\text { Ent(overcast) }=-\sum_{i=1}^{n} p_{i} \log _{2} p_{i}=-\left(\log _{2} 1\right)=0</script><div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_rainy.jpg" alt="tennis数据集-雨天">
+<p><strong>思想</strong>：假设对n种类型的样本进行分类，依次将其中某一类当作<code>正类(positive)</code>，其他剩余的样本归为<code>负类(negtive)</code>，训练n个二元分类器，将待测样本传入这n个分类器中，得概率最高的那个分类器对应的样本类型即认为是该预测样本的类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one_vs_rest</span>(<span class="params">self, X, y, num_labels, learning_rate=<span class="number">1e-3</span>, num_iters=<span class="number">100</span>, batch_size=<span class="number">200</span>, verbose=<span class="literal">True</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;使用 OVR 的思想，分类标准：所得概率最高的那个模型对应的样本类型&quot;&quot;&quot;</span></span><br><span class="line">    X_b = np.hstack([np.ones((<span class="built_in">len</span>(X), <span class="number">1</span>)), X])</span><br><span class="line">    all_theta = np.zeros([X_b.shape[<span class="number">1</span>], num_labels])</span><br><span class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> <span class="built_in">range</span>(num_labels):</span><br><span class="line">        <span class="comment"># 多分类化为二分类的</span></span><br><span class="line">        y_train_t = []</span><br><span class="line">        <span class="comment"># 将当前类别标签设为 1，其他类标签设为 0</span></span><br><span class="line">        <span class="keyword">for</span> jt <span class="keyword">in</span> y:</span><br><span class="line">            <span class="keyword">if</span> jt == it:</span><br><span class="line">                y_train_t.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                y_train_t.append(<span class="number">0</span>)</span><br><span class="line">        self._theta = <span class="literal">None</span></span><br><span class="line">        self.train(X, np.array(y_train_it), learning_rate, num_iters, batch_size, verbose)</span><br><span class="line">        <span class="comment"># 保存每次训练得到的 theta 参数</span></span><br><span class="line">        self.theta[:, it] = self._theta</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_vs_all_predict</span>(<span class="params">self, X</span>):</span></span><br><span class="line">    labels = self.sigmoid(X.dot(self.theta))  <span class="comment"># 结果是保存着归为每个数字的概率</span></span><br><span class="line">    y_pred = np.argmax(labels,axis=<span class="number">1</span>)  <span class="comment"># 返回每行的最大位置的下标</span></span><br><span class="line">    <span class="keyword">return</span> y_pred</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-One-vs-One"><a href="#5-2-One-vs-One" class="headerlink" title="5.2 One vs One"></a>5.2 One vs One</h3><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png" alt="one_vs_one" style="zoom:70%;">
 </div>
 
-<script type="math/tex; mode=display">
-\text { Ent }(\text { rainy })=-\sum_{i=1}^{n} p_{i} \log _{2} p_{i}=-\left(\frac{3}{5} \log _{2} \frac{3}{5}+\frac{2}{5} \log _{2} \frac{2}{5}\right) \approx 0.971</script><p>计算未划分前的信息熵</p>
-<script type="math/tex; mode=display">
-\text { Ent }(\text { Play })=-\sum_{i=1}^{n} p_{i} \log _{2} p_{i}=-\left(\frac{9}{14} \log _{2} \frac{9}{14}+\frac{5}{14} \log _{2} \frac{5}{14}\right) \approx 0.940</script><p>计算使用$outlook$划分造成的信息增益：</p>
-<script type="math/tex; mode=display">
-\begin{array}{c}
-\text { Gain }(\text { Play, Outlook })=\text { Ent }(\text { Play })-\frac{5}{14} \text { Ent }(\text { sunny })-\frac{4}{14} \text { Ent }(\text { overcast })-\frac{5}{14} \text { Ent }(\text { rainy }) \\
-=0.940-0.347-0-0.347=0.2467
-\end{array}</script><script type="math/tex; mode=display">
-\text { Ent }(\text { rainy })=-\sum_{i=1}^{n} p_{i} \log _{2} p_{i}=-\left(\frac{3}{5} \log _{2} \frac{3}{5}+\frac{2}{5} \log _{2} \frac{2}{5}\right) \approx 0.971</script><p>同理计算使用$temp、humidity、windy$分支进行<strong>划分</strong>所产生的<strong>信息增益：</strong></p>
-<ul>
-<li>$Gain(Play, Temperature) - 0.029$</li>
-<li>$Gain(Play, Humidity) - 0.151$</li>
-<li>$Gain(Play, Wind) - 0.048$</li>
-</ul>
-<p>由上述可得，使用<strong>$outlook$</strong>进行划分所产生的<strong>信息增益</strong>最大，所以以天气为根节点，并判断信息熵不为零，需要继续向下划分。所以首先使用$outlook$进行划分：</p>
+<p><strong>思想</strong>：对n种类型的样本进行分类，每次选出22种类型，两两结合，一共有$C_2^n$种二分类情况，使用 $C_2^n$种模型预测样本类型，对预测结果进行投票，出现次数最多的样本类型，即为该样本最终的预测类型。</p>
 <div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/outlook.jpg" alt="使用outlook进行划分">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png" alt="鸢尾花数据分类" style="zoom:80%;">
 </div>
 
-<p>接着使用同样的方法继续寻找$Sunny$分支中的最优划分属性：</p>
-<ul>
-<li>$Gain(Sunny, Humidity) - 0.970951$</li>
-<li>$Gain(Sunny, Windy) - 0.019973$</li>
-<li>$Gain(Sunny, Temperature) - 0.570951$</li>
-</ul>
-<p>$Sunny$分支使用$Humidity$进行划分产生的<strong>信息增益</strong>最大，故使用$Humidity$进行划分。</p>
-<div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/humidity.png" alt="使用humidity进行划分" style="zoom: 50%;">
+<h2 id="六、手写数字识别"><a href="#六、手写数字识别" class="headerlink" title="六、手写数字识别"></a>六、手写数字识别</h2><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/mnist.png" alt="手写数字识别数据集" ">
 </div>
-
-<p>同时可以计算出此时湿度对应的信息熵high、normal均为0，所以当湿度为high时，决定No；当湿度为normal时，决定Yes；此时它就是叶子节点。当天气为Overcast时，根据信息可知，最终决定为Yes。因此，它就是叶子节点。</p>
-<p>接着使用同样的方法继续寻找$Rain$分支中的最优划分属性：</p>
-<ul>
-<li>$Gain(Rainy, Temperature) - 0.019973$</li>
-<li>$Gain(Rainy, Wind) - 0.970951$</li>
-</ul>
-<p>当天气为$Rainy$时信息增益最大的是$Windy$，因此在$Rainy$下通过$Windy$来进行划分。同时，当$Windy$为$True$时决定为$No$，当分为False时决定为$Yes$。</p>
-<p>$Overcast$分支数据已经属于同一类别，故不再做划分。最终构造出的<strong>决策树</strong>：</p>
-<div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/final_tree.png" alt="最终构造出的决策树">
-</div>
-
-<h3 id="1-3-基尼系数"><a href="#1-3-基尼系数" class="headerlink" title="1.3 基尼系数"></a>1.3 基尼系数</h3><p>分类问题中，假设有k​个类，样本点属于第​k​类的概率为$𝑝_𝑘$，则概率分布的基尼系数为:</p>
-<script type="math/tex; mode=display">
-\operatorname{Gini}(D)=\sum_{k=1}^{|y|} \sum_{k^{\prime} \neq k} p_{k} p_{k}^{\prime}=1-\sum_{k=1}^{|y|} p_{k}^{2}</script><p>直观来讲，$Gini(D)$反映了从数据集$D$中随机抽取两个样本，其<strong>类别标记不一致</strong>的概率。因此$Gini(D)$越小，数据集的<strong>纯度越高</strong>。信息熵的计算比基尼系数计算要<strong>慢</strong>，但大多数情况下两者没有太大区别。</p>
-<p>决策树不像线性回归、逻辑回归，需要$OVR、OVO$思想才能解决多分类问题。决策树天生就可解决<strong>多分类</strong>问题，下图是使用<strong>决策树分类器</strong>对<strong>鸢尾花</strong>数据集（后两个特征）进行分类的结果：</p>
-<center class="half">    
-    <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/visual_decision.png" alt="决策边界可视化" width="450"><img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/visual_tree.jpg" alt="二叉树形式决策树可视化" width="350">
-</center>
-
-<h2 id="二、决策树"><a href="#二、决策树" class="headerlink" title="二、决策树"></a>二、决策树</h2><h3 id="2-1-鸢尾花数据集"><a href="#2-1-鸢尾花数据集" class="headerlink" title="2.1 鸢尾花数据集"></a>2.1 鸢尾花数据集</h3><p>鸢尾花数据集是模式识别、机器学习等领域里使用较多的一个数据集，数据集共收集了三类鸢尾花，即Setosa​鸢尾花、Versicolour鸢尾花和Virginica鸢尾花，每一类鸢尾花收集了50条样本记录，共计150条。数据集包括4个属性，分别为花萼的长、花萼的宽、花瓣的长和花瓣的宽。</p>
-<p>该数据集用于利用决策树实现分类。数据显示如下（左图）。其中包含有四个特征属性，取值均为数值型，且具有相同的量纲，第五列为通过前面四列所确定的鸢尾花所属的类别名称。将数据的两个特征表示为X轴、Y轴，第三个或第四个特征课表示为点的大小，最终的可视化数据图如下（右图）：</p>
-<center class="half">    
-    <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris.png" alt="鸢尾花数据集" width="250"> <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_iris_visual.png" alt="数据可视化" width="400">
-</center>
-
-<h3 id="2-2-决策树构造算法"><a href="#2-2-决策树构造算法" class="headerlink" title="2.2 决策树构造算法"></a>2.2 决策树构造算法</h3><p>决策树有三种常用的实现算法：基于信息增益的$ID3$、基于信息增益率的$C4.5$及基于基尼指数的$CART$算法。$scikit-learn$决策树基于$CART$算法。此处用基于信息增益的$ID3$算法生成决策树。信息增益表示信息不确定性的减少程度，即信息增益越大，信息的确定性越高，故而选取信息增益最大的属性作为决策特征。</p>
-<p>通过所给数据集的相应特征求得经验熵和经验条件熵，再利用公式计算信息增益。重复进行，直到所有样本都做出了最终决策并生成完整决策树。</p>
-<h4 id="2-2-1-ID3-算法"><a href="#2-2-1-ID3-算法" class="headerlink" title="2.2.1 $ID3$算法"></a>2.2.1 $ID3$算法</h4><p>$ID3$算法的核心是在决策树各个结点上应用信息增益准则选择特征，递归地构建决策树。</p>
-<p>具体方法是：从根结点(root node)开始，对结点计算所有可能的特征的信息增益，选择信息增益最大的特征作为结点的特征，由该特征的不同取值建立子结点;再对子结点递归地调用以上方法，构建决策树;直到所有特征的信息增益均很小或没有特征可以选择为止。最后得到一棵决策树。$ID3$相当于用极大似然法进行概率模型的选择。</p>
-<h4 id="2-2-2-C4-5-算法"><a href="#2-2-2-C4-5-算法" class="headerlink" title="2.2.2 $C4.5$算法"></a>2.2.2 $C4.5$算法</h4><p>$C4.5$是一系列用在机器学习和数据挖掘的分类问题中的算法。它的目标是监督学习：给定一个数据集，其中的每个元组都能用一个属性值来描述，每一个元组属于一个互斥的类别中的某一类。</p>
-<p>$C4.5$的目标是通过学习，找到一个从属性值到类别的映射关系，并且这个映射能用于对新的类别未知的实体进行分类。$C4.5$算法与$ID3$算法相似，$C4.5$ 算法对$ID3$算法进行了改进。$C4.5$在生成的过程中，用信息增益比来选择特征。</p>
-<h4 id="2-2-3-CART-算法"><a href="#2-2-3-CART-算法" class="headerlink" title="2.2.3 $CART$算法"></a>2.2.3 $CART$算法</h4><p>$CART(Classification And Regression Tree)$算法采用一种二分递归分割的技术，将当前的样本集分为两个子样本集，使得生成的的每个非叶子节点都有两个分支。因此，$CART$算法生成的决策树是结构简洁的二叉树。</p>
-<h3 id="2-3-核心算法描述"><a href="#2-3-核心算法描述" class="headerlink" title="2.3 核心算法描述"></a>2.3 核心算法描述</h3><h4 id="2-3-1-信息熵、信息增益的计算"><a href="#2-3-1-信息熵、信息增益的计算" class="headerlink" title="2.3.1 信息熵、信息增益的计算"></a>2.3.1 信息熵、信息增益的计算</h4><p>（1）计算数据集$D$的信息熵$H(D)$：</p>
-<script type="math/tex; mode=display">
-H(D)=-\sum_{k=1}^{K} \frac{\left|C_{k}\right|}{|D|} \log _{2} \frac{\left|C_{k}\right|}{|D|}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_entropy</span>(<span class="params">self, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 计算信息熵</span></span><br><span class="line"><span class="string">    y: 数据集标签</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    entropy = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 计算每个类别的数量</span></span><br><span class="line">    _, num_ck = np.unique(y, return_counts=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> num_ck:  <span class="comment"># 找到每个类别的数量</span></span><br><span class="line">        p = n / y.shape[<span class="number">0</span>]</span><br><span class="line">        entropy -= p * np.log2(p)  <span class="comment"># 计算信息熵</span></span><br><span class="line">    <span class="keyword">return</span> entropy</span><br></pre></td></tr></table></figure>
-<p>（2）计算特征$A$对数据集$D$的经验条件熵$H(D|A)$：</p>
-<script type="math/tex; mode=display">
-H(D \mid A)=\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} H\left(D_{i}\right)=-\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} \sum_{k=1}^{K} \frac{\left|D_{i k}\right|}{\left|D_{i}\right|} \log _{2} \frac{\left|D_{i k}\right|}{\left|D_{i}\right|}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_condition_entropy</span>(<span class="params">self, X, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 计算条件熵  x: 数据集的某个特征对应的列向量，列表示特征</span></span><br><span class="line"><span class="string">    y: 数据集标签 &quot;&quot;&quot;</span></span><br><span class="line">    cond_entropy = <span class="number">0</span>  <span class="comment"># 初始化条件熵为0</span></span><br><span class="line">    <span class="comment"># 计算特征x可能的取值及对应出现的次数</span></span><br><span class="line">    xval, num_x = np.unique(X, return_counts=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">for</span> V, n <span class="keyword">in</span> <span class="built_in">zip</span>(xval, num_x):  <span class="comment"># 遍历该特征的每个值</span></span><br><span class="line">        y_sub = y[X == V]  <span class="comment"># 该值所对应的划分，相当于把对应值取出来</span></span><br><span class="line">        sub_entropy = self._calc_entropy(y_sub)  <span class="comment"># 计算分支的熵</span></span><br><span class="line">        p = n / y.shape[<span class="number">0</span>]  <span class="comment"># 计算每分支所占比例</span></span><br><span class="line">        cond_entropy += p * sub_entropy  <span class="comment"># 求和</span></span><br><span class="line">    <span class="keyword">return</span> cond_entropy</span><br></pre></td></tr></table></figure>
-<p>（3）计算数据$D$使用特征$A$划分后所产生的信息增益,即划分前的信息熵-划分后的条件熵：</p>
-<script type="math/tex; mode=display">
-g(D, A)=H(D)-H(D \mid A)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_gain_entropy</span>(<span class="params">self, X, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; ID3算法 计算信息增益</span></span><br><span class="line"><span class="string">    x: 数据集的某个特征对应的列向量，训练集中一行表示一个样本，列表示特征  y: 数据集标签  &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> self._calc_entropy(y) – self._calc_condition_entropy(X, y)</span><br></pre></td></tr></table></figure>
-<h4 id="2-3-2-ID3算法"><a href="#2-3-2-ID3算法" class="headerlink" title="2.3.2 ID3算法"></a>2.3.2 ID3算法</h4><center class="half">    
-    <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/id3_1.png" alt="id3算法流程" height="450"> <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/id3_2.png" alt="id3算法流程" height="450">
-</center>
-
-<p>ID3算法的核心是在决策树各个结点上应用<strong>信息增益</strong>准则选择特征，<strong>递归</strong>的构造决策树。构造决策树T的过程：</p>
-<blockquote>
-<p> <strong>输入：</strong>训练数据集<strong>D</strong>、特征集<strong>A</strong>、阈值<strong>𝜖</strong></p>
-<p><strong>输出：</strong>决策树T</p>
-</blockquote>
-<ul>
-<li><ol>
-<li>若当前数据𝐷中所有实例属于同一类𝐶𝑘，则𝑇为叶节点，并将该类别𝐶𝑘作为当前叶节点的类别，返回𝑇；</li>
-<li>若𝐴=空集，则𝑇为单结点树，并将𝐷中实例数最大的类𝐶𝑘（<strong>进行投票</strong>）作为该结点的类标记，返回𝑇；</li>
-<li>否则，计算𝐴中各个特征对数据𝐷的信息增益，选择信息增益最大的特征𝐴𝑔；</li>
-<li>如果𝐴𝑔的信息增益小于阈值𝜀，则置𝑇为叶节点，并将D中实例数最大的类𝐶𝑘（<strong>进行投票</strong>）作为该结点的类标记，返同𝑇；</li>
-<li>否则，对𝐴𝑔每一可能值𝑎𝑖，依𝐴𝑔=𝑎𝑖将𝐷分割为若干非空子集𝐷𝑖，将𝐷𝑖中实例数最大的类作为标记（<strong>进行投票</strong>），构建子结点，由结点及其子结点构成树𝑇，返回𝑇；</li>
-<li>对第𝑖个子结点，以𝐷𝑖为训练集，以𝐴−{𝐴𝑔}为特征集，递归地调用过程（1）∼过程（5），得到子树𝑇𝑖，返回𝑇𝑖。</li>
-</ol>
-</li>
-</ul>
-<h4 id="2-3-3-C4-5算法"><a href="#2-3-3-C4-5算法" class="headerlink" title="2.3.3 C4.5算法"></a>2.3.3 C4.5算法</h4><div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/c45.png" alt="C4.5算法流程" height="400">
-</div>
-
-<p>C4.5算法对ID3算法进行了改进。C4.5在生成的过程中采用<strong>信息增益比/率</strong>来选择特征。</p>
-<blockquote>
-<p> 信息增益比：特征 A对训练数据集D的信息增益比𝑔𝑅(𝐷,𝐴)定义为其信息增益𝑔(𝐷,𝐴)与训练数据集𝐷关于特征𝐴的值的熵𝐻𝐴(𝐷)之比,即：</p>
-<script type="math/tex; mode=display">
-g_{R}(D, A)=\frac{g(D, A)}{H_{A}(D)} \quad H_{A}(D)=-\sum_{i=1}^{n} \frac{\left|D_{i}\right|}{|D|} \log _{2} \frac{\left|D_{i}\right|}{|D|}</script><p>其中，𝑛表示的是特征𝐴取值的个数。</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_gain_ration</span>(<span class="params">self, X, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; C4.5 计算信息增益率/比</span></span><br><span class="line"><span class="string">    x: 数据集的某个特征对应的列向量，训练集中一行表示一个样本，列表示特征</span></span><br><span class="line"><span class="string">    y: 数据集标签</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> self._calc_gain_entropy(X, y) / self._calc_entropy(X)</span><br></pre></td></tr></table></figure>
-<h4 id="2-3-4-CART算法（分类树）"><a href="#2-3-4-CART算法（分类树）" class="headerlink" title="2.3.4 CART算法（分类树）"></a>2.3.4 CART算法（分类树）</h4><p>决策树的生成就是递归地构建二叉决策树的过程。对回归树使用平方误差最小化准则，对分类树用基尼指数 (Gini index) 最小化准则，进行特征选择，生成二叉树。</p>
-<blockquote>
-<p> 基尼系数：分类问题中，假设有K个类，样本点属于第𝑘类的概率为𝑝𝑘,则概率分布的基尼系数定义为：</p>
-<script type="math/tex; mode=display">
-\operatorname { Gini } ( p ) = \sum _ { k = 1 } ^ { K } p _ { k } \left( 1 - p _ { k } \right) = 1 - \sum _ { k = 1 } ^ { K } p _ { k } ^ { 2 }</script><p>对于二分类问题，若样本点属于第1个类的概率是p，则概率分布的基尼系数为:</p>
-<script type="math/tex; mode=display">
-\operatorname { Gini } ( p ) = 2 p ( 1 - p )</script><p>对于给定的样本集合D，其基尼系数为：</p>
-<script type="math/tex; mode=display">
-\operatorname { Gini } ( D ) = 1 - \sum _ { k = 1 } ^ { K } \left( \frac { \left| C _ { k } \right| } { | D | } \right) ^ { 2 }</script></blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_evaluation</span>(<span class="params">self, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot; 计算标签为y的数据集的基尼指数 &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 计算每个类别样本的个数</span></span><br><span class="line">    _, num_ck = np.unique(y, return_counts=<span class="literal">True</span>)</span><br><span class="line">    gini = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> num_ck:</span><br><span class="line">        gini -= (n / y.shape[<span class="number">0</span>]) ** <span class="number">2</span></span><br><span class="line">    <span class="keyword">return</span> gini</span><br></pre></td></tr></table></figure>
-<p>CART算法构造决策二叉树T的过程：</p>
-<ol>
-<li>设结点的训练数据集为$𝐷$，计算现有特征对该数据集的<strong>基尼指数</strong>。此时，对每一个特征$𝐴$，对其可能取的每个值$𝑎$，根据样本点对$𝐴=𝑎$的测试为“是”或“否”将$𝐷$分割成$𝐷_1$和$𝐷_2$两部分；</li>
-<li>在在所有可能的特征$𝐴$以及它们所有可能的切分点$a$中，选择<strong>基尼系数最小</strong>的及其对应的<strong>切分点</strong>作为<strong>最优特征与最优切分点</strong>。依最优特征与最优切分点，从现结点生成两个左右子结点，将<strong>训练数据集</strong>依据特征分配到两个<strong>子结点</strong>中去。</li>
-<li>对其左右子结点递归的调用过程(1)、(2)，直至满足停止条件。</li>
-<li>返回生成的CART决策二叉树。</li>
-</ol>
-<p>使用sklearn中的CART决策树分类器和自己实现的分类树，对聚类数据划分决策边界，并进行对比。可以发现库函数中的分类器是要优于我们自己的决策树分类器。</p>
-<div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/handle_cart.png" alt="分类器对比" height="300">
-</div>
-
-<h4 id="2-3-5-CART算法（回归树）"><a href="#2-3-5-CART算法（回归树）" class="headerlink" title="2.3.5 CART算法（回归树）"></a>2.3.5 CART算法（回归树）</h4><p>假设 $X$ 与$Y$分别为输入和输出变量，并且$Y$是连续变量，给定训练数据集：</p>
-<script type="math/tex; mode=display">
-D = \left\{ \left( x _ { 1 } , y _ { 1 } \right) , \left( x _ { 2 } , y _ { 2 } \right) , \cdots , \left( x _ { N } , y _ { N } \right) \right\}</script><p>一棵回归树对应着输入空间 (即特征空间) 的一个划分以及在划分的单元上的输出值。假设已将输入空间划分$M$个单元$R_1, R_2,……, R_m$，并且在每个单元$R_m$上有一个固定的输出值$C_m$,于是回归树模型可表示为：</p>
-<script type="math/tex; mode=display">
-f ( x ) = \sum _ { m = 1 } ^ { M } c _ { m } I \left( x \in R _ { m } \right)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_division</span>(<span class="params">self, y_left, y_right</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算划分后的平方差&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 计算左右子树平方差</span></span><br><span class="line">    left_evaluation = self._calc_evaluation(y_left)</span><br><span class="line">    right_evaluation = self._calc_evaluation(y_right)</span><br><span class="line">    <span class="comment"># 划分后的平方差</span></span><br><span class="line">    after_divide = left_evaluation + right_evaluation</span><br><span class="line">    <span class="keyword">return</span> after_divide</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_evaluation</span>(<span class="params">self, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;计算平方差&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> np.<span class="built_in">sum</span>(np.power(y - np.mean(y), <span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_calc_node_val</span>(<span class="params">self, y</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;回归树返回标签的平均值作为叶结点的预测值&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> np.mean(y)</span><br></pre></td></tr></table></figure>
-<p>当输入空间的划分确定时，可以使用平方误差来表示回归树对于训练数据的预测误差，用平方误差最小的准则求解每个单元上的最优输出值。使用回归树对波士顿房价进行预测，并计算库函数中的回归树训练准确率对比，优化回归树准确率（左）和优化回归树准确率（右）：</p>
-<center class="half">    
-    <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/regression_tree_1.png" alt="优化回归树准确率" width="350"><img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/regression_tree_2.png" alt="优化回归树准确率" width="350">
-</center>
-
-<h2 id="三、剪枝"><a href="#三、剪枝" class="headerlink" title="三、剪枝"></a>三、剪枝</h2><p>决策树分类器默认是认为<strong>信息熵为</strong>$0$时才停止划分, 极易产生<strong>过拟合</strong>现象。如下图所示，有时候会因为<strong>迁就</strong>一个或几个点，而去产生新的决策，从而导致整个决策树非常庞大，这时候就需要进行剪枝操作，即<strong>“剪”</strong>掉不必要的分支。</p>
-<center class="half">    
-    <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data.png" alt="原数据" width="350"><img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/over_fit.png" alt="过拟合的决策边界" width="350">
-</center>
-
-<h3 id="3-1-预剪枝"><a href="#3-1-预剪枝" class="headerlink" title="3.1 预剪枝"></a>3.1 预剪枝</h3><p>每次划分前后，都要对这次的划分进行评估，下图即使用<strong>验证集</strong>来计算划分前后的分类准确率，只有在准确率时的划分才可进行，否则禁止划分。</p>
-<center class="half">    
-    <img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_gua.jpg" alt="西瓜数据" width="300"><img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/data_clip.png" alt="预剪枝过程" width="300">
-</center>
-
-<h3 id="3-2-后剪枝"><a href="#3-2-后剪枝" class="headerlink" title="3.2 后剪枝"></a>3.2 后剪枝</h3><p>与预剪枝不同，后剪枝是先从训练集生成一颗完整的决策树，然后根据验证集准确率来进行剪枝。即对决策树的非叶子节点，从下到上，使用其领衔的分支进行替换，然后计算剪枝前后的验证集准确率，若有提升，则进行剪枝。</p>
-<h2 id="四、问题及解决办法"><a href="#四、问题及解决办法" class="headerlink" title="四、问题及解决办法"></a>四、问题及解决办法</h2><ul>
-<li>如何判断决策树的泛化能力是否得到提升？</li>
-</ul>
-<blockquote>
-<p> 使用验证集对其进行测试。</p>
-</blockquote>
-<ul>
-<li>如果属性值是连续的怎么办？</li>
-</ul>
-<blockquote>
-<p>此时可采用连续属性离散化的技术，简单的策略就是二分法。将连续属性出现的样本对应的值按升序排列，然后取相邻两个值之间的中点作为一个离散点进行划分。</p>
-</blockquote>
-<ul>
-<li>如果样本的属性值缺失了如何处理？</li>
-</ul>
-<blockquote>
-<p>① 在选择划分属性时，可使用那个属性值完整的样本进行选择</p>
-<p>② 为每一个样本定义一个权重，若样本在该属性处未发生缺失，则按照相应的属性值进入下一个子结点，权重不发生改变；若发生缺失，则划入所有子结点，并更新其权重</p>
-</blockquote>
-<ul>
-<li>训练过程中如何防止过拟合？</li>
-</ul>
-<blockquote>
-<p>剪枝是决策树中防止过拟合的主要方法。大致分为预剪枝和后剪枝两种。预剪枝是在决策树的生成过程中，对每个结点在划分前进行估计，若当前结点的划分不能带来决策树泛化能力的提升，则停止划分并将当前结点标记为叶结点。后剪枝则是先从训练集生成一颗完整的决策树，然后自底向上地对非叶子结点进行考察，若将该结点对应的子树替换为叶结点能提升泛化能力，则进行替换。</p>
-</blockquote>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">《机器学习》 周志华著</a></li>
-</ul>
-
       
 
       
@@ -561,7 +533,7 @@ f ( x ) = \sum _ { m = 1 } ^ { M } c _ { m } I \left( x \in R _ { m } \right)</s
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/" alt="微信分享二维码">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -575,18 +547,18 @@ f ( x ) = \sum _ { m = 1 } ^ { M } c _ { m } I \left( x \in R _ { m } \right)</s
   
 <nav id="article-nav">
   
-    <a href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          机器学习方法(六)：神经网络中的反向传播算法
+          机器学习方法(四)：决策树（Decision Tree）
         
       </div>
     </a>
   
   
-    <a href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">机器学习方法(五)：正则化</div>
+    <a href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">机器学习方法(二)：线性回归</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -613,7 +585,7 @@ f ( x ) = \sum _ { m = 1 } ^ { M } c _ { m } I \left( x \in R _ { m } \right)</s
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%B3%E7%AD%96%E6%A0%91%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、什么是决策树？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%BF%A1%E6%81%AF%E7%86%B5"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 信息熵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 信息增益</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%9F%BA%E5%B0%BC%E7%B3%BB%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 基尼系数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-number">2.</span> <span class="toc-text">二、决策树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 鸢尾花数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%86%B3%E7%AD%96%E6%A0%91%E6%9E%84%E9%80%A0%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 决策树构造算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-ID3-%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 $ID3$算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-C4-5-%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 $C4.5$算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-CART-%E7%AE%97%E6%B3%95"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 $CART$算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%A0%B8%E5%BF%83%E7%AE%97%E6%B3%95%E6%8F%8F%E8%BF%B0"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 核心算法描述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E4%BF%A1%E6%81%AF%E7%86%B5%E3%80%81%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 信息熵、信息增益的计算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-ID3%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 ID3算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-C4-5%E7%AE%97%E6%B3%95"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 C4.5算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-CART%E7%AE%97%E6%B3%95%EF%BC%88%E5%88%86%E7%B1%BB%E6%A0%91%EF%BC%89"><span class="toc-number">2.3.4.</span> <span class="toc-text">2.3.4 CART算法（分类树）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-CART%E7%AE%97%E6%B3%95%EF%BC%88%E5%9B%9E%E5%BD%92%E6%A0%91%EF%BC%89"><span class="toc-number">2.3.5.</span> <span class="toc-text">2.3.5 CART算法（回归树）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%89%AA%E6%9E%9D"><span class="toc-number">3.</span> <span class="toc-text">三、剪枝</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%A2%84%E5%89%AA%E6%9E%9D"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 预剪枝</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%90%8E%E5%89%AA%E6%9E%9D"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 后剪枝</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">4.</span> <span class="toc-text">四、问题及解决办法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%BF%E4%B9%89%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">广义线性模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92"><span class="toc-number">2.</span> <span class="toc-text">一、对数几率回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%86%B3%E7%AD%96%E8%BE%B9%E7%95%8C%EF%BC%88Decision-Boundary%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">二、决策边界（Decision Boundary）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%A3%E4%BB%B7%E5%87%BD%E6%95%B0%EF%BC%88Cost-Function%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">三、代价函数（Cost Function）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E6%B3%95%E6%B1%82%E8%A7%A3"><span class="toc-number">5.</span> <span class="toc-text">四、使用梯度下降法求解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%A7%A3%E5%86%B3%E5%A4%9A%E5%88%86%E7%B1%BB%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">五、解决多分类问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-One-vs-Rest"><span class="toc-number">6.1.</span> <span class="toc-text">5.1 One vs Rest</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-One-vs-One"><span class="toc-number">6.2.</span> <span class="toc-text">5.2 One vs One</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB"><span class="toc-number">7.</span> <span class="toc-text">六、手写数字识别</span></a></li></ol>
                     </div>
                 </span>
             </div>

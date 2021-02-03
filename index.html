@@ -94,7 +94,9 @@ var _hmt = _hmt || [];
 		        
 					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/be-forever-82" title="zhihu"><i class="icon-zhihu"></i></a>
 		        
-					<a class="mail" target="_blank" href="/hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
+					<a class="jianshu" target="_blank" href="https://www.jianshu.com/u/964bc0f1e88e" title="jianshu"><i class="icon-jianshu"></i></a>
+		        
+					<a class="mail" target="_blank" href="mailto:hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
 		        
 			</div>
 		</nav>
@@ -135,7 +137,9 @@ var _hmt = _hmt || [];
 			        
 						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/be-forever-82" title="zhihu"><i class="icon-zhihu"></i></a>
 			        
-						<a class="mail" target="_blank" href="/hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
+						<a class="jianshu" target="_blank" href="https://www.jianshu.com/u/964bc0f1e88e" title="jianshu"><i class="icon-jianshu"></i></a>
+			        
+						<a class="mail" target="_blank" href="mailto:hyyyrwang@gmail.com" title="mail"><i class="icon-mail"></i></a>
 			        
 				</div>
 			</nav>
@@ -358,20 +362,20 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-决策树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/">机器学习方法(四)：决策树（Decision Tree）</a>
+      <a class="article-title" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
     </h1>
   
 
         
-        <a href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2019-08-04T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
+        <a href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2019-08-04T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
 </a>
         
       </header>
@@ -383,14 +387,27 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、什么是决策树？"><a href="#一、什么是决策树？" class="headerlink" title="一、什么是决策树？"></a>一、什么是决策树？</h2><div align="center">
-<img src="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
+        <h2 id="一、过拟合问题"><a href="#一、过拟合问题" class="headerlink" title="一、过拟合问题"></a>一、过拟合问题</h2><div align="center">
+    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_2.png" height="300" alt="线性回归过拟合" style="zoom: 70%;">
+    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_1.png" height="300" alt="逻辑回归过拟合" style="zoom: 70%;">
 </div>
 
-<p>假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十…</p>
-<p>每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的就是为了产生一颗<strong>泛化能力强，即处理未见数据强</strong>的决策树。</p>
+<p>指的是我们设计的模型过度拟合训练集$J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \approx 0$，导致它在训练集上表现很好，但是在测试集上却表现很差，无法泛化到新的样本中，难以对新样本进行预测。</p>
+<p>那么如何预防过拟合？</p>
+<blockquote>
+<p>减少特征的数量    </p>
+<ul>
+<li>人工选择哪些特征应该保留，那些应该舍弃；</li>
+<li>模型选择算法（Model selection algorithm）；</li>
+</ul>
+<p>正则化</p>
+<ul>
+<li>保留所有的特征，但减小参数$(\theta_j)$的幅值；</li>
+<li>当数据有很多特性时，每个特性都对预测y有一点贡献；</li>
+</ul>
+</blockquote>
         
-          <a class="article-more-a" href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/#more">more >></a>
+          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/#more">more >></a>
         
       
 
@@ -418,7 +435,7 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/04/%E5%86%B3%E7%AD%96%E6%A0%91/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">展开全文 >></a>
         </p>
       
 
@@ -449,20 +466,20 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-决策树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
+      <a class="article-title" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/">机器学习方法(四)：决策树（Decision Tree）</a>
     </h1>
   
 
         
-        <a href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2019-08-02T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-02</time>
+        <a href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
+  	<time datetime="2019-08-02T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-02</time>
 </a>
         
       </header>
@@ -474,27 +491,14 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、过拟合问题"><a href="#一、过拟合问题" class="headerlink" title="一、过拟合问题"></a>一、过拟合问题</h2><div align="center">
-    <img src="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_2.png" height="300" alt="线性回归过拟合" style="zoom: 70%;">
-    <img src="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_1.png" height="300" alt="逻辑回归过拟合" style="zoom: 70%;">
+        <h2 id="一、什么是决策树？"><a href="#一、什么是决策树？" class="headerlink" title="一、什么是决策树？"></a>一、什么是决策树？</h2><div align="center">
+<img src="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
 </div>
 
-<p>指的是我们设计的模型过度拟合训练集$J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \approx 0$，导致它在训练集上表现很好，但是在测试集上却表现很差，无法泛化到新的样本中，难以对新样本进行预测。</p>
-<p>那么如何预防过拟合？</p>
-<blockquote>
-<p>减少特征的数量    </p>
-<ul>
-<li>人工选择哪些特征应该保留，那些应该舍弃；</li>
-<li>模型选择算法（Model selection algorithm）；</li>
-</ul>
-<p>正则化</p>
-<ul>
-<li>保留所有的特征，但减小参数$(\theta_j)$的幅值；</li>
-<li>当数据有很多特性时，每个特性都对预测y有一点贡献；</li>
-</ul>
-</blockquote>
+<p>假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十…</p>
+<p>每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的就是为了产生一颗<strong>泛化能力强，即处理未见数据强</strong>的决策树。</p>
         
-          <a class="article-more-a" href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/#more">more >></a>
+          <a class="article-more-a" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/#more">more >></a>
         
       
 
@@ -522,7 +526,285 @@ var _hmt = _hmt || [];
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/02/%E6%AD%A3%E5%88%99%E5%8C%96/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
+    <article id="post-LogisticRegression对数几率回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">机器学习方法(三)：Logistic Regression 对数几率回归</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
+  	<time datetime="2019-07-31T12:11:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-31</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h2><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom:40%;">
+</div>
+
+<p>对于线性回归而言，模型可以简写为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y=w^Tx+b \ \  or \ \ y=θ^Tx(更常用 下面统一用该式子表示) \tag{1}
+\end{equation}</script><p>假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+ln\, y=w^Tx+b \ \ or \ \ ln\, y=θ^Tx\tag{2}
+\end{equation}</script><p>这就是“对数线性回归”<code>(log-linear regression)</code>，如上图中的红线映射到黑色的指数线，这就是广义线性模型的思想。更一般的考虑单调可微函数<code>g(·)</code>，令：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y=g(w^Tx+b) \ \ or \ \ y=g(θ^Tx) \tag{3}
+\end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
+<h2 id="一、对数几率回归"><a href="#一、对数几率回归" class="headerlink" title="一、对数几率回归"></a>一、对数几率回归</h2><p>虽然被称为“回归”，但是对数几率回归<code>(Logistic Regression)</code>不是用来解决回归问题的，而是用来解决分类问题的。对于简单的二分类问题，实际上是样本点到一个值域y∈{0,1}y∈{0,1}的函数，表示这个点分在<code>正类(postive)</code>或者<code>反类(negtive)</code>的概率，若该样本非常可能是<code>正类</code>，那么输出的概率值越接近1；反之，若该样本非常可能是<code>负类</code>，则输出的概率值越接近0。</p>
+<p>而线性回归模型产生的预测值$y=wT+b$是实数值，于是需要一个理想的函数来实现输出实数值z到0/1值的转化。最理想的是单位阶跃函数<code>(uint-step function)</code>：</p>
+<p>而线性回归模型产生的预测值y=wT+by=wT+b是实数值，于是需要一个理想的函数来实现输出实数值zz到0/10/1值的转化。最理想的是单位阶跃函数<code>(uint-step function)</code>：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y=\left\{\begin{array}{ll}
+0, & z<0 \\
+0.5, & z=0 \\
+1, & z>0
+\end{array}\right. \tag{4}
+\end{equation}</script><p>然而该函数不连续，于是我们希望能够找到一个近似单位越界函数，并且单调可微的函数来代替。</p>
+<p>对数几率函数<code>(sigmoid function)</code>正是一个常用的替代函数:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+g(z)=\frac{1}{1+e^{-z}} \tag{5}
+\end{equation}</script><p>它将<code>z</code>的值转化为一个接近<code>0</code>或<code>1</code>的<code>y</code>值，将对数几率函数作为式$(3)$中的$g(·)$，可得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+h_{\theta}(x)=\frac{1}{1+\mathrm{e}^{-\theta^{T_{x}}}} \tag{6}
+\end{equation}</script><p>二者的图像如下图所示：</p>
+<div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/SigmoidFunction.png" alt="Sigmoid函数图像">
+</div>
+
+<p>从上图可以看出，它将$z$值转换为一个接近$0$或$1$的$y$值，我们可以将其视为类$1$的后验概率估计$hθ=P(y=1|x;θ)hθ=P(y=1|x;θ)$，即输入一个测试数据$x$，通过$Sigmoid$函数计算出来的结果即为该点$x$输入类别$1$的概率大小。</p>
+<p>通常我们将$g(z)≥0.5$ 的归为类别$1$，即预测结果$y=1$；$g(z)&lt;0.5$ 的归为类$0$， 即预测结果$y=0$：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\hat{y}=\left\{\begin{array}{ll}
+1, & h_{\theta}(x) \geq 0.5 \\
+0, & h_{\theta}(x)<0.5
+\end{array} \quad h_{\theta}(x)=g\left(\theta^{T} x\right), g(z)=\frac{1}{1+e^{-z}}\right. \tag{7}
+\end{equation}</script><p>对于式 $(1),$ 式 $(6),$ 可变换为 $\ln \frac{y}{1-y}=\theta^{T} x,$ 若将 $y$ 视为样本 $x$ 作为正例的可能性, 则 $1-y$ 是其反例的可能性, 两者的比值 $\frac{y}{1-y}$ 称为几率 $(\mathrm{odds}),$ 反映了 $x$ 作为正例的相对可能性。对几率取对数则得到了对数几率 <code>(log odds，亦称logit)</code>，将 $y$ 视为后验概率估计，重写公式有:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\ln \frac{y}{1-y}=\ln \frac{P(y=1 \mid x)}{P(y=0 \mid x)}=\ln \frac{P(y=1 \mid x)}{1-P(y=1 \mid x)}=\ln \left(\frac{1}{1-P(y=1 \mid x)}-1\right)=\theta^{T} x \tag{8}
+\end{equation}</script><p>由式$(8)$可得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\left\{\begin{array}{l}
+p(y=1 \mid x)=1-\frac{1}{1+e^{\theta T_{x}}}=\frac{e^{\theta^{T} x}}{1+e^{\theta T_{x}}}=\frac{1}{1+e^{-\theta} T_{x}} \\
+p(y=0 \mid x)=\frac{1}{1+e^{\theta^{T} x}}
+\end{array}\right. \tag{9}
+\end{equation}</script><h2 id="二、决策边界（Decision-Boundary）"><a href="#二、决策边界（Decision-Boundary）" class="headerlink" title="二、决策边界（Decision Boundary）"></a>二、决策边界（Decision Boundary）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">决策边界</th>
+<th style="text-align:center">非线性决策边界</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/DecisionBoundary.png" alt="决策边界"></td>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/NonLinearDecisionBoundaries.png" alt="非线性决策边界"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="三、代价函数（Cost-Function）"><a href="#三、代价函数（Cost-Function）" class="headerlink" title="三、代价函数（Cost Function）"></a>三、代价函数（Cost Function）</h2><p>确定逻辑回归的数学形式后, 接下来需要做的就是给定训练集, 通过最小化代价函数, 找出模型的最优参数 $\theta_{\circ}$ 线性回归中的代价函数:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \tag{10}
+\end{equation}</script><p>我们可以类比线性回归, 使用平均误差平方来作为代价函数。</p>
+<p>但是对于逻辑回归而言, $h_{\theta}(x)$ 函数 $\left(h_{\theta}(x)=\frac{1}{1+e^{-\theta T_{x}}}\right)$ 是一个非常复杂的非线性救, 如果将 $\operatorname{Sigmoid}$ 函数带入式 $(9),$ 并画出 $J(\theta)$ 的图像, 你会发现 $J(\theta)$ 是个非凸函数, 这就意味代价函数有着许多的局部最小值, 如下图<code>non-convex</code>所示, 如果将梯度下降法应用到该函数上, 无法保证可以收敘到最小值, 这很不利于我们的求解。</p>
+<div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/non_convex_convex.png" alt="凸函数和非凸函数">
+</div>
+
+<p>因此，通常使用<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=C6a-SMY0H50">极大似然估计</a>来求解，即找到一组参数，使得在这组参数下，我们数据的似然度（概率）最大。</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\left\{\begin{array}{l}
+p(y=1 \mid x)=h_{\theta}(x) \\
+p(y=0 \mid x)=1-h_{\theta}(x)
+\end{array}\right. \tag{11}
+\end{equation}</script><p>式$(11)$可以写成一般形式:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+p(y \mid x ; \theta)=h_{\theta}(x)^{y}\left(1-h_{\theta}(x)\right)^{1-y} \tag{12}
+\end{equation}</script><p>使用极大似然估计得到似然函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+L(\theta)=\prod_{i=1}^{m} p\left(y^{(i)} \mid x^{(i)} ; \theta\right)=\prod_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)^{y^{(i)}}\left(1-h_{\theta}\left(x^{(i)}\right)\right)^{1-y^{(i)}}\right) \tag{13}
+\end{equation}</script><p>为了方便求解，对式$(13)$两边同时取对数，得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{aligned}
+l(\theta) &=\ln L(\theta) \\
+&=\sum_{i=1}^{m}\left[y^{(i)} \ln \left(h_{\theta}\left(x^{(i)}\right)\right)+\left(1-y^{(i)}\right) \ln \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right] \\
+&=\sum_{i=1}^{m}\left[y^{(i)} \ln \frac{h_{\theta}\left(x^{(i)}\right)}{1-h_{\theta}\left(x^{(i)}\right)}+\ln \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right] \\
+&=\sum_{i=1}^{m}\left[y^{(i)}\left(\theta^{T} x\right)-\ln \left(1+e^{\theta^{T} x}\right)\right] 
+\end{aligned} \tag{14}
+\end{equation}</script><p>现在的目标是使得$l(\theta)$最大，则在其基础上使用梯度下降法求解$-l(\theta)$的最小值即可：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+J(\theta)=-l(\theta)=-\frac{1}{m} \sum_{i=1}^{m}[y^{(i)} \ln (h_{\theta}(x^{(i)}))+(1-y^{(i)}) \ln (1-h_{\theta}(x^{(i)}))] \tag{15}
+\end{equation}</script><p>为了更好的理解推导出的代价函数，可以写出代价$Cost(h_\theta(x),y)$与$h_θ$的关系函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\operatorname{Cost}\left(h_{\theta}(x), y\right)=-\operatorname{yln}\left(h_{\theta}(x)\right)+(1-y) \ln \left(1-h_{\theta}(x)\right) \tag{16}
+\end{equation}</script><p>即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\operatorname{Cost}\left(h_{\theta}(x), y\right)=\left\{\begin{array}{ll}
+-\ln \left(h_{\theta}(x)\right) & \text { if } y=1 \\
+-\ln \left(1-h_{\theta}(x)\right) & \text { if } y=0
+\end{array}\right. \tag{17}
+\end{equation}</script><p>绘制该函数图像：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">$−ln(h_\theta(x))$</th>
+<th style="text-align:center">$−ln(1−h_\theta(x))$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function.png" alt="损失函数1"></td>
+<td style="text-align:center"><img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/cost_function_1.png" alt="损失函数2"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>从上图可以看出，如果样本值$y$为$1$的话，预测值$h_\theta(x)$越接近$1$损失越小，反之越大；同样，如果样本值$y$为$0$的话，预测值$h_\theta(x)$越接近0损失越小，反之越大。</p>
+<h2 id="四、使用梯度下降法求解"><a href="#四、使用梯度下降法求解" class="headerlink" title="四、使用梯度下降法求解"></a>四、使用梯度下降法求解</h2><script type="math/tex; mode=display">
+J(\theta)=-\frac{1}{m} \sum_{i=1}^{m}\left[y^{(i)} \ln \left(h_{\theta}\left(x^{(i)}\right)\right)+\left(1-y^{(i)}\right) \ln \left(1-h_{\theta}\left(x^{(i)}\right)\right)\right]</script><p>对式$(5)求导不难发现，$Sigmoid$函数有一个特性，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+g(z)^{\prime}=\frac{-\left(-e^{-z}\right)}{\left(1+e^{-z}\right)^{2}}=\frac{1}{1+e^{-z}} \cdot \frac{e^{-z}}{1+e^{-z}}=\frac{1}{1+e^{-z}} \cdot=(1-\frac{1}{1+e^{-z}}=)=g(x)(1-g(x)) \tag{18}
+\end{equation}</script><p>使用梯度下降法需要先求解梯度：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial J(\theta)}{\theta_{j}} &=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)} \frac{1}{h_{\theta}\left(x^{(i)}\right)}-\left(1-y^{(i)}\right) \frac{1}{1-h_{\theta}\left(x^{(i)}\right)}\right) \frac{\partial\left(h_{\theta}\left(x^{(i)}\right)\right)}{\partial \theta_{j}} \\
+&=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)} \frac{1}{h_{\theta}\left(x^{(i)}\right)}-\left(1-y^{(i)}\right) \frac{1}{1-h_{\theta}\left(x^{(i)}\right)}\right) h_{\theta}\left(x^{(i)}\right)\left(1-h_{\theta}\left(x^{(i)}\right)\right) \frac{\partial\left(\theta_{j}^{T} x^{(i)}\right)}{\partial \theta_{j}} \\
+&=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)}\left(1-h_{\theta}\left(x^{(i)}\right)-\left(1-y^{(i)}\right) h_{\theta}\left(x^{(i)}\right)\right) x_{j}^{(i)}\right.\\
+&=-\frac{1}{m} \sum_{i=1}^{m}\left(y^{(i)}-h_{\theta}(x^{(i)})\right) x_{j}^{(i)})
+\end{aligned}</script><p>公式最终简化如下如下：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\frac{\partial J(\theta)}{\theta_{j}}=-\frac{1}{m} \sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)}) x_{j}^{(i)}=\frac{1}{m} \sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}) x_{j}^{(i)} \tag{19}
+\end{equation}</script><p>梯度下降法更新权重：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\theta_{j}:=\theta_{j}+\eta \sum_{i=1}^{m}(y^{(i)}-h_{\theta}(x^{(i)})) x_{j}^{(i)} \tag{20}
+\end{equation}</script><p>或：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\theta_{j}:=\theta_{j}-\eta \sum_{i=1}^{m}(h_{\theta}(x^{(i)})-y^{(i)}) x_{j}^{(i)} \tag{20}
+\end{equation}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># calculation J</span></span><br><span class="line">z = X * theta.T</span><br><span class="line">t = -y.T * log(sigmoid(z)) - (<span class="number">1</span> - y.T) * log(<span class="number">1</span> - sigmoid(z))</span><br><span class="line">J = t / m</span><br><span class="line"> </span><br><span class="line"><span class="comment"># calculation grad</span></span><br><span class="line">grad_t = (sigmoid(z) - y)</span><br><span class="line">grad = (X.T * grad_t ) / m</span><br></pre></td></tr></table></figure>
+<h2 id="五、解决多分类问题"><a href="#五、解决多分类问题" class="headerlink" title="五、解决多分类问题"></a>五、解决多分类问题</h2><p>我们已经知道，逻辑回归<code>（对数几率回归, Logistic Regression）</code>只能用于解决二分类问题<code>(Binary Classification)</code>，想要解决多分类问题，就需要对逻辑回归进行改进。</p>
+<p>有两种方法可以使得逻辑回归解决多分类任务：</p>
+<ul>
+<li>将多分类问题拆分为多个二分类问题，利用逻辑回归分类器进行投票求解。</li>
+<li>改进逻辑回归的损失函数，使其不再只考虑二分类非1就0的损失，而是具体考虑每个样本的损失，这种方法被称为<code>SoftMax</code>回归。</li>
+</ul>
+<div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/OneVsOneOneVsRest.png" alt="OneVsOne与OneVsRest" style="zoom:60%;">
+</div>
+
+<h3 id="5-1-One-vs-Rest"><a href="#5-1-One-vs-Rest" class="headerlink" title="5.1 One vs Rest"></a>5.1 One vs Rest</h3><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovr.png" alt="one_vs_rest" style="zoom:70%;">
+</div>
+
+<p><strong>思想</strong>：假设对n种类型的样本进行分类，依次将其中某一类当作<code>正类(positive)</code>，其他剩余的样本归为<code>负类(negtive)</code>，训练n个二元分类器，将待测样本传入这n个分类器中，得概率最高的那个分类器对应的样本类型即认为是该预测样本的类型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">one_vs_rest</span>(<span class="params">self, X, y, num_labels, learning_rate=<span class="number">1e-3</span>, num_iters=<span class="number">100</span>, batch_size=<span class="number">200</span>, verbose=<span class="literal">True</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;使用 OVR 的思想，分类标准：所得概率最高的那个模型对应的样本类型&quot;&quot;&quot;</span></span><br><span class="line">    X_b = np.hstack([np.ones((<span class="built_in">len</span>(X), <span class="number">1</span>)), X])</span><br><span class="line">    all_theta = np.zeros([X_b.shape[<span class="number">1</span>], num_labels])</span><br><span class="line">    <span class="keyword">for</span> it <span class="keyword">in</span> <span class="built_in">range</span>(num_labels):</span><br><span class="line">        <span class="comment"># 多分类化为二分类的</span></span><br><span class="line">        y_train_t = []</span><br><span class="line">        <span class="comment"># 将当前类别标签设为 1，其他类标签设为 0</span></span><br><span class="line">        <span class="keyword">for</span> jt <span class="keyword">in</span> y:</span><br><span class="line">            <span class="keyword">if</span> jt == it:</span><br><span class="line">                y_train_t.append(<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                y_train_t.append(<span class="number">0</span>)</span><br><span class="line">        self._theta = <span class="literal">None</span></span><br><span class="line">        self.train(X, np.array(y_train_it), learning_rate, num_iters, batch_size, verbose)</span><br><span class="line">        <span class="comment"># 保存每次训练得到的 theta 参数</span></span><br><span class="line">        self.theta[:, it] = self._theta</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">on_vs_all_predict</span>(<span class="params">self, X</span>):</span></span><br><span class="line">    labels = self.sigmoid(X.dot(self.theta))  <span class="comment"># 结果是保存着归为每个数字的概率</span></span><br><span class="line">    y_pred = np.argmax(labels,axis=<span class="number">1</span>)  <span class="comment"># 返回每行的最大位置的下标</span></span><br><span class="line">    <span class="keyword">return</span> y_pred</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-One-vs-One"><a href="#5-2-One-vs-One" class="headerlink" title="5.2 One vs One"></a>5.2 One vs One</h3><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/ovo.png" alt="one_vs_one" style="zoom:70%;">
+</div>
+
+<p><strong>思想</strong>：对n种类型的样本进行分类，每次选出22种类型，两两结合，一共有$C_2^n$种二分类情况，使用 $C_2^n$种模型预测样本类型，对预测结果进行投票，出现次数最多的样本类型，即为该样本最终的预测类型。</p>
+<div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/iris.png" alt="鸢尾花数据分类" style="zoom:80%;">
+</div>
+
+<h2 id="六、手写数字识别"><a href="#六、手写数字识别" class="headerlink" title="六、手写数字识别"></a>六、手写数字识别</h2><div align="center">
+<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/mnist.png" alt="手写数字识别数据集" ">
+</div>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">展开全文 >></a>
         </p>
       
 
@@ -708,434 +990,9 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
 <li>vl(j)最晚开始时间</li>
 </ul>
 <p><strong>在下面的计算过程中，就可以理解这些属性的概念了</strong></p>
-<hr>
-<h2 id="二、计算关键路径的过程"><a href="#二、计算关键路径的过程" class="headerlink" title="二、计算关键路径的过程"></a>二、计算关键路径的过程</h2><p><strong>原理</strong>：</p>
-<ol>
-<li>先求出每个顶点的ve和vl值</li>
-<li>通过这两个值就可以求出每条边的e和l值。</li>
-<li>取e(i)=l(i)的边就是<code>关键路径上的边</code>，关键路径不止一条</li>
-</ol>
-<div align="center">
-<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
-</div>
-
-<h3 id="2-1-求ve-i-的值"><a href="#2-1-求ve-i-的值" class="headerlink" title="2.1 求ve(i)的值"></a>2.1 求ve(i)的值</h3><ol>
-<li>从前向后，直接前驱节点的ve值＋当前节点的边的权值（有可能多条，取最大值）</li>
-<li>第一个顶点的ve等于0</li>
-</ol>
-<ul>
-<li>ve(1) = 0</li>
-<li>ve(2) = ve(1) + len(a1) = 0 + 3 = 3</li>
-<li>ve(3) = ve(1) + len(a3) = 0 + 2 = 2</li>
-<li>ve(4) = ve(1) + len(a2) = 0 + 6 = 6</li>
-<li>ve(5) = min{ve(2) + len(a4),ve(4) + len(a8)} = max{7,7} = 7</li>
-<li>ve(6) = ve(3) + len(a7) = 2 + 3 = 5</li>
-<li>ve(7) = min{ve(a5) + len(a9),ve(6) + len(a10)} = max{10,9} = 10</li>
-</ul>
-<p>下表为各顶点（事件）的ve值：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">顶点</th>
-<th style="text-align:center">ve(1)</th>
-<th style="text-align:center">ve(2)</th>
-<th style="text-align:center">ve(3)</th>
-<th style="text-align:center">ve(4)</th>
-<th style="text-align:center">ve（5)</th>
-<th style="text-align:center">ve(6)</th>
-<th style="text-align:center">ve(7)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">ve(i)</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">10</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div align="center">
-<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
-</div>
-
-<h3 id="2-2-求vl-j-的值"><a href="#2-2-求vl-j-的值" class="headerlink" title="2.2 求vl(j)的值"></a>2.2 求vl(j)的值</h3><ol>
-<li>从后向前，直接后继节点的vl值－当前节点的边的权值（有可能多条，取最小值）</li>
-<li>终结点的vl等于它的ve</li>
-</ol>
-<ul>
-<li>vl(7) = ve(7) = 10</li>
-<li>vl(6) = vl(7) - len(a10) = 10 - 4 = 6</li>
-<li>vl(5) = vl(7) - len(a9) = 10 - 3 = 7</li>
-<li>vl(4) = vl(5) - len(a8) = 7 - 1 = 6</li>
-<li>vl(3) = min{<code>vl(6) - len(a7)</code>,<code>vl(4) - len(a6)</code>} = min{3,5} = 3</li>
-<li>vl(2) = min{<code>vl(5) - len(a4)</code>,<code>vl(4) - len(a5)</code>} = {3,4} = 3</li>
-<li>vl(1) = min{<code>vl(2) - len(a1)</code>,<code>vl(4) - len(a2)</code>,<code>vl(3) - len(a3)</code>} = min{0,0,1} = 0</li>
-</ul>
-<p>下表为各顶点（事件）的vl值：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">顶点</th>
-<th style="text-align:center">vl(1)</th>
-<th style="text-align:center">vl(2)</th>
-<th style="text-align:center">vl(3)</th>
-<th style="text-align:center">vl(4)</th>
-<th style="text-align:center">vl(5)</th>
-<th style="text-align:center">vl(6)</th>
-<th style="text-align:center">vl(7)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">vl(j)</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">10</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div align="center">
-<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
-</div>
-
-<h3 id="2-3-求e-i-的值"><a href="#2-3-求e-i-的值" class="headerlink" title="2.3 求e(i)的值"></a>2.3 求e(i)的值</h3><p>e(i):活动ai是由弧<vk,vj>表示，则活动的最早开始时间应该和事件vk的最早发生时间相等，因此，就有e(i)=ve(k)。即：<code>边（活动）的最早开始时间等于它发出的顶点(事件)的的最早发生时间</code></vk,vj></p>
-<p>参考之前的个顶点的ve和c：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">顶点</th>
-<th style="text-align:center">ve</th>
-<th style="text-align:center">vl</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">v1</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-</tr>
-<tr>
-<td style="text-align:center">v2</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3</td>
-</tr>
-<tr>
-<td style="text-align:center">v3</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">3</td>
-</tr>
-<tr>
-<td style="text-align:center">v4</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">6</td>
-</tr>
-<tr>
-<td style="text-align:center">v5</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">7</td>
-</tr>
-<tr>
-<td style="text-align:center">v6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">6</td>
-</tr>
-<tr>
-<td style="text-align:center">v7</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">10</td>
-</tr>
-</tbody>
-</table>
-</div>
-<ul>
-<li>e(1)、e(2)、e(3) 活动（a1、a2、a3三条边）发出的顶点为v1，时间为0</li>
-<li>e(4) 即为<code>a4</code>这条边发出的顶点 <code>v2</code>的发生的时间<code>ve(2)</code> = 3</li>
-<li>e(5) 即为<code>a5</code>这条边发出的顶点 <code>v2</code>的发生的时间<code>ve(2)</code> = 3</li>
-<li>e(6) 即为<code>a6</code>这条边发出的顶点 <code>v3</code>的发生的时间<code>ve(3)</code> = 2</li>
-<li>e(7) 即为<code>a7</code>这条边发出的顶点 <code>v3</code>的发生的时间<code>ve(3)</code> = 2</li>
-<li>e(8) 即为<code>a8</code>这条边发出的顶点 <code>v4</code>的发生的时间<code>ve(4)</code> = 6</li>
-<li>e(9) 即为<code>a9</code>这条边发出的顶点 <code>v5</code>的发生的时间<code>ve(5)</code> = 7</li>
-<li>e(10) 即为<code>a10</code>这条边发出的顶点 <code>v6</code>的发生的时间<code>ve(6)</code> = 5</li>
-</ul>
-<p>得出的e(i)值：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">边</th>
-<th style="text-align:center">a1(3)</th>
-<th style="text-align:center">a2(6)</th>
-<th style="text-align:center">a3(2)</th>
-<th style="text-align:center">a4(4)</th>
-<th style="text-align:center">a5(2)</th>
-<th style="text-align:center">a6(1)</th>
-<th style="text-align:center">a7(3)</th>
-<th style="text-align:center">a8(1)</th>
-<th style="text-align:center">a9(3)</th>
-<th style="text-align:center">a10(4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">e(i)</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">5</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div align="center">
-<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/example.png" alt="关键路径例图">
-</div>
-
-
-<h3 id="2-4-求l-i-的值"><a href="#2-4-求l-i-的值" class="headerlink" title="2.4 求l(i)的值"></a>2.4 求l(i)的值</h3><p>l(i):活动ai是由弧<vk,vj>表示，则ai的最晚发生时间要保证vj的最迟发生时间不拖后（vj最迟发生时间为9的话，ai的最迟时间就必须是 9-活动耗时 ）。因此，l(i)=vl(i)-len<vk,vj>，即：活动到达顶点的最晚发生时间减去边的权重</vk,vj></vk,vj></p>
-<p>参考之前的个顶点的ve和c：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">顶点</th>
-<th style="text-align:center">ve</th>
-<th style="text-align:center">vl</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">v1</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-</tr>
-<tr>
-<td style="text-align:center">v2</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3</td>
-</tr>
-<tr>
-<td style="text-align:center">v3</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">3</td>
-</tr>
-<tr>
-<td style="text-align:center">v4</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">6</td>
-</tr>
-<tr>
-<td style="text-align:center">v5</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">7</td>
-</tr>
-<tr>
-<td style="text-align:center">v6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">6</td>
-</tr>
-<tr>
-<td style="text-align:center">v7</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">10</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><code>l(i) = 当前边的指向结点的最晚发生时间[vl(i)] - 当前时间（即边）所消耗的时间</code></p>
-<ul>
-<li>l(1) = vl(2) - len(a1) = 3 - 3 = 0</li>
-<li>l(2) = vl(4) - len(a2) = 6 - 6 = 0</li>
-<li>l(3) = vl(3) - len(a3) = 3 - 2 = 1</li>
-<li>l(4) = vl(5) - len(a4) = 7 - 4 = 3</li>
-<li>l(5) = vl(4) - len(a5) = 6 - 2 = 4</li>
-<li>l(6) = vl(4) - len(a6) = 6 - 1 = 5</li>
-<li>l(7) = vl(6) - len(a7) = 6 - 3 = 3</li>
-<li>l(8) = vl(5) - len(a8) = 7 - 1 = 6</li>
-<li>l(9) = vl(7) - len(a9) = 10 - 3 = 7</li>
-<li>l(10) = vl(7) - len(a10) = 10 - 4 = 6</li>
-</ul>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">边</th>
-<th style="text-align:center">a1(3)</th>
-<th style="text-align:center">a2(6)</th>
-<th style="text-align:center">a3(2)</th>
-<th style="text-align:center">a4(4)</th>
-<th style="text-align:center">a5(2)</th>
-<th style="text-align:center">a6(1)</th>
-<th style="text-align:center">a7(3)</th>
-<th style="text-align:center">a8(1)</th>
-<th style="text-align:center">a9(3)</th>
-<th style="text-align:center">a10(4)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">l(i)</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">6</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="2-5-求出关键边和关键路径"><a href="#2-5-求出关键边和关键路径" class="headerlink" title="2.5 求出关键边和关键路径"></a>2.5 求出关键边和关键路径</h3><p>列出总表：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">顶点</th>
-<th style="text-align:center">ve</th>
-<th style="text-align:center">vl</th>
-<th style="text-align:center">活动</th>
-<th style="text-align:center">e</th>
-<th style="text-align:center">l</th>
-<th style="text-align:center">l - e</th>
-<th style="text-align:center">关键路径</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">v1</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">a1</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center">v2</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">a2</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center">v3</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">a3</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">v4</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">a4</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center">v5</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">a5</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">v6</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">a6</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">v7</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">10</td>
-<td style="text-align:center">a7</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">a8</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">a9</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">7</td>
-<td style="text-align:center">0</td>
-<td style="text-align:center">√</td>
-</tr>
-<tr>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">a10</td>
-<td style="text-align:center">5</td>
-<td style="text-align:center">6</td>
-<td style="text-align:center">1</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>其中<code>e(i)==l(i)的边</code>：a1 a2 a4 a8 a9</p>
-<p><code>所组成的路径即为关键路径</code>：a1-&gt;a4-&gt;a9 和 a2-&gt;a8-&gt;a9</p>
-<h2 id="三、代码："><a href="#三、代码：" class="headerlink" title="三、代码："></a>三、代码：</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdio.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;stdlib.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> M 20 <span class="comment">/*预定义图的最大顶点数*/</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;string.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span>   <span class="comment">//边表结点</span></span><br><span class="line">    <span class="keyword">int</span> adjvex; <span class="comment">//邻接点</span></span><br><span class="line">    <span class="keyword">int</span> len;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; edgenode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">vnode</span></span></span><br><span class="line"><span class="class">&#123;</span>   <span class="comment">//头节点类型</span></span><br><span class="line">    <span class="keyword">char</span> vertex;    <span class="comment">//顶点信息</span></span><br><span class="line">    edgenode *firstedge; <span class="comment">//邻接表表头指针</span></span><br><span class="line">    <span class="keyword">int</span> id;</span><br><span class="line">&#125; vertexnode;</span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></span><br><span class="line"><span class="class">&#123;</span>   <span class="comment">//邻接表类型</span></span><br><span class="line">    vertexnode adjlist[M]; <span class="comment">//存放头节点的顺序表</span></span><br><span class="line">    <span class="keyword">int</span> n, e;   <span class="comment">//图的顶点数与边数</span></span><br><span class="line">&#125; linkedgraph;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> visited[M];</span><br><span class="line"></span><br><span class="line"><span class="function">linkedgraph <span class="title">create</span><span class="params">(<span class="keyword">char</span> *filename, <span class="keyword">int</span> c)</span> <span class="comment">//c = 0表示创建无向图</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    linkedgraph g;</span><br><span class="line">    <span class="keyword">int</span> i, j, k;</span><br><span class="line">    <span class="keyword">int</span> weight = <span class="number">0</span>; <span class="comment">//边的权值</span></span><br><span class="line">    edgenode *s;</span><br><span class="line">    FILE *fp;</span><br><span class="line">    fp = fopen(filename, <span class="string">&quot;r&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (fp)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fscanf</span>(fp, <span class="string">&quot;%d%d\n&quot;</span>, &amp;g.n, &amp;g.e);</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; g.n; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fscanf</span>(fp, <span class="string">&quot;%c%d &quot;</span>, &amp;g.adjlist[i].vertex, &amp;g.adjlist[i].id);</span><br><span class="line">            g.adjlist[i].firstedge = <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (k = <span class="number">0</span>; k &lt; g.e; k++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fscanf</span>(fp, <span class="string">&quot;%d%d%d&quot;</span>, &amp;i, &amp;j, &amp;weight);</span><br><span class="line">            s = (edgenode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(edgenode));</span><br><span class="line">            s-&gt;adjvex = j;</span><br><span class="line">            s-&gt;len = weight;</span><br><span class="line">            s-&gt;next = g.adjlist[i].firstedge;</span><br><span class="line">            g.adjlist[i].firstedge = s;</span><br><span class="line">            <span class="keyword">if</span> (c == <span class="number">0</span>) <span class="comment">//无向图</span></span><br><span class="line">            &#123;</span><br><span class="line">                s = (edgenode *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(edgenode));</span><br><span class="line">                s-&gt;adjvex = i;</span><br><span class="line">                s-&gt;len = weight;</span><br><span class="line">                s-&gt;next = g.adjlist[j].firstedge;</span><br><span class="line">                g.adjlist[i].firstedge = s;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        fclose(fp); <span class="comment">//关闭文件流</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        g.n = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;文件打开失败！\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> g;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//求AOE网络中时间的最早发生时间</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">事件最早发生的事件向量ve[],AOE网络的拓扑排序向量seq[]</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">EarlistTime</span><span class="params">(linkedgraph *gout, <span class="keyword">int</span> ve[], <span class="keyword">int</span> seq[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>; <span class="comment">//计数器</span></span><br><span class="line">    <span class="keyword">int</span> flag[M];   <span class="comment">//定义标记数组</span></span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">queue</span>[M];  <span class="comment">//定义队列</span></span><br><span class="line">    <span class="keyword">int</span> front = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> rear = <span class="number">0</span>;</span><br><span class="line">    edgenode *p;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gout-&gt;n; i++) <span class="comment">//初始化每个顶点的最早开始时间ve[i]为0</span></span><br><span class="line">        ve[i] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; gout-&gt;n; j++) <span class="comment">//初始化标记数组</span></span><br><span class="line">        flag[j] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gout-&gt;n; i++)</span><br><span class="line">        <span class="keyword">if</span> (gout-&gt;adjlist[i].id == <span class="number">0</span> &amp;&amp; flag[i] == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">queue</span>[rear++] = i;</span><br><span class="line">            flag[i] = <span class="number">1</span>; <span class="comment">//标记被访问过</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">while</span> (front &lt; rear)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> v = <span class="built_in">queue</span>[front++]; <span class="comment">//队首元素出栈</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c-----&gt;&quot;</span>, gout-&gt;adjlist[v].vertex);</span><br><span class="line">        seq[count] = v; <span class="comment">//记录拓扑排序当前元素</span></span><br><span class="line">        count++;		<span class="comment">//计数器 + 1</span></span><br><span class="line">        p = gout-&gt;adjlist[v].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (--gout-&gt;adjlist[j].id == <span class="number">0</span> &amp;&amp; flag[j] == <span class="number">0</span>) <span class="comment">//若入度为0则将其入队</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">queue</span>[rear++] = j;</span><br><span class="line">                flag[j] = <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ve[v] + p-&gt;len &gt; ve[j])</span><br><span class="line">                ve[j] = ve[v] + p-&gt;len; <span class="comment">//ve[j]的值是从源点到顶点j的最长距离</span></span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> count;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//求AOE网络中时间的最晚发生时间</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Aov网的入边表gin，事件发生</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LateTime</span><span class="params">(linkedgraph *gin, <span class="keyword">int</span> ve[], <span class="keyword">int</span> vl[], <span class="keyword">int</span> seq[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = gin-&gt;n - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> v = <span class="number">0</span>;</span><br><span class="line">    edgenode *p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gin-&gt;n; i++)</span><br><span class="line">        vl[i] = ve[seq[gin-&gt;n - <span class="number">1</span>]];</span><br><span class="line">    <span class="keyword">while</span> (k &gt; <span class="number">-1</span>) <span class="comment">//按照拓扑排序求个事件的最晚开始时间</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//v = seq[k];</span></span><br><span class="line">        p = gin-&gt;adjlist[k].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (vl[j] - p-&gt;len &lt; vl[k])</span><br><span class="line">                vl[k] = vl[j] - p-&gt;len;</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        k--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">LateTime2</span><span class="params">(linkedgraph *gin, <span class="keyword">int</span> ve[], <span class="keyword">int</span> vl[], <span class="keyword">int</span> seq[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = gin-&gt;n - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> v = <span class="number">0</span>;</span><br><span class="line">    edgenode *p = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; gin-&gt;n; i++)</span><br><span class="line">        vl[i] = ve[seq[gin-&gt;n - <span class="number">1</span>]];</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n拓扑排序序列：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d-----&gt;&quot;</span>, seq[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (k &gt; <span class="number">-1</span>) <span class="comment">//按照拓扑排序求个事件的最晚开始时间</span></span><br><span class="line">    &#123;</span><br><span class="line">        v = seq[k];</span><br><span class="line">        p = gin-&gt;adjlist[v].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> ((vl[j] - p-&gt;len) &lt; vl[v])</span><br><span class="line">                vl[v] = vl[j] - p-&gt;len;</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        k--;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">TopSort</span><span class="params">(linkedgraph *g)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">0</span>, i, j, v, flag[M];</span><br><span class="line">    <span class="keyword">int</span> <span class="built_in">queue</span>[M]; <span class="comment">//定义队列</span></span><br><span class="line">    <span class="keyword">int</span> front, rear;</span><br><span class="line">    edgenode *p;</span><br><span class="line">    front = rear = <span class="number">0</span>; <span class="comment">//初始化队列</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; g-&gt;n; i++)</span><br><span class="line">        flag[i] = <span class="number">0</span>; <span class="comment">//访问标记初始化</span></span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; g-&gt;n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (g-&gt;adjlist[i].id == <span class="number">0</span> &amp;&amp; flag[i] == <span class="number">0</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">queue</span>[rear++] = i;</span><br><span class="line">            flag[i] = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n该AOV网的拓扑排序为：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (front &lt; rear) <span class="comment">// 如果当前队列不为空</span></span><br><span class="line">    &#123;</span><br><span class="line">        v = <span class="built_in">queue</span>[front++]; <span class="comment">//队列首位元素出列</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c &quot;</span>, g-&gt;adjlist[v].vertex);</span><br><span class="line">        k++; <span class="comment">//计数器加1</span></span><br><span class="line">        p = g-&gt;adjlist[v].firstedge;</span><br><span class="line">        <span class="keyword">while</span> (p) <span class="comment">//将所有于v邻接的顶点的入度减1</span></span><br><span class="line">        &#123;</span><br><span class="line">            j = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (--g-&gt;adjlist[j].id == <span class="number">0</span> &amp;&amp; flag[j] == <span class="number">0</span>) <span class="comment">//如果入度为0则将进队</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">queue</span>[rear++] = j;</span><br><span class="line">                flag[j] = <span class="number">1</span>; <span class="comment">//标记已经被访问过</span></span><br><span class="line">            &#125;</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> k; <span class="comment">//返回输出的结点个数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> number = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> ve[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;;  <span class="comment">//时间最早发生时间向量</span></span><br><span class="line">    <span class="keyword">int</span> vl[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;;  <span class="comment">//时间晚发生时间向量</span></span><br><span class="line">    <span class="keyword">int</span> seq[<span class="number">10</span>] = &#123; <span class="number">0</span> &#125;; <span class="comment">//拓扑排序向量</span></span><br><span class="line">    <span class="keyword">char</span> filename[<span class="number">30</span>] = <span class="string">&quot;D:\\Desktop\\Test.txt&quot;</span>;</span><br><span class="line">    linkedgraph h;</span><br><span class="line">    h = create(filename, <span class="number">1</span>);</span><br><span class="line">    number = EarlistTime(&amp;h, ve, seq);</span><br><span class="line">    LateTime2(&amp;h, ve, vl, seq);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;时间最早发生时间向量：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d-----&gt;&quot;</span>, ve[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;时间最晚发生时间向量：\n&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d-----&gt;&quot;</span>, vl[i]);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;关键路径为:\n&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> m, i,n;</span><br><span class="line">    <span class="keyword">int</span> earlist[<span class="number">15</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    <span class="keyword">int</span> late[<span class="number">15</span>] = &#123; <span class="number">0</span> &#125;;</span><br><span class="line">    m = <span class="number">0</span>;</span><br><span class="line">    n = <span class="number">0</span>;</span><br><span class="line">    vertexnode vert;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; h.n; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        edgenode *p = h.adjlist[i].firstedge;</span><br><span class="line">        vert = h.adjlist[i];</span><br><span class="line">        <span class="keyword">while</span> (p)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">int</span> k = p-&gt;adjvex;</span><br><span class="line">            <span class="keyword">if</span> (ve[i] == vl[k] - p-&gt;len)</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">&quot;%c-&quot;</span>, vert.vertex);</span><br><span class="line">            p = p-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, vert.vertex);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="四、文件格式"><a href="#四、文件格式" class="headerlink" title="四、文件格式"></a>四、文件格式</h2><div align="center">
-<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/result_1.png" alt="文件格式">
-</div>
-
-<h2 id="五、输出结果："><a href="#五、输出结果：" class="headerlink" title="五、输出结果："></a>五、输出结果：</h2><div align="center">
-<img src="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/result_2.png" alt="输出结果">
-</div>
+        
+          <a class="article-more-a" href="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/#more">more >></a>
+        
       
 
       
