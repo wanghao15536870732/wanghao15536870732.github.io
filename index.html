@@ -190,15 +190,24 @@ var _hmt = _hmt || [];
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="语义分割网络"><a href="#语义分割网络" class="headerlink" title="语义分割网络"></a>语义分割网络</h2><p><strong>SegNet:</strong> A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation（一种用于图像分割的深度卷积编码器/解码器架构）<strong>，</strong>也称为语义像素分割。该网络由一个编码器网络，一个相应的解码器网络，以及一个像素分类层组成[1]。对输入图像进行低维编码，然后在解码器中利用方向不变性能力恢复图像。SegNet的创新之处在于解码器对较低分辨率的特征图进行上采样的方式。SegNet的网络结构如下图所示。</p>
+        <h2 id="一、数据来源"><a href="#一、数据来源" class="headerlink" title="一、数据来源"></a>一、数据来源</h2><h3 id="1-1-指导教师提供的数据"><a href="#1-1-指导教师提供的数据" class="headerlink" title="1.1 指导教师提供的数据"></a>1.1 指导教师提供的数据</h3><p>共包含5张大尺寸（21184x21279）的卫星原图及其所对应同样大小的建筑、道路、水体和植被的标记图，我们不能直接把这些图像送入网络进行训练，因为内存承受不了，而且他们的尺寸也各不相同。因此，首先将他们做随机切割，即随机生成(x,y)坐标，然后抠出该坐标下256x256的小图，并做一些常见的数据增强操作，使得更适合训练我们的网络，最终获取到5000张256x256大小的训练数据，其中部分数据如下图所示。</p>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/Segnet.png" alt="Segnet网络结构" width="800">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_1.png" alt="部分数据集" style="zoom:60%;">
 </div>
 
-<p>左边通过卷积提取特征，并通过pooling 增大感受野，同时图片缩小，该过程成为Encoder。右边是反卷积与upsampling，通过反卷积使得图像分类后特征得以重现，upsampling还原到图像原始尺寸，该过程称为Decoder。每个编码器层都对应一个解码器层，最终解码器的输出被送入soft-max分类器以独立的为每个像素产生类概率。编码器/解码器体系结构如下图所示。</p>
+<blockquote>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw">https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw</a> 提取码：bvuq</p>
+</blockquote>
+<h3 id="1-2-Road-and-Building-Detection-Datasets开源数据"><a href="#1-2-Road-and-Building-Detection-Datasets开源数据" class="headerlink" title="1.2 Road and Building Detection Datasets开源数据"></a>1.2 Road and Building Detection Datasets开源数据</h3><p>其中包括Massachusetts Roads Dataset（马萨诸塞州道路数据集）、Massachusetts Buildings Dataset（马萨诸塞州建筑数据集），共有1109张1500x1500大小的tiff格式的遥感原图及其中对应tif格式的标签图。我们共获取了建筑和道路各36张训练数据、14张验证数据，同上做数据随机分割并进行数据增强。最终生成1500张256x256大小的数据集。其中部分数据如下图所示。</p>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/encoder-decoder.png" alt="encoder-decoer结构" width="800">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_2.png" alt="部分开源数据集" style="zoom:60%;">
 </div>
+
+<blockquote>
+<p>Road and Building Detection Datasets <a target="_blank" rel="noopener" href="https://www.cs.toronto.edu/~vmnih/data/">下载地址</a></p>
+<p>一些处理后的数据</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1NZ0rnpRpzZDIbtbB-LKMqg">https://pan.baidu.com/s/1NZ0rnpRpzZDIbtbB-LKMqg</a> 提取码：hx7n </p>
+</blockquote>
         
           <a class="article-more-a" href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/#more">more >></a>
         
@@ -544,108 +553,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-LogisticRegression对数几率回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">机器学习方法(三)：Logistic Regression 对数几率回归</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2019-07-30T07:01:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-30</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h2><div align="center">
-<img src="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom: 50%;">
-</div>
-
-<p>对于线性回归而言，模型可以简写为：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-y = w^Tx + b \ \ or \ \ y = \theta^Tx (更常用\ 下面统一用该式子表示)\tag{1}
-\end{equation}</script><p>假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-ln\,y = w^Tx + b \ \  or \ \  ln\,y = \theta^Tx \tag{2}
-\end{equation}</script><p>这就是“对数线性回归”<code>(log-linear regression)</code>，如上图中的红线映射到黑色的指数线，这就是广义线性模型的思想。更一般的考虑单调可微函数<code>g(·)</code>，令：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-y = g(w^Tx + b)\ \ or \ \ y = g(\theta^Tx) \tag{3}
-\end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
-        
-          <a class="article-more-a" href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/30/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
     <article id="post-线性回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -726,187 +633,6 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-K近邻算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/">机器学习方法(一)：物以类聚 人以群分 K近邻算法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2019-07-23T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-24</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、KNN​算法概述"><a href="#一、KNN​算法概述" class="headerlink" title="一、KNN​算法概述"></a>一、KNN​算法概述</h2><p>k近邻算法是一种基本<strong>分类</strong>与<strong>回归</strong>的方法，在空间中如果一个样本附近的k​个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的​k​个实例中的多数属于的类。k=1​时，为最近邻算法。</p>
-<p>如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k​值，分类结果也会有所不同。</p>
-<div align="center">
-<img src="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png" alt="KNN例子">
-</div>
-
-<p>k=3​时，绿色圆点的最近的3​个邻居是​2个红色小三角形和​1个蓝色小正方形，少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于红色的三角形一类。</p>
-<p>k=5​时，绿色圆点的最近的5​个邻居是​2个红色三角形和​3个蓝色的正方形，还是少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于蓝色的正方形一类。</p>
-        
-          <a class="article-more-a" href="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/24/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/22/hello-world/" class="archive-article-date">
-  	<time datetime="2019-07-22T04:41:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-22</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/22/hello-world/">展开全文 >></a>
         </p>
       
 
@@ -1668,10 +1394,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">笔记</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">随笔</a>
               </li>
              
               <li class="article-tag-list-item">
