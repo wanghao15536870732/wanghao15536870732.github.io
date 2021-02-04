@@ -6,16 +6,38 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>Tag: 笔记 | HowardWang的博客</title>
+  <title>机器学习方法(一)：物以类聚 人以群分 K近邻算法 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="HowardWang的博客">
-<meta property="og:url" content="https://wanghao15536870732.github.io/tags/%E7%AC%94%E8%AE%B0/index.html">
+  <meta name="description" content="一、KNN算法概述k近邻算法是一种基本分类与回归的方法，在空间中如果一个样本附近的k个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的k个实例中的多数属于的类。k&#x3D;1时，为最近邻算法。 如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k值，分类结果也会有所不同。      k&#x3D;3时，绿色圆点的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习方法(一)：物以类聚 人以群分 K近邻算法">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
+<meta property="og:description" content="一、KNN算法概述k近邻算法是一种基本分类与回归的方法，在空间中如果一个样本附近的k个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的k个实例中的多数属于的类。k&#x3D;1时，为最近邻算法。 如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k值，分类结果也会有所不同。      k&#x3D;3时，绿色圆点的">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/manhattan.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/chebyshev.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_2.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_1.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_2.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/scaler.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/kd_function.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/2DExample.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/search.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/result.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cifar-10.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/knn_bug.jpg">
+<meta property="article:published_time" content="2019-07-18T05:29:48.000Z">
+<meta property="article:modified_time" content="2021-02-04T12:48:43.854Z">
 <meta property="article:author" content="HowardWang">
-<meta property="article:tag" content="Machine Learning,Python,Android">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -167,246 +189,276 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-K近邻算法" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="archive-article-date">
-  	<time datetime="2019-08-07T06:37:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">机器学习方法(六)：神经网络中的反向传播算法</a>
+    <h1 class="article-title" itemprop="name">
+      机器学习方法(一)：物以类聚 人以群分 K近邻算法
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2019-08-04T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2019-08-02T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/">机器学习方法(四)：决策树（Decision Tree）</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2019-07-31T12:11:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">机器学习方法(三)：Logistic Regression 对数几率回归</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2019-07-28T00:05:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">机器学习方法(二)：线性回归</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" class="archive-article-date">
+        
+        <a href="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" class="archive-article-date">
   	<time datetime="2019-07-18T05:29:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/">机器学习方法(一)：物以类聚 人以群分 K近邻算法</a>
-    </h1>
-  
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+	
+		<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+			  <span class="btn-bg"></span>
+			  <span class="btn-text">文章导航</span>
+			  </p>
+		<div id="toc-article" class="toc-article">
+			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+			<strong class="toc-title">文章目录</strong>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81KNN%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">一、KNN算法概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="toc-number">2.</span> <span class="toc-text">二、三要素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-k%E5%80%BC%E7%9A%84%E9%80%89%E5%8F%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 k值的选取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 距离度量方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E6%AC%A7%E5%BC%8F%E8%B7%9D%E7%A6%BB-Euclidean-distance"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 欧式距离$(Euclidean distance)$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB-Manhattan-distance"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 曼哈顿距离($Manhattan  distance$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB-Chebyshev-distance"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 切比雪夫距离($Chebyshev distance$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%A4%B9%E8%A7%92%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.2.4 夹角余弦距离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5 汉明距离</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 特征归一化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%9C%80%E5%80%BC%E5%BD%92%E4%B8%80%E5%8C%96-normalization"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 最值归一化($normalization$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%9D%87%E5%80%BC%E6%96%B9%E5%B7%AE%E5%BD%92%E4%B8%80%E5%8C%96-standardization"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 均值方差归一化($standardization$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-scikit-learn-%E4%B8%AD%E7%9A%84%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 $scikit_learn$中的归一化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">三、算法实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%AE%80%E5%8D%95%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 简单方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-KD%E6%A0%91"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 KD树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%9E%84%E9%80%A0%E5%B9%B3%E8%A1%A1kd%E6%A0%91%E7%AE%97%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 构造平衡kd树算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%90%9C%E7%B4%A2kd%E6%A0%91"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 搜索kd树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81KNN%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">4.</span> <span class="toc-text">四、KNN算法的缺陷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+			 </div>
+	   <script type="text/javascript">
+		function showToc(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:block");
+			show_toc_btn.setAttribute("style","display:none");
+			};
+		function showBtn(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:none");
+			show_toc_btn.setAttribute("style","display:block");
+			};
+	   </script>
+    		   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、KNN算法概述"><a href="#一、KNN算法概述" class="headerlink" title="一、KNN算法概述"></a>一、KNN算法概述</h2><p>k近邻算法是一种基本<strong>分类</strong>与<strong>回归</strong>的方法，在空间中如果一个样本附近的k个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的k个实例中的多数属于的类。k=1时，为最近邻算法。</p>
+<p>如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k值，分类结果也会有所不同。</p>
+<div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png" alt="KNN例子">
+</div>
 
-        <div class="article-info info-on-right">
-          
+
+<p>k=3时，绿色圆点的最近的3个邻居是2个红色小三角形和1个蓝色小正方形，少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于红色的三角形一类。</p>
+<p>k=5时，绿色圆点的最近的5个邻居是2个红色三角形和3个蓝色的正方形，还是少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于蓝色的正方形一类。</p>
+ <a id="more"></a>
+<h2 id="二、三要素"><a href="#二、三要素" class="headerlink" title="二、三要素"></a>二、三要素</h2><p>KNN算法需要考虑的三个重要因素：k值的选取、距离度量方式和分类决策规则。</p>
+<h3 id="2-1-k值的选取"><a href="#2-1-k值的选取" class="headerlink" title="2.1 k值的选取"></a>2.1 k值的选取</h3><p>k值的选择没有一个固定的经验，一般取一个比较小的数值。通常采用<strong>交叉验证法</strong>来选择最优的k值。</p>
+<h3 id="2-2-距离度量方式"><a href="#2-2-距离度量方式" class="headerlink" title="2.2 距离度量方式"></a>2.2 距离度量方式</h3><p>特征空间中两个实例点的距离是两个实例点<strong>相似程度</strong>的反映。特征空间一般是n维实数向量空间$\pmb{R^n}$（欧式空间）。一般的$\pmb{L_p}$距离$(L_p distance)$或闵可夫斯基<code>(Minkowski)</code>距离定义：</p>
+<p>设特征空间 $\chi$ 是 $n$ 维实数向量空间 $\boldsymbol{R}^{n}, x_{i}, x_{j} \in \chi, x_{l}=\left(x_{i}^{(1)}, x_{i}^{(2)}, \ldots, x_{i}^{(n)}\right)^{T}, \quad x_{j}=\left(x_{j}^{(1)}, x_{j}^{(2)}, \ldots, x_{j}^{(n)}\right)^{T}, x_{i}, x_{j}$ 的 $L_{p}$ 距离定义为：</p>
+<script type="math/tex; mode=display">
+L_{p}\left(x_{i}, x_{j}\right)=\left(\sum_{l=1}^{n}\left|x_{i}^{(l)}-x_{j}^{(l)}\right|^{p}\right)^{\frac{1}{p}}</script><ul>
+<li>这里$p≥1$。当$p=2$时，称为<strong>欧氏距离</strong><code>（Euclidean distance）</code>，即：</li>
+</ul>
+<script type="math/tex; mode=display">
+L_{2}\left(x_{i}, x_{j}\right)=\left(\sum_{l=1}^{n}\left|x_{i}^{(l)}-x_{j}^{(l)}\right|^{2}\right)^{\frac{1}{2}}</script><ul>
+<li>当$p=1$时，称为<strong>曼哈顿距离</strong><code>（Manhattan distance）</code>，即：</li>
+</ul>
+<script type="math/tex; mode=display">
+L_{1}\left(x_{i}, x_{j}\right)=\sum_{l=1}^{n}\left|x_{i}^{(l)}-x_{j}^{(l)}\right|</script><h4 id="2-2-1-欧式距离-Euclidean-distance"><a href="#2-2-1-欧式距离-Euclidean-distance" class="headerlink" title="2.2.1 欧式距离$(Euclidean distance)$"></a>2.2.1 欧式距离$(Euclidean distance)$</h4><div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg" alt="欧氏距离">
+</div>
+
+<p>最常见的两点之间或多点之间的距离表示方法，又称为欧几里得度量。</p>
+<p>定义于欧几里得空间中，点$x=(x1,…,xn)$和$y=(y1,…,yn)$之间的距离为:</p>
+<script type="math/tex; mode=display">
+d(x, y)=\sqrt{\left(x_{1}-y_{1}\right)^{2}+\left(x_{2}-y_{2}\right)^{2}+\cdots+\left(x_{n}-y_{n}\right)^{2}}=\sqrt{\sum_{i=1}^{n}\left(x_{i}-y_{i}\right)^{2}}</script><h4 id="2-2-2-曼哈顿距离-Manhattan-distance"><a href="#2-2-2-曼哈顿距离-Manhattan-distance" class="headerlink" title="2.2.2 曼哈顿距离($Manhattan  distance$)"></a>2.2.2 曼哈顿距离($Manhattan  distance$)</h4><p>在欧几里得空间的固定直角坐标系上两点所形成的线段对<strong>轴</strong>产生的<strong>投影</strong>的距离总和。曼哈顿距离也称为“城市街区距离”<code>(City Block distance)</code>。例如在二维平面上，坐标$(x_1,y_1)$与坐标$(x_2,y_2)$的曼哈顿距离为：$|x_1−x_2|+|y_1−y_2|$。</p>
+<p>(1) 二维平面上两点$a(x_1,y_1)$与$b(x_2,y_2)$间的曼哈顿距离：</p>
+<script type="math/tex; mode=display">
+d_{12}=|x_1−x_2|+|y_1−y_2|</script><p>(2) 两个$n$维向量$a(x_{11},x_{12},…,x_{1n})$和$b(x_{21},x_{22},…,x_{2n})$间的曼哈顿距离：</p>
+<script type="math/tex; mode=display">
+d_{12}=\sum_{k=1}^{n}\left|x_{1 k}-x_{2 k}\right|</script><div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/manhattan.png" alt="曼哈顿距离"">
+</div>
+
+
+<p>两种距离的<strong>对比</strong>，如上图所示：红线代表曼哈顿距离，绿色代表<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/欧氏距离">欧氏距离</a>，也就是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/直线距离">直线距离</a>，而蓝色和黄色分别代表等价的曼哈顿距离。</p>
+<h4 id="2-2-3-切比雪夫距离-Chebyshev-distance"><a href="#2-2-3-切比雪夫距离-Chebyshev-distance" class="headerlink" title="2.2.3 切比雪夫距离($Chebyshev distance$)"></a>2.2.3 切比雪夫距离($Chebyshev distance$)</h4><p>向量空间中的一种度量，二个点之间的距离定义是其各坐标数值差绝对值的最大值。若二个向量或二个点$p、q$，其坐标分别为$p_i、q_i$，则两者之间的切比雪夫距离定义如下：</p>
+<script type="math/tex; mode=display">
+D(p, q)=\max \left|p_{i}-q_{i}\right|</script><p>(1) 二维平面两点$a(x_1,y_1)$与$b(x_2,y_2)$间的切比雪夫距离：</p>
+<script type="math/tex; mode=display">
+d_{12}=max(|x_1−x_2|,|y_1−y_2|)</script><p>(2) 两个$n$维向量$a(x_{11},x_{12},…,x_{1n})$和$b(x_{21},x_{22},…,x_{2n})$间的切比雪夫距离：</p>
+<script type="math/tex; mode=display">
+d_{12}=\max _{i}\left(\left|x_{1 i}-x_{2 i}\right|\right)</script><p>这个公式的另一种等价形式是：</p>
+<script type="math/tex; mode=display">
+d_{12}=\lim _{k \rightarrow \infty}\left(\sum_{i=1}^{n}\left|x_{1 i}-x_{2 i}\right|^{k}\right)^{1 / k}</script><div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/chebyshev.jpg" alt="切比雪夫距离">
+</div>
+
+
+<p>国际象棋棋盘上，国王走一步能够移动到相邻的8个方格中的任意一个，其中切比雪夫距离指王要从一个位子移至另一个位子至少需要走的步数。你会发现，国王从格子$(x_1,y_1)$走到格子$(x_2,y_2)$最少需要的步数总是$max(|x_2−x_1|,|y_2−y_1|)$步 。</p>
+<h4 id="2-2-4-夹角余弦距离"><a href="#2-2-4-夹角余弦距离" class="headerlink" title="2.2.4 夹角余弦距离"></a>2.2.4 夹角余弦距离</h4><p>几何中夹角余弦可用来衡量 <strong>两个向量方向的差异</strong>，在机器学习中特征通常使用向量形式来表示，常用这一概念来衡量样本向量之间的差异。向量方向差异范围：$[−1,1]$</p>
+<ul>
+<li>二维空间中的向量$(x_1,y_1)$)与向量$(x_2,y_2)$夹角余弦：</li>
+</ul>
+<script type="math/tex; mode=display">
+\cos \theta=\frac{x_{1} x_{2}+y_{1} y_{2}}{\sqrt{x_{1}^{2}+y_{1}^{2}} \sqrt{x_{2}^{2}+y_{2}^{2}}}</script><ul>
+<li>给定两个特征向量$A(x_{11},x_{12},…,x_{1n})$和$B(x_{21},x_{22},…,x_{2n})$，其余弦相似性$\theta$由点积和向量长度给出，如下所示:</li>
+</ul>
+<script type="math/tex; mode=display">
+\text { similarity }=\cos (\theta)=\frac{A \cdot B}{\|A\|\|B\|}=\frac{\sum_{i=1}^{n} A_{i} \times B_{i}}{\sqrt{\sum_{i=1}^{n}\left(A_{i}\right)^{2}} \times \sqrt{\sum_{i=1}^{n}\left(B_{i}\right)^{2}}}=\frac{\sum_{i=1}^{n} x_{1 i} x_{2 i}}{\sqrt{\sum_{i=1}^{n} x_{1 i}^{2}} \sqrt{\sum_{i=1}^{n} x_{2 i}^{2}}}</script><p><strong>余弦距离和欧氏距离的区别</strong></p>
+<div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/euclidean.jpg" alt="欧氏距离" style="zoom:80%;">
+</div>
+
+
+<p>从上图可以看出，欧氏距离衡量的是空间各点的绝对距离，跟各个点所在的位置坐标直接相关；而余弦距离衡量的是空间向量的夹角，更加体现在方向上的差异。余弦距离常用于形容两个特征向量之间的关系，例如人脸识别，推荐系统等。</p>
+<ul>
+<li>对于向量量$[0,1]$和向量$[1,0]$而言，二者的余弦距很大，而欧氏距离很小；</li>
+<li>对于向量$[1,10]$和向量$[10,100]$而言，余弦距离会认为两个特征向量距离很近；但显然这两个特征向量是有着极大差异的，此时我们更关注数值的绝对差异，应当使用欧氏距离。</li>
+</ul>
+<blockquote>
+<p><strong>注：在CNN中，对特征向量进行L2范数归一化后，欧式距离等价于余弦距离。</strong></p>
+</blockquote>
+<h4 id="2-2-5-汉明距离"><a href="#2-2-5-汉明距离" class="headerlink" title="2.2.5 汉明距离"></a>2.2.5 汉明距离</h4><p>汉明距离是使用在数据传输差错控制编码里面的，汉明距离是一个概念，它表示两个（相同长度）字对应位不同的数量。也即将其中一个变为另外一个所需要作的最小替换次数。例如1011101 与 1001001 之间的汉明距离是 2。</p>
+<h3 id="2-3-特征归一化"><a href="#2-3-特征归一化" class="headerlink" title="2.3 特征归一化"></a>2.3 特征归一化</h3><blockquote>
+<p>数据中不同特征值差距十分大，导致预测结果被某项特征主导，而忽略了其他特征的影响，所以需要进行数据的归一化。</p>
+<p>解决方案：将所有数据映射到同一尺度上。</p>
+</blockquote>
+<p>常用的特征归一化方法包括<strong>最值归一化</strong>和<strong>均值方差归一化</strong>。</p>
+<h4 id="2-3-1-最值归一化-normalization"><a href="#2-3-1-最值归一化-normalization" class="headerlink" title="2.3.1 最值归一化($normalization$)"></a>2.3.1 最值归一化($normalization$)</h4><p>将所有数据映射到0-1之间：</p>
+<script type="math/tex; mode=display">
+x_{\text {scale }}=\frac{x-x_{\min }}{x_{\max }-x_{\min }}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line">x = np.random.randint(<span class="number">0</span>,<span class="number">100</span>,<span class="number">100</span>)</span><br><span class="line"><span class="comment"># 二维矩阵中分别对每列进行最值归一化</span></span><br><span class="line">x = np.random.randint(<span class="number">0</span>,<span class="number">100</span>,(<span class="number">50</span>,<span class="number">2</span>))</span><br><span class="line">x = np.array(x,dtype=<span class="built_in">float</span>)</span><br><span class="line">x[:,<span class="number">0</span>] = (x[:,<span class="number">0</span>] - np.<span class="built_in">min</span>(x[:,<span class="number">0</span>])) / (np.<span class="built_in">max</span>(x[:,<span class="number">0</span>]) - np.<span class="built_in">min</span>(x[:,<span class="number">0</span>]))</span><br><span class="line">x[:,<span class="number">1</span>] = (x[:,<span class="number">1</span>] - np.<span class="built_in">min</span>(x[:,<span class="number">1</span>])) / (np.<span class="built_in">max</span>(x[:,<span class="number">1</span>]) - np.<span class="built_in">min</span>(x[:,<span class="number">1</span>]))</span><br><span class="line">plt.scatter(x[:,<span class="number">0</span>],x[:,<span class="number">1</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>运行结果（左图为归一化前，右图为归一化后）：</p>
+<div align="center">
+    <img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_1.png" alt="最值归一化前" height="250">
+    <img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/normalization_2.png" alt="最值归一化后" height="250">
+</div>
+
+
+<h4 id="2-3-2-均值方差归一化-standardization"><a href="#2-3-2-均值方差归一化-standardization" class="headerlink" title="2.3.2 均值方差归一化($standardization$)"></a>2.3.2 均值方差归一化($standardization$)</h4><p>将所有数据归一到均值为0方差为1的分布中：</p>
+<script type="math/tex; mode=display">
+x_{\text {scale }}=\frac{x-x_{\text {mean }}}{s}</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="comment"># 二维矩阵中分别对每列进行均值方差归一化</span></span><br><span class="line">x2 = np.random.randint(<span class="number">0</span>,<span class="number">100</span>,(<span class="number">50</span>,<span class="number">2</span>))</span><br><span class="line">x2 = np.array(x2,dtype=<span class="built_in">float</span>)</span><br><span class="line">x2[:,<span class="number">0</span>] = (x2[:,<span class="number">0</span>] - np.mean(x2[:,<span class="number">0</span>])) / np.std(x2[:,<span class="number">0</span>])</span><br><span class="line">x2[:,<span class="number">1</span>] = (x2[:,<span class="number">1</span>] - np.mean(x2[:,<span class="number">1</span>])) / np.std(x2[:,<span class="number">1</span>])</span><br><span class="line">plt.scatter(x2[:,<span class="number">0</span>],x2[:,<span class="number">1</span>])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<p>运行结果（左图为归一化前，右图为归一化后）：</p>
+<div align="center">
+    <img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_1.png" alt="均值方差归一化前" height="250">
+    <img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/standardization_2.png" alt="均值方差归一化后" height="250">
+</div>
+
+
+<h4 id="2-3-3-scikit-learn-中的归一化"><a href="#2-3-3-scikit-learn-中的归一化" class="headerlink" title="2.3.3 $scikit_learn$中的归一化"></a>2.3.3 $scikit_learn$中的归一化</h4><div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/scaler.png" alt="使用scalar进行归一化" style="zoom:80%;">
+</div>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#scikit_learn中的Scalar</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> datasets</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#以鸢尾花的数据集为示例</span></span><br><span class="line">iris = datasets.load_iris()</span><br><span class="line">X=iris.data</span><br><span class="line">y=iris.target</span><br><span class="line"></span><br><span class="line"><span class="comment">#创建训练数据集和测试数据集</span></span><br><span class="line">X_train,x_test,y_train,y_test=train_test_split(X,y,test_size=<span class="number">0.2</span>,random_state=<span class="number">666</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler  <span class="comment">#sklearn中的相应的类</span></span><br><span class="line"></span><br><span class="line">standardScaler = StandardScaler() <span class="comment">#  构造均值方差归一化对象</span></span><br><span class="line">standardScaler.fit(X_train) <span class="comment"># 求出相应的均值和方差（根据训练集）</span></span><br><span class="line">standardScaler.mean_ <span class="comment"># 均值 array([5.83416667, 3.0825    , 3.70916667, 1.16916667])</span></span><br><span class="line">standardScaler.scale_  <span class="comment"># 标准差array([0.81019502, 0.44076874, 1.76295187, 0.75429833])</span></span><br><span class="line"></span><br><span class="line">X_train=standardScaler.transform(X_train)  <span class="comment"># 根据fit计算出来的值来进行相应的数据归一化</span></span><br><span class="line"></span><br><span class="line">x_test_transform=standardScaler.transform(x_test)  <span class="comment"># 对测试集也使用同样的方法进行相应的数据归一化</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier  </span><br><span class="line"><span class="comment"># 创建一个kNN分类器</span></span><br><span class="line">knn_clf=KNeighborsClassifier(n_neighbors=<span class="number">3</span>)</span><br><span class="line">knn_clf.fit(X_train,y_train)</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">KNeighborsClassifier(algorithm=&#x27;auto&#x27;, leaf_size=30, metric=&#x27;minkowski&#x27;,</span></span><br><span class="line"><span class="string">           metric_params=None, n_jobs=1, n_neighbors=3, p=2,</span></span><br><span class="line"><span class="string">           weights=&#x27;uniform&#x27;)</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line">print(knn_clf.score(x_test,y_test)) <span class="comment"># 数据归一化前的精确度</span></span><br><span class="line">print(knn_clf.score(x_test_transform,y_test)) <span class="comment"># 数据归一化后的精确度</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0.3333333333333333</span></span><br><span class="line"><span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="三、算法实现"><a href="#三、算法实现" class="headerlink" title="三、算法实现"></a>三、算法实现</h2><h3 id="3-1-简单方法"><a href="#3-1-简单方法" class="headerlink" title="3.1 简单方法"></a>3.1 简单方法</h3><p>按照k邻近的思想，找到kk个最近的邻居来进行预测，就需要计算出<strong>预测样本</strong>与<strong>所有训练集</strong>中样本的距离，然后计算出最小的k个距离，接着进行<strong>投票表决</strong>，即可做出预测。这种思路简单直接，在<strong>样本量少、特征少</strong>的情况下有效。对于大量的数据而言，<strong>特证数</strong>和<strong>样本量</strong>都很大，如果要预测<strong>少量</strong>的测试集样本，算法的时间效率会很低。</p>
+<h3 id="3-2-KD树"><a href="#3-2-KD树" class="headerlink" title="3.2 KD树"></a>3.2 KD树</h3><p>kd树<code>(K-dimension tree)</code>是一种对k维空间中的实例点进行存储以便对其进行快速检索的树形数据结构。kd树是一种<strong>二叉树</strong>，表示对k维空间的一个<strong>划分</strong>，构造kd树相当于不断地用垂直于坐标轴的超平面将<strong>k维空间切分</strong>，构成一系列的k维超矩形区域。利用kd树可以省去对大部分数据点的搜索，从而减少搜索的计算量。</p>
+<div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/kd_function.jpg" alt="KD方法输入输出">
+</div>
+
+
+<h3 id="3-3-构造平衡kd树算法"><a href="#3-3-构造平衡kd树算法" class="headerlink" title="3.3 构造平衡kd树算法"></a>3.3 构造平衡kd树算法</h3><p>输入：<strong>k维</strong>空间数据集$T=x_1,x_2,…,x_N$，其中$x_i=(x_i^{(1)},x_i^{(2)},…,x_i^{(k)}),i=1,2,…N$</p>
+<ul>
+<li>开始：构造根节点，选择$x^{(1)}$为坐标轴，以$T$中所有实例的$x^(1)$坐标的<strong>中位数</strong>为切点，将根结点对应的超矩形区域切分为两个<strong>子区域</strong>。由根节生成深度$1$的左右子节点，左、右子结点分别对应坐标$x^{(1)}$小于、大于切分点的子区域。<strong>将落在切分平面上的实例点保存在该结点。</strong></li>
+<li>重复：对深度为$\pmb j$的结点，选择x(l)x(l)为切分的坐标轴，$\pmb {l=j \%  k+1}$，以该结点的区域中所有实例的$x^{(l)}$坐标的中位数为切分点，将该结点对应的超矩形区域切分为左右两个子区域。<strong>将落在切分平面上的实例点保存在该结点。</strong></li>
+</ul>
+<p><strong>简单的二维平面的例子：</strong></p>
+<p>给定一个二维数据集：$T={(2,3),(5,4),(9,6),(4,7),(8,1),(7,2)}$，构造一个平衡kd树。</p>
+<ol>
+<li>开始：选择$x^{(1)}$轴， $6$个数据的坐$x^{(1)}$标<strong>中位数</strong>是$6$，这里选<strong>最接近的</strong>$(7,2)$点，以平面将$x^{(1)}=7$空间分为左右两个子矩形，并将$(7,2)$点保存在根节点；</li>
+<li>重复：接着计算左矩形中$(2,3),(5,4),(4,7)$点的$x^{(2)}$坐 标中位数为$4$，左矩阵以$x^{(2)}=4$分为两个子矩形，并将$(5,4)$点保存在左子节点；再计算右矩形中$(8,1),(9,6)$点的$x^{(2)}$坐标中位数为$6$，左矩阵以$x^{(2)}=6$分为两个子矩形，并将$(9,6)$点保存在右子节点；如此<strong>递归</strong>，最后得到如下图所示的平衡$kd$树。</li>
+</ol>
+<div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/2DExample.png" alt="二维平面构造KD树" style="zoom:80%;">
+</div>
+
+
+<h3 id="3-4-搜索kd树"><a href="#3-4-搜索kd树" class="headerlink" title="3.4 搜索kd树"></a>3.4 搜索kd树</h3><p>利用kd树可以省去对大部分数据点的搜索，从而减少搜索的计算量。给定一个目标点，搜索其最近邻，首先找到包含目标点的<strong>叶节点</strong>；然后从该叶结点出发，依次<strong>回退</strong>到<strong>父结点；</strong>不断查找与目标点最近邻的结点，当确定<strong>不可能存在更近</strong>的结点时终止。</p>
+<blockquote>
+<p>输入：已构造的kd树，目标点$x$;</p>
+</blockquote>
+<ol>
+<li>在kd树中找出包含目标点x的叶结点：从根结点出发，递归的向下访问$kd$树。若目标点当前维的坐标值<strong>小于</strong>切分点的坐标值，则移动到左子结点，否则移动到右子结点。直到子结点为<strong>叶结点</strong>为止；</li>
+<li>以此叶结点为<strong>当前最近点</strong>；</li>
+<li>递归向上回退，如果<strong>该结点保存的实例点</strong>比<strong>当前最近点</strong>距目标点<strong>更近</strong>，则以该实例点为当前最近点；若当前最近点一定存在于该结点一个子结点对应的区域。检查该子结点的父结点的<strong>另一个子结点</strong>对应的区域是否有更近的点。</li>
+<li>回退到根节点，搜索结束。最后的<strong>当前最近点</strong>即为x的最近邻点。</li>
+</ol>
+<p><strong>以先前构建好的kd树为例，查找目标点$(3,4.5)$的最近邻点：</strong></p>
+<ol>
+<li>首先，通过<strong>搜索路径</strong>$(7,2)→(5,4)→(4,7)$，找到<strong>根节点</strong>$(4,7)$取$(4,7)$为当前最近节点。</li>
+<li>取$(4,7)$为当前最近邻点。以目标查找点为圆心，目标查找点到当前最近点的距离$2.69$为半径确定一个红色的圆。然后回溯到$(5,4)$，计算其与查找点之间的距离为$2.06$，则该结点比当前最近点距目标点更近，以$(5,4)$为当前最近点。</li>
+<li>同样的方法确定一个绿色的圆，该圆$y=4$平面相交，进入$(5,4)$结点的另一个子空间进行查找。结点$(2,3)$与目标点距离为$1.8$，比当前最近点要进，最近邻点更新为$(2,3)$。</li>
+<li>根据规则确定蓝色的圆，该圆<strong>与$x=7$平面不相交</strong>，不用再进入子空间进行查找。</li>
+<li>至此，回溯完毕，返回<strong>最近邻点</strong>$(2,3)$。</li>
+</ol>
+<div align="center">
+    <img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/search.jpg" alt="搜索过程" height="300">
+    <img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/result.png" alt="KD树构造结果" height="300">
+</div>
+
+
+<p><strong>代码实现（cs231n）</strong></p>
+<div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/cifar-10.png" alt="cs231n课程中使用K近邻算法对cifar-10数据分类">
+</div>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">KNearestNeighbor</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;&quot;a kNN classifiers with L2 distance&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span>(<span class="params">self,X,y</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Train the classifier. For k-nearest neighbors this is just</span></span><br><span class="line"><span class="string">        memorizing the training data.</span></span><br><span class="line"><span class="string">        Inputs:</span></span><br><span class="line"><span class="string">        - X: A numpy array of shape (num_train, D) containing the training data</span></span><br><span class="line"><span class="string">          consisting of num_train samples each of dimension D.</span></span><br><span class="line"><span class="string">        - y: A numpy array of shape (N,) containing the training labels, where</span></span><br><span class="line"><span class="string">             y[i] is the label for X[i].</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.X_train = X</span><br><span class="line">        self.y_train = y</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict</span>(<span class="params">self,X,k=<span class="number">1</span>,num_loops=<span class="number">0</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        :param X: A numpy array of shape (num_test, D) containing test data consisting</span></span><br><span class="line"><span class="string">             of num_test samples each of dimension D.</span></span><br><span class="line"><span class="string">        :param k: The number of nearest neighbors that vote for the predicted labels.</span></span><br><span class="line"><span class="string">        :param num_loops: Determines which implementation to use to compute distances</span></span><br><span class="line"><span class="string">          between training points and testing points.</span></span><br><span class="line"><span class="string">        :return: A numpy array of shape (num_test,) containing predicted labels for the</span></span><br><span class="line"><span class="string">          test data, where y[i] is the predicted label for the test point X[i].</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> num_loops == <span class="number">0</span>:</span><br><span class="line">            dists = self.compute_distances_no_loops(X)</span><br><span class="line">        <span class="keyword">elif</span> num_loops == <span class="number">1</span>:</span><br><span class="line">            dists = self.compute_distances_one_loop(X)</span><br><span class="line">        <span class="keyword">elif</span> num_loops == <span class="number">2</span>:</span><br><span class="line">            dists = self.compute_distances_two_loops(X)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">&#x27;Invalid value %d for num_loops&#x27;</span> % num_loops)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> self.predict_labels(dists,k=k)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distances_two_loops</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Compute the distance between each test point in X and each training point</span></span><br><span class="line"><span class="string">        in self.X_train using a nested loop over both the training data and the</span></span><br><span class="line"><span class="string">        test data.</span></span><br><span class="line"><span class="string">        Inputs:</span></span><br><span class="line"><span class="string">        - X: A numpy array of shape (num_test, D) containing test data.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">        - dists: A numpy array of shape (num_test, num_train) where dists[i, j]</span></span><br><span class="line"><span class="string">          is the Euclidean distance between the ith test point and the jth training</span></span><br><span class="line"><span class="string">          point.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        num_test = X.shape[<span class="number">0</span>] <span class="comment"># 测试数据行数</span></span><br><span class="line">        num_train = self.X_train.shape[<span class="number">0</span>] <span class="comment"># 训练数据函行数</span></span><br><span class="line">        dists = np.zeros((num_test,num_train))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_test):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(num_train):</span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">                <span class="comment"># <span class="doctag">TODO:</span>                                                             #</span></span><br><span class="line">                <span class="comment"># Compute the l2 distance between the ith test point and the jth    #</span></span><br><span class="line">                <span class="comment"># training point, and store the result in dists[i, j]. You should   #</span></span><br><span class="line">                <span class="comment"># not use a loop over dimension.                                    #</span></span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">                num_test_i = X[i,:]  <span class="comment"># num_test的第i行</span></span><br><span class="line">                num_train_i = self.X_train[j,:]  <span class="comment"># num_train的第j行</span></span><br><span class="line">                 <span class="comment"># 求得测试数据的第i行跟第训练数据的第j行差值的平方和</span></span><br><span class="line">                num_sum = np.<span class="built_in">sum</span>((num_test_i - num_train_i) ** <span class="number">2</span>)</span><br><span class="line">                dists[i,j] = np.sqrt(num_sum)  <span class="comment"># 开平方根求距离</span></span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">                <span class="comment">#                       END OF YOUR CODE                            #</span></span><br><span class="line">                <span class="comment">#####################################################################</span></span><br><span class="line">        <span class="keyword">return</span> dists</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distances_one_loop</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Compute the distance between each test point in X and each training point</span></span><br><span class="line"><span class="string">        in self.X_train using a single loop over the test data.</span></span><br><span class="line"><span class="string">        Input / Output: Same as compute_distances_two_loops</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">        num_test = X.shape[<span class="number">0</span>]</span><br><span class="line">        num_train = self.X_train.shape[<span class="number">0</span>]</span><br><span class="line">        dists = np.zeros((num_test,num_train))</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_test):</span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">            <span class="comment"># <span class="doctag">TODO:</span>                                                               #</span></span><br><span class="line">            <span class="comment"># Compute the l2 distance between the ith test point and all training #</span></span><br><span class="line">            <span class="comment"># points, and store the result in dists[i, :].                        #</span></span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">            num_test_i = X[i,:]  <span class="comment"># 测试数据的第i行</span></span><br><span class="line">            num_row = np.<span class="built_in">sum</span>((num_test_i - self.X_train) ** <span class="number">2</span>,axis=<span class="number">1</span>)  <span class="comment"># 返回每行的计算平方和的结果</span></span><br><span class="line">            dists[i,:] = np.sqrt(num_row)  <span class="comment"># 直接赋值第i行</span></span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">            <span class="comment">#                         END OF YOUR CODE                            #</span></span><br><span class="line">            <span class="comment">#######################################################################</span></span><br><span class="line">        <span class="keyword">return</span> dists</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_distances_no_loops</span>(<span class="params">self, X</span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Compute the distance between each test point in X and each training point</span></span><br><span class="line"><span class="string">        in self.X_train using no explicit loops.</span></span><br><span class="line"><span class="string">        Input / Output: Same as compute_distances_two_loops</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        num_test = X.shape[<span class="number">0</span>]  <span class="comment"># 第一维的大小</span></span><br><span class="line">        num_train = self.X_train.shape[<span class="number">0</span>]  <span class="comment"># 训练数据的第一维大小</span></span><br><span class="line">        dists = np.zeros((num_test,num_train))</span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="comment"># <span class="doctag">TODO:</span>                                                                 #</span></span><br><span class="line">        <span class="comment"># Compute the l2 distance between all test points and all training      #</span></span><br><span class="line">        <span class="comment"># points without using any explicit loops, and store the result in      #</span></span><br><span class="line">        <span class="comment"># dists.                                                                #</span></span><br><span class="line">        <span class="comment">#                                                                       #</span></span><br><span class="line">        <span class="comment"># You should implement this function using only basic array operations; #</span></span><br><span class="line">        <span class="comment"># in particular you should not use functions from scipy.                #</span></span><br><span class="line">        <span class="comment">#                                                                       #</span></span><br><span class="line">        <span class="comment"># HINT: Try to formulate the l2 distance using matrix multiplication    #</span></span><br><span class="line">        <span class="comment">#       and two broadcast sums.                                         #</span></span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        X_sum = np.<span class="built_in">sum</span>(np.power(X,<span class="number">2</span>),axis=<span class="number">1</span>)  <span class="comment"># 每一行平方和</span></span><br><span class="line">        X_C_1 = np.reshape(X_sum,(-<span class="number">1</span>,<span class="number">1</span>))  <span class="comment"># 行向量转为列向量</span></span><br><span class="line">        X_C_2 = -<span class="number">2</span> * np.dot(X,self.X_train.T)  <span class="comment"># -2倍的A·𝐵𝑇</span></span><br><span class="line">        X_C_3 = np.<span class="built_in">sum</span>(np.power(self.X_train,<span class="number">2</span>),axis=<span class="number">1</span>)</span><br><span class="line">        dists = np.sqrt(X_C_1 + X_C_2 + X_C_3)</span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="comment">#                         END OF YOUR CODE                              #</span></span><br><span class="line">        <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="keyword">return</span> dists</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict_labels</span>(<span class="params">self, dists, k=<span class="number">1</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        Given a matrix of distances between test points and training points,</span></span><br><span class="line"><span class="string">        predict a label for each test point.</span></span><br><span class="line"><span class="string">        Inputs:</span></span><br><span class="line"><span class="string">        - dists: A numpy array of shape (num_test, num_train) where dists[i, j]</span></span><br><span class="line"><span class="string">          gives the distance betwen the ith test point and the jth training point.</span></span><br><span class="line"><span class="string">        Returns:</span></span><br><span class="line"><span class="string">        - y: A numpy array of shape (num_test,) containing predicted labels for the</span></span><br><span class="line"><span class="string">          test data, where y[i] is the predicted label for the test point X[i].</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        num_test = dists.shape[<span class="number">0</span>]</span><br><span class="line">        y_pred = np.zeros(num_test)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_test):</span><br><span class="line">            <span class="comment"># A list of length k storing the labels of the k nearest neighbors to</span></span><br><span class="line">            <span class="comment"># the ith test point.</span></span><br><span class="line">            closest_y = []</span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="comment"># <span class="doctag">TODO:</span>                                                                 #</span></span><br><span class="line">            <span class="comment"># Use the distance matrix to find the k nearest neighbors of the ith    #</span></span><br><span class="line">            <span class="comment"># testing point, and use self.y_train to find the labels of these       #</span></span><br><span class="line">            <span class="comment"># neighbors. Store these labels in closest_y.                           #</span></span><br><span class="line">            <span class="comment"># Hint: Look up the function numpy.argsort.                             #</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            nearrest = np.argsort(dists[i,:])  <span class="comment"># 返回每一行排序后的结果索引</span></span><br><span class="line">            closest_y = [self.y_train[i] <span class="keyword">for</span> i <span class="keyword">in</span> nearrest[:k]]  <span class="comment"># 距离最近的前k个元素的y_train值</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="comment"># <span class="doctag">TODO:</span>                                                                 #</span></span><br><span class="line">            <span class="comment"># Now that you have found the labels of the k nearest neighbors, you    #</span></span><br><span class="line">            <span class="comment"># need to find the most common label in the list closest_y of labels.   #</span></span><br><span class="line">            <span class="comment"># Store this label in y_pred[i]. Break ties by choosing the smaller     #</span></span><br><span class="line">            <span class="comment"># label.                                                                #</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="built_in">dict</span> = &#123;&#125;</span><br><span class="line">            <span class="keyword">for</span> key <span class="keyword">in</span> closest_y:  <span class="comment"># 遍历计算每个key出现的次数</span></span><br><span class="line">                <span class="keyword">if</span> key <span class="keyword">in</span> <span class="built_in">dict</span>:</span><br><span class="line">                    <span class="built_in">dict</span>[key] += <span class="number">1</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="built_in">dict</span>[key] = <span class="number">1</span></span><br><span class="line">            <span class="comment"># for key in closest_y:  # 遍历计算每个key出现的次数</span></span><br><span class="line">            <span class="comment">#     dict[key] = dict.get(key,0) + 1</span></span><br><span class="line">            common_label,common_value = <span class="built_in">max</span>(<span class="built_in">dict</span>.items(),key=<span class="keyword">lambda</span> item:item[<span class="number">1</span>])  <span class="comment"># 找出出现次数最多的label</span></span><br><span class="line">            y_pred[i] = common_label</span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">            <span class="comment">#                           END OF YOUR CODE                            #</span></span><br><span class="line">            <span class="comment">#########################################################################</span></span><br><span class="line">        <span class="keyword">return</span> y_pred</span><br></pre></td></tr></table></figure>
+<h2 id="四、KNN算法的缺陷"><a href="#四、KNN算法的缺陷" class="headerlink" title="四、KNN算法的缺陷"></a>四、KNN算法的缺陷</h2><div align="center">
+<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/knn_bug.jpg" alt="knn算法的缺陷">
+</div>
+
+
+<ul>
+<li>观察上图，可以看到对于样本$X_u$，通过knn算法，显然可以得到$X_u$应属于$w_1$，但对于样本$Y$，通过 knn算法最终似乎得到了$Y$应属于$w_2$的结论，而这个结论直观来看并没有说服力。</li>
+<li>当样本<strong>不平衡</strong>时，knn似乎只关心哪类样本的数量最多，而不去把距离远近考虑在内</li>
+<li>改进<strong>：可以采用</strong>权值<strong>的方法来改进。和该样本距离小的邻居权值大，和该样本距离大的邻居权值则相对较小，以此来避免因一个样本过大导致</strong>误判**的情况。</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://cs231n.stanford.edu/">cs231n</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">《机器学习》 周志华著</a></li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -422,19 +474,128 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          机器学习方法(二)：线性回归
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2018/12/19/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构方法(二)：关键路径</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81KNN%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">一、KNN算法概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E8%A6%81%E7%B4%A0"><span class="toc-number">2.</span> <span class="toc-text">二、三要素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-k%E5%80%BC%E7%9A%84%E9%80%89%E5%8F%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 k值的选取</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 距离度量方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E6%AC%A7%E5%BC%8F%E8%B7%9D%E7%A6%BB-Euclidean-distance"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 欧式距离$(Euclidean distance)$</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E6%9B%BC%E5%93%88%E9%A1%BF%E8%B7%9D%E7%A6%BB-Manhattan-distance"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 曼哈顿距离($Manhattan  distance$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-%E5%88%87%E6%AF%94%E9%9B%AA%E5%A4%AB%E8%B7%9D%E7%A6%BB-Chebyshev-distance"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 切比雪夫距离($Chebyshev distance$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%A4%B9%E8%A7%92%E4%BD%99%E5%BC%A6%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.2.4 夹角余弦距离</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-5-%E6%B1%89%E6%98%8E%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5 汉明距离</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 特征归一化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%9C%80%E5%80%BC%E5%BD%92%E4%B8%80%E5%8C%96-normalization"><span class="toc-number">2.3.1.</span> <span class="toc-text">2.3.1 最值归一化($normalization$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%9D%87%E5%80%BC%E6%96%B9%E5%B7%AE%E5%BD%92%E4%B8%80%E5%8C%96-standardization"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.3.2 均值方差归一化($standardization$)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-scikit-learn-%E4%B8%AD%E7%9A%84%E5%BD%92%E4%B8%80%E5%8C%96"><span class="toc-number">2.3.3.</span> <span class="toc-text">2.3.3 $scikit_learn$中的归一化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">三、算法实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%AE%80%E5%8D%95%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 简单方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-KD%E6%A0%91"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 KD树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%9E%84%E9%80%A0%E5%B9%B3%E8%A1%A1kd%E6%A0%91%E7%AE%97%E6%B3%95"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 构造平衡kd树算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%90%9C%E7%B4%A2kd%E6%A0%91"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 搜索kd树</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81KNN%E7%AE%97%E6%B3%95%E7%9A%84%E7%BC%BA%E9%99%B7"><span class="toc-number">4.</span> <span class="toc-text">四、KNN算法的缺陷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
 
@@ -458,9 +619,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
