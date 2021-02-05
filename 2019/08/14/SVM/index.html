@@ -6,16 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>HowardWang的博客</title>
+  <title>机器学习方法(七)：支持向量机(support vector machines, SVM) | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="HowardWang的博客">
-<meta property="og:url" content="https://wanghao15536870732.github.io/index.html">
+  <meta name="description" content="一、线性可分SVM——硬间隔1.1 超平面与间隔    给定训练集$D&#x3D;{(x_1,y_1 ),(x_2,y_2 ),…,(x_m,y_m )}  ,y_i∈{-1,+1}$，分类学习的最基本的任务就是在样本空间中寻找一个划分超平面，将不同类别的样本划分开来，但是这样的超平面有很多，选择哪个最好呢？直观上来看，越接近两类样本分隔界的样本，越容易产生分类错误，而位于两类样本“正中间”的划分超平面受影">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习方法(七)：支持向量机(support vector machines, SVM)">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2019/08/14/SVM/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
+<meta property="og:description" content="一、线性可分SVM——硬间隔1.1 超平面与间隔    给定训练集$D&#x3D;{(x_1,y_1 ),(x_2,y_2 ),…,(x_m,y_m )}  ,y_i∈{-1,+1}$，分类学习的最基本的任务就是在样本空间中寻找一个划分超平面，将不同类别的样本划分开来，但是这样的超平面有很多，选择哪个最好呢？直观上来看，越接近两类样本分隔界的样本，越容易产生分类错误，而位于两类样本“正中间”的划分超平面受影">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/multiple_hyperplanes.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/svm_hyperplanes.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/support_vector.jpg">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/soft_margin.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/soft_margin_result.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/param_c.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/dimension_reflect.png">
+<meta property="article:published_time" content="2019-08-14T02:53:21.000Z">
+<meta property="article:modified_time" content="2021-02-05T14:07:48.591Z">
 <meta property="article:author" content="HowardWang">
-<meta property="article:tag" content="Machine Learning,Python,Android">
+<meta property="article:tag" content="Machine Learning">
+<meta property="article:tag" content="笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/multiple_hyperplanes.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -167,119 +180,14 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-遥感图像分割" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-SVM" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/">遥感图像语义分割 小记</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" class="archive-article-date">
-  	<time datetime="2020-12-04T15:29:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-04</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、数据来源"><a href="#一、数据来源" class="headerlink" title="一、数据来源"></a>一、数据来源</h2><h3 id="1-1-指导教师提供的数据"><a href="#1-1-指导教师提供的数据" class="headerlink" title="1.1 指导教师提供的数据"></a>1.1 指导教师提供的数据</h3><p>共包含5张大尺寸（21184x21279）的卫星原图及其所对应同样大小的建筑、道路、水体和植被的标记图，我们不能直接把这些图像送入网络进行训练，因为内存承受不了，而且他们的尺寸也各不相同。因此，首先将他们做随机切割，即随机生成(x,y)坐标，然后抠出该坐标下256x256的小图，并做一些常见的数据增强操作，使得更适合训练我们的网络，最终获取到5000张256x256大小的训练数据，其中部分数据如下图所示。</p>
-<div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_1.png" alt="部分数据集" style="zoom:60%;">
-</div>
-
-<blockquote>
-<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw">https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw</a> 提取码：bvuq</p>
-</blockquote>
-<h3 id="1-2-Road-and-Building-Detection-Datasets开源数据"><a href="#1-2-Road-and-Building-Detection-Datasets开源数据" class="headerlink" title="1.2 Road and Building Detection Datasets开源数据"></a>1.2 Road and Building Detection Datasets开源数据</h3><p>其中包括Massachusetts Roads Dataset（马萨诸塞州道路数据集）、Massachusetts Buildings Dataset（马萨诸塞州建筑数据集），共有1109张1500x1500大小的tiff格式的遥感原图及其中对应tif格式的标签图。我们共获取了建筑和道路各36张训练数据、14张验证数据，同上做数据随机分割并进行数据增强。最终生成1500张256x256大小的数据集。其中部分数据如下图所示。</p>
-<div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_2.png" alt="部分开源数据集" style="zoom:60%;">
-</div>
-
-<blockquote>
-<p>Road and Building Detection Datasets <a target="_blank" rel="noopener" href="https://www.cs.toronto.edu/~vmnih/data/">下载地址</a></p>
-<p>一些处理后的数据</p>
-<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1NZ0rnpRpzZDIbtbB-LKMqg">https://pan.baidu.com/s/1NZ0rnpRpzZDIbtbB-LKMqg</a> 提取码：hx7n </p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">语义分割</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-SVM" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/14/SVM/">机器学习方法(七)：支持向量机(support vector machines, SVM)</a>
+    <h1 class="article-title" itemprop="name">
+      机器学习方法(七)：支持向量机(support vector machines, SVM)
     </h1>
   
 
@@ -292,7 +200,31 @@ var _hmt = _hmt || [];
     
 	
 	<!-- 目录内容 -->
-			   
+	
+		<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
+			  <span class="btn-bg"></span>
+			  <span class="btn-text">文章导航</span>
+			  </p>
+		<div id="toc-article" class="toc-article">
+			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
+			<strong class="toc-title">文章目录</strong>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a></li></ol>
+			 </div>
+	   <script type="text/javascript">
+		function showToc(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:block");
+			show_toc_btn.setAttribute("style","display:none");
+			};
+		function showBtn(){
+			var toc_article = document.getElementById("toc-article");
+			var show_toc_btn = document.getElementById("show-toc-btn");
+			toc_article.setAttribute("style","display:none");
+			show_toc_btn.setAttribute("style","display:block");
+			};
+	   </script>
+    		   
 	<!-- 目录内容结束 -->
 	
     <div class="article-entry" itemprop="articleBody">
@@ -320,510 +252,203 @@ x_{d}
 <script type="math/tex; mode=display">
 \begin{equation}
 r=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||} \tag{1.1}
-\end{equation}</script>
-        
-          <a class="article-more-a" href="/2019/08/14/SVM/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/14/SVM/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-神经网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">机器学习方法(六)：神经网络中的反向传播算法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" class="archive-article-date">
-  	<time datetime="2019-08-07T06:37:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-07</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="反向传播算法"><a href="#反向传播算法" class="headerlink" title="反向传播算法"></a>反向传播算法</h2><div align="center">
-<img src="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/neural_network_1.png" alt="神经网络反向传播算法">
-</div>
-
-<p>第一层是输入层，包含两个神经元i1、i2，和截距项b1；第二层是隐含层，包含两个神经元h1、h2和截距项b2，第三层是输出o1、o2，每条线上标的wi是层与层之间连接的权重，激活函数默认为sigmoid函数。</p>
-        
-          <a class="article-more-a" href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2019-08-04T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、过拟合问题"><a href="#一、过拟合问题" class="headerlink" title="一、过拟合问题"></a>一、过拟合问题</h2><div align="center">
-    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_2.png" height="300" alt="线性回归过拟合" style="zoom: 70%;">
-    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_1.png" height="300" alt="逻辑回归过拟合" style="zoom: 70%;">
-</div>
-
-<p>指的是我们设计的模型过度拟合训练集$J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \approx 0$，导致它在训练集上表现很好，但是在测试集上却表现很差，无法泛化到新的样本中，难以对新样本进行预测。</p>
-<p>那么如何预防过拟合？</p>
-<blockquote>
-<p>减少特征的数量    </p>
-<ul>
-<li>人工选择哪些特征应该保留，那些应该舍弃；</li>
-<li>模型选择算法（Model selection algorithm）；</li>
-</ul>
-<p>正则化</p>
-<ul>
-<li>保留所有的特征，但减小参数$(\theta_j)$的幅值；</li>
-<li>当数据有很多特性时，每个特性都对预测y有一点贡献；</li>
-</ul>
-</blockquote>
-        
-          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-决策树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/">机器学习方法(四)：决策树（Decision Tree）</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2019-08-02T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-02</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、什么是决策树？"><a href="#一、什么是决策树？" class="headerlink" title="一、什么是决策树？"></a>一、什么是决策树？</h2><div align="center">
-<img src="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
-</div>
-
-<p>假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十…</p>
-<p>每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的就是为了产生一颗<strong>泛化能力强，即处理未见数据强</strong>的决策树。</p>
-        
-          <a class="article-more-a" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-LogisticRegression对数几率回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">机器学习方法(三)：Logistic Regression 对数几率回归</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2019-07-31T12:11:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-31</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h2><div align="center">
-<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom:40%;">
-</div>
-
-
-<p>对于线性回归而言，模型可以简写为：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-y=w^Tx+b \ \  or \ \ y=θ^Tx(更常用，下面统一用该式子表示) \tag{1}
-\end{equation}</script><p>假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-ln\, y=w^Tx+b \ \ or \ \ ln\, y=θ^Tx\tag{2}
-\end{equation}</script><p>这就是“对数线性回归”<code>(log-linear regression)</code>，如上图中的红线映射到黑色的指数线，这就是广义线性模型的思想。更一般的考虑单调可微函数<code>g(·)</code>，令：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-y=g(w^Tx+b) \ \ or \ \ y=g(θ^Tx) \tag{3}
-\end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
-        
-          <a class="article-more-a" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
-    <article id="post-线性回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">机器学习方法(二)：线性回归</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2019-07-28T00:05:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="线性回归"><a href="#线性回归" class="headerlink" title="线性回归"></a>线性回归</h2><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
-<h3 id="一、-单变量线性回归"><a href="#一、-单变量线性回归" class="headerlink" title="一、 单变量线性回归"></a>一、 单变量线性回归</h3><p>线性回归是在假设特征满足线性关系，根据给定的训练数据训练一个线性模型，并用此模型进行预测。即使用一条<strong>函数曲线</strong>使其训练数据很好的<strong>拟合已知函数</strong>，并很好的<strong>预测未知数据</strong>。回归问题按照输入变量的个数可以分为<strong>一元回归</strong>和<strong>多元回归</strong>。</p>
+\end{equation}</script> <a id="more"></a>
 <div align="center">
-<img src="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/linear_regression_1.png" alt="一元线性回归">
+<img src="/2019/08/14/SVM/svm_hyperplanes.png" alt="支持向量与间隔" style="zoom:50%;">
 </div>
 
-<p>对于一元线性回归，函数用可以用一个公式来表示，即假设$x$和$h_{\theta}(x)$之间存在这样的关系：</p>
+<p>如果我们的决策面方程可以对样本正确分类，即对$\left(x_{i}, y_{i}\right) \in D$，若$y_{i}=+1$，则有$\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b&gt;0$；</p>
+<p>若$y_{i}=-1$，则有$\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b&lt;0$；令：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-h_{\theta}(x)  = \theta_0 + \theta_1 x \tag{1}
-\end{equation}</script><p>$h_{\theta}(x)$即我们预测的数值，该值与实际数值之间的差异，即为误差：</p>
+\left\{\begin{array}{ll}
+\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b \geq+1, & y_{i}=+1 \\
+\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b \leq-1, & y_{i}=-1
+\end{array}\right. \tag{1}
+\end{equation}</script><h3 id="1-2-间隔最大化"><a href="#1-2-间隔最大化" class="headerlink" title="1.2 间隔最大化"></a>1.2 间隔最大化</h3><p>距离超平面最近的这几个训练样本点使式(1)的等号成立的样本被称为<strong>“支持向量”</strong>，对于这些支持向量样本点，有：</p>
+<script type="math/tex; mode=display">
+d=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||}=\frac{1}{|| \boldsymbol{w}||}, \text { if } x_{i} \text { is a support vector }</script><p>两个异类支持向量到平面的距离和为：</p>
+<script type="math/tex; mode=display">
+r=\frac{2}{|| w||}</script><p>找到最大间隔的超平面，即找到参数<strong>w</strong>和b,使得r最大，即：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-error=|y- h_{\theta}(x)| \tag{2}
-\end{equation}</script><p>由于求绝对值过于繁琐，我们将其视为误差平方和，并对齐求均值，即代价（损失）函数：</p>
+\max _{w, b} \frac{2}{|| w||}\\ \tag{1.2}
+\begin{array}{ll}
+\text { s. t. } & y_{i}\left(\boldsymbol{w}^{T} x+b\right) \geq 1 & i=1,2, \ldots, m \text { . } 
+\end{array} 
+\end{equation}</script><p>这等价于最小化$|\mathbf{w}|^{2}$,上式可写成：</p>
 <script type="math/tex; mode=display">
 \begin{equation}
-J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)}) - y^{(i)}\right)^{2}=\frac{1}{2m}\sum_{i=1}^{m}\left(\theta_0 + \theta_1x_i-y^{(i)}\right)^{2} \tag{3}
-\end{equation}</script><p>我们的目的就是使得预测值尽可能地接近实际值，即误差越小越好。即找到一组$(\theta_0,\theta_1)$，使得误差平方和最小。</p>
+\min _{w, b} \frac{1}{2}|| w||^2
+\\ \tag{1.3}
+\end{equation}
+\begin{array}{ll}
+\text { s. t. } & y_{i}\left(\boldsymbol{w}^{T} x+b\right) \geq 1 \quad i=1,2, \ldots, m \text { . }
+\end{array}</script><h3 id="1-3-对偶问题"><a href="#1-3-对偶问题" class="headerlink" title="1.3 对偶问题"></a>1.3 对偶问题</h3><p>上述式(1.3)本身是一个含有不等式的<strong>凸二次规划的问题</strong>。</p>
 <blockquote>
-<p>Hypothesis：$h_{\theta}(x)  = \theta_0 + \theta_1 x$</p>
-<p>Parameters：$\theta_0,\theta_1$</p>
-<p>Cost Function：$J(\theta_0,\theta_1) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{(i)}) - y^{(i)}\right)^{2}$</p>
-<p>Goal：$\underset{\theta_{0}, \theta_{1}}{\operatorname{minimize}} J\left(\theta_{0}, \theta_{1}\right)$</p>
+<p><strong>凸二次规划的问题：</strong>凸优化问题的一个特殊形式，当目标函数是二次型函数且约束函数g是仿射函数时，就变成一个凸二次规划问题，凸二次规划问题的一般形式为：</p>
+<script type="math/tex; mode=display">
+\min _{x} \frac{1}{2} x^{T} Q x+c^{T} x \\
+\begin{aligned}
+&\text {s.t.} \quad W x \leq b
+\end{aligned}</script></blockquote>
+<p>对式(1.3)使用<strong>拉格朗日乘子法</strong>可得到其<strong>“对偶问题”</strong>，对每条约束添加拉格朗日乘子$\alpha_i≥0$，则该问题的拉格朗日目标函数：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+L(\boldsymbol{w}, b, \boldsymbol{\alpha})=\frac{1}{2}|| \boldsymbol{w}||^{2}+\sum_{i=1}^{m} \alpha_{i}\left(1-y_{i}\left(\boldsymbol{w}^{T} x+b\right)\right) \tag{1.4}
+\end{equation}</script><blockquote>
+<p><strong>拉格朗日乘子法：</strong>假设需要求极值的目标函数为$f(x,y) $，约束条件为$\varphi(x,y)=M$。设$g(x,y)=M-φ(x,y) $，定义一个新函数$F(x,y,λ)=f(x,y)+λg(x,y) $，则用偏导数方法列出方程：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}
+\frac{\partial F(x, y, \lambda)}{\partial x}=0 \\
+\frac{\partial F(x, y, \lambda)}{\partial y}=0 \\
+\frac{\partial F(x, y, \lambda)}{\partial \lambda}=0
+\end{array}\right.</script><p>求出$x,y,λ$的值，代入即可得到目标函数的极值。</p>
 </blockquote>
-        
-          <a class="article-more-a" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/#more">more >></a>
-        
+<p>其中$\alpha_i$为拉格朗日乘子，且  $\alpha_i≥0$。现在我们令</p>
+<script type="math/tex; mode=display">
+\theta(\boldsymbol{w})=\max _{\alpha_i≥0}⁡L(\boldsymbol{w},b,\boldsymbol{\alpha})</script><p>当样本点不满足约束条件时，即在可行解区域外：$y_{i}\left(\boldsymbol{w}^{T} x+b\right)&lt;1$，此时，将$\alpha_i$设置为无穷大；当满本点满足约束条件时，即在可行解区域内：$y_{i}\left(\boldsymbol{w}^{T} x+b\right)≥1$</p>
+<script type="math/tex; mode=display">
+\theta(\boldsymbol{w})=\left\{\begin{array}{lr}
+\frac{1}{2}|| \boldsymbol{w}||^{2}, \ w和b满足(3)式约束条件 \\
++\, \infin, \ w和b不满足(3)式约束条件
+\end{array}\right.</script><p>于是原约束问题就等价于:</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\min _{\boldsymbol{w}, b} \theta(\boldsymbol{w})=\min _{\boldsymbol{w}, b} \max _{\alpha_{i} \geq 0} L(\boldsymbol{w}, b, \boldsymbol{\alpha})=p^{*} \tag{1.5}
+\end{equation}</script><p>其与式$(1.3)$所述问题是完全等价的。</p>
+<p>这个求解过程不好做，使用拉格朗日函数对偶性，将最小和最大的位置交换，即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\max _{a_{i} \geq 0} \min _{\mathbf{w}, \mathrm{b}} L(\boldsymbol{w}, b, \boldsymbol{\alpha})=d^{*} \tag{1.6}
+\end{equation}</script><p>要使得$p^<em>=d^</em>$,需要满足$KKT$条件，即要求：</p>
+<script type="math/tex; mode=display">
+\left\{\begin{array}{l}
+a_{i} \geq 0 \\
+y_{i} f\left(x_{i}\right)-1 \geq 0 \\
+a_{i}\left(y_{i} f\left(x_{i}\right)-1\right)=0
+\end{array}\right.</script><p>为得到具体形式，<strong>第一步</strong>先求$\min _{\mathbf{w}, \mathrm{b}} L(\boldsymbol{w}, b, \boldsymbol{\alpha})$，令$L(\boldsymbol{w}, b, \boldsymbol{\alpha})$对$\boldsymbol{w}$和b的偏导为0，可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\nabla_{\boldsymbol{w}} L(\boldsymbol{w}, b, \alpha)&=\boldsymbol{w} -\sum_{i=1}^{n} \alpha_{i} y_{i} x_{i}=0 \Longrightarrow \boldsymbol{w}=\sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} \\
+\nabla_{b} L(\boldsymbol{w}, b, \alpha)&=-\sum_{i=1}^{n} \alpha_{i} y_{i}  \Longrightarrow 0 \Longrightarrow \sum_{i=1}^{n} \alpha_{i} y_{i}=0
+\end{aligned}</script><p>将这两个式子带入拉格朗日目标函数$L(\boldsymbol{w}, b, \alpha)$，消去$\boldsymbol{w}$和b,得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L(\boldsymbol{w}, b, \boldsymbol{\alpha})&=\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} a_{i} y_{i}\left(\left(\sum_{j=1}^{N} \alpha_{j} y_{j} x_{j}\right) \cdot x_{i}+b\right)+\sum_{i=1}^{N} \alpha_{i} \\
+&=-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}
+\end{aligned}</script><p>即：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\min _{\boldsymbol{w}, b} L(\boldsymbol{w}, b, \boldsymbol{\alpha})=-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(\boldsymbol{x}_{i} \cdot \boldsymbol{x}_{j}\right)+\sum_{i=1}^{N} \alpha_{i} \tag{1.7}
+\end{equation}</script><p><strong>第二步</strong>继续求$\min _{\boldsymbol{w}, b} L(\boldsymbol{w}, b, \boldsymbol{\alpha})$对$\alpha$的极大：</p>
+<script type="math/tex; mode=display">
+\max _{\alpha}\left(-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}\right) \\
+\text { s.t. } \sum_{i=1}^{N} \alpha_{i} y_{i}=0 \quad a_{i} \geq 0, i=1,2, \ldots, N</script><p>等价于式(1.7)取负数后求极小值：</p>
+<script type="math/tex; mode=display">
+\min _{\alpha} \left(\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} \alpha_{i} \right) \\
+\text { s.t. } \sum_{i=1}^{N} \alpha_{i} y_{i}=0 \quad a_{i} \geq 0, i=1,2, \ldots, N</script><p>对于上式，使用序列最小优化（SMO）算法求解$\alpha^<em>$，进而求得<em>*w</em></em>和b,进而求出超平面。</p>
+<blockquote>
+<p><strong>SMO算法基本思想：</strong>在每一步优化当中，挑选出诸多参数$(a_k(k=1,2,…,N))$中的两个参数$(a_i,a_j)$作为“真正参数”，其余的参数都视为常数，从而问题就变成了类似二次方程求最大值的问题。</p>
+</blockquote>
+<p>根据前面的推导，有：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{w}=\sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} \quad  \sum_{i=1}^{n} \alpha_{i} y_{i}=0</script><p>在$\alpha^<em>$中，至少存在一个$a_j^</em>&gt;0$，对此$j$有</p>
+<script type="math/tex; mode=display">
+y_{j}\left(\boldsymbol{w}^{*} \cdot x_{j}+b^{*}\right)-1=0</script><p>可得：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+b^* &= \frac{1}{y_j} - \boldsymbol{w}^{*} \cdot x_{j} \\
+&= y_j - \boldsymbol{w}^{*} \cdot x_{j} \\
+&= y_j - \sum_{i=1}^{N} a_{i}^{*} y_{i}\left(\boldsymbol{x}_{i} \cdot \boldsymbol{x}_{\boldsymbol{j}}\right)
+\end{aligned}</script><p>即：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{w}^{*}=\sum_{i=1}^{N} a_{i}^{*} y_{i} \boldsymbol{x}_{i} \quad b^{*}=y_{j}-\sum_{i=1}^{N} a_{i}^{*} y_{i}\left(\boldsymbol{x}_{i} \cdot \boldsymbol{x}_{\boldsymbol{j}}\right)</script><p>分析$KKT$条件里的互补条件，对于任意样本$(x_i,y_i)$，总会有$\alpha_i=0$或者$y_{i} f(x_{i})-1=0$。则有若$\alpha_i=0$，此样本点不是支持向量对模型没有任何作用；若$\alpha_i&gt;0$，此样本位于最大间隔边界上，是一个支持向量，如下图所示：</p>
+<div align="center">
+<img src="/2019/08/14/SVM/support_vector.jpg" alt="支持向量" style="zoom:50%;">
+</div>
+
+
+
+<h2 id="二、线性SVM——软间隔"><a href="#二、线性SVM——软间隔" class="headerlink" title="二、线性SVM——软间隔"></a>二、线性SVM——软间隔</h2><p>在前面的讨论中，我们一直假定训练数据是严格线性可分的，即存在一个超平面能完全将两类数据分开。但是现实任务这个假设往往不成立，例如下图所示的数据。</p>
+<div align="center">
+<img src="/2019/08/14/SVM/soft_margin.png" alt="软间隔" style="zoom:40%;">
+</div>
+
+<h3 id="2-1-软间隔最大化"><a href="#2-1-软间隔最大化" class="headerlink" title="2.1 软间隔最大化"></a>2.1 软间隔最大化</h3><p>解决该问题的一个办法是允许SVM在少量样本上出错，为此引入<strong>“软间隔<code>(soft margin)</code>”</strong>的概念。即允许少量样本不满足约束</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right) \geqslant 1 \tag{2.1}
+\end{equation}</script><p>为了在最大化间隔的同时，使得不满足约束的样本尽可能少，我们需要在优化的目标函数(3)里面新增一个对这些点的惩罚项。</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\min _{\boldsymbol{w}, b} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \ell_{0 / 1}\left(y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right)-1\right) \tag{2.2}
+\end{equation}</script><p>其中$C&gt;0$是个常数，$\ell_{0 / 1}$是<strong>“0/1损失函数”</strong></p>
+<script type="math/tex; mode=display">
+\ell_{0 / 1}(z)=\left\{\begin{array}{ll}1, & \text { if } z<0 \\0, & \text { otherwise }\end{array}\right.</script><p>即若样本点满足约束条件损失就是$1$，否则损失就是$0$。当$C$为无穷大时，式$(2.2)$迫使所有样本均满足约束$(2.1)$，式$(2.2)$等价于$(1.4)$；当$C$取有限值时，式$(2.2)$允许一些样本不满足约束。</p>
+<p>但是$\ell_{0 / 1}$非凸、非连续，因此常常使用其他损失函数来代替$\ell_{0 / 1}$。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&hinge损失：\ell_{hinge}(z)=max(0,1-z);\\
+&z指数损失：\ell_{exp}(z)=exp(-z);\\
+&对数损失：\ell_{log}(z)=log(1+exp(-z)) 
+\end{aligned}</script><p>最常用的是$hinge$损失，即若样本点满足约束条件损失就是$0$，否则损失就是$1-z$，则优化目标$(2.2)$变成</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\min _{\boldsymbol{w}, b} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \max \left(0,1-y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right)\right) \tag{2.3}
+\end{equation}</script><p>其中$C$称为惩罚参数，$C$越小时对误分类惩罚越小，越大时对误分类惩罚越大，当$C$取正无穷时就变成了硬间隔优化。实际应用时我们要合理选取$C$，$C$越小越容易欠拟合，越大越容易过拟合。</p>
+<p>引入“松弛变量”$\xi_i≥0$，式$(2.3)$可写为：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\min _{\boldsymbol{w}, b, \xi_{i}} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} \\
+\begin{array}{c}\text { s.t. } y_{i}\left(X_{i}^{T} W+b\right) \geq 1-\xi_{i} \\\xi_{i} \geq 0, i=1,2, \ldots n .\end{array} \tag{2.4} 
+\end{equation}</script><h3 id="2-2-对偶问题"><a href="#2-2-对偶问题" class="headerlink" title="2.2 对偶问题"></a>2.2 对偶问题</h3><div align="center">
+<img src="/2019/08/14/SVM/soft_margin_result.png" alt="软间隔" style="zoom:40%;">
+</div>
+
+<h3 id="2-3-惩罚参数C"><a href="#2-3-惩罚参数C" class="headerlink" title="2.3 惩罚参数C"></a>2.3 惩罚参数C</h3><div align="center">
+<img src="/2019/08/14/SVM/param_c.png" alt="惩罚参数c" style="zoom:40%;">
+</div>
+
+<h2 id="三、非线性SVM——核技巧"><a href="#三、非线性SVM——核技巧" class="headerlink" title="三、非线性SVM——核技巧"></a>三、非线性SVM——核技巧</h2><p>前面介绍的都是线性问题，然而在现实任务中，原始样本空间内也许不存在一个能正确划分两类样本的超平面(例如异或问题)，此时就需要用到核技巧(kernel trick)将线性支持向量机推广到非线性支持向量机。</p>
+<div align="center">
+<img src="/2019/08/14/SVM/dimension_reflect.png" alt="映射更高维度" style="zoom:50%;">
+</div>
+
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assets/img/wechat.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -847,16 +472,84 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/28/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/08/14/SVM/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          遥感图像语义分割 小记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">机器学习方法(六)：神经网络中的反向传播算法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -871,18 +564,32 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
         </div>
         
         
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
     </div>
 </aside>
 
 
 
-
-
   
   
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next »</a>
-    </nav>
+  
+
+  
+
+  
+
   
 
 
@@ -906,8 +613,8 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
