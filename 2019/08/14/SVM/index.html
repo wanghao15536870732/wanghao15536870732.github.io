@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/param_c.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/dimension_reflect.png">
 <meta property="article:published_time" content="2019-08-14T02:53:21.000Z">
-<meta property="article:modified_time" content="2021-02-05T14:07:48.591Z">
+<meta property="article:modified_time" content="2021-02-06T12:42:20.482Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Machine Learning">
 <meta property="article:tag" content="笔记">
@@ -208,7 +208,7 @@ var _hmt = _hmt || [];
 		<div id="toc-article" class="toc-article">
 			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
 			<strong class="toc-title">文章目录</strong>
-			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a></li></ol>
+			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 非线性支持向量机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
 			 </div>
 	   <script type="text/javascript">
 		function showToc(){
@@ -344,7 +344,7 @@ L(\boldsymbol{w}, b, \boldsymbol{\alpha})&=\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}
 \end{equation}</script><p><strong>第二步</strong>继续求$\min _{\boldsymbol{w}, b} L(\boldsymbol{w}, b, \boldsymbol{\alpha})$对$\alpha$的极大：</p>
 <script type="math/tex; mode=display">
 \max _{\alpha}\left(-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}\right) \\
-\text { s.t. } \sum_{i=1}^{N} \alpha_{i} y_{i}=0 \quad a_{i} \geq 0, i=1,2, \ldots, N</script><p>等价于式(1.7)取负数后求极小值：</p>
+\text { s.t. } \sum_{i=1}^{N} \alpha_{i} y_{i}=0 \quad a_{i} \geq 0, i=1,2, \ldots, N</script><p>等价于式$(1.7)$取负数后求极小值：</p>
 <script type="math/tex; mode=display">
 \min _{\alpha} \left(\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} \alpha_{i} \right) \\
 \text { s.t. } \sum_{i=1}^{N} \alpha_{i} y_{i}=0 \quad a_{i} \geq 0, i=1,2, \ldots, N</script><p>对于上式，使用序列最小优化（SMO）算法求解$\alpha^<em>$，进而求得<em>*w</em></em>和b,进而求出超平面。</p>
@@ -365,8 +365,9 @@ b^* &= \frac{1}{y_j} - \boldsymbol{w}^{*} \cdot x_{j} \\
 <script type="math/tex; mode=display">
 \boldsymbol{w}^{*}=\sum_{i=1}^{N} a_{i}^{*} y_{i} \boldsymbol{x}_{i} \quad b^{*}=y_{j}-\sum_{i=1}^{N} a_{i}^{*} y_{i}\left(\boldsymbol{x}_{i} \cdot \boldsymbol{x}_{\boldsymbol{j}}\right)</script><p>分析$KKT$条件里的互补条件，对于任意样本$(x_i,y_i)$，总会有$\alpha_i=0$或者$y_{i} f(x_{i})-1=0$。则有若$\alpha_i=0$，此样本点不是支持向量对模型没有任何作用；若$\alpha_i&gt;0$，此样本位于最大间隔边界上，是一个支持向量，如下图所示：</p>
 <div align="center">
-<img src="/2019/08/14/SVM/support_vector.jpg" alt="支持向量" style="zoom:50%;">
+<img src="/2019/08/14/SVM/support_vector.jpg" alt="支持向量" style="zoom:40%;">
 </div>
+
 
 
 
@@ -402,19 +403,105 @@ y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right) \geqslant 1 \
 \begin{equation}
 \min _{\boldsymbol{w}, b, \xi_{i}} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} \\
 \begin{array}{c}\text { s.t. } y_{i}\left(X_{i}^{T} W+b\right) \geq 1-\xi_{i} \\\xi_{i} \geq 0, i=1,2, \ldots n .\end{array} \tag{2.4} 
-\end{equation}</script><h3 id="2-2-对偶问题"><a href="#2-2-对偶问题" class="headerlink" title="2.2 对偶问题"></a>2.2 对偶问题</h3><div align="center">
-<img src="/2019/08/14/SVM/soft_margin_result.png" alt="软间隔" style="zoom:40%;">
+\end{equation}</script><p>这就是常用的<strong>“软间隔支持向量机”</strong>。</p>
+<h3 id="2-2-对偶问题"><a href="#2-2-对偶问题" class="headerlink" title="2.2 对偶问题"></a>2.2 对偶问题</h3><p>式$(2.4)$表示的软间隔支持向量机依然是一个凸二次规划问题，和硬间隔支持向量机类似，我们可以通过拉格朗日乘子法将其转换为对偶问题进行求解：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\begin{aligned}
+L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})=& \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} + \sum_{i=1}^{m} \alpha_{i}\left(1-\xi_{i}-y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right)\right)-\sum_{i=1}^{m} \mu_{i} \xi_{i}
+\end{aligned} \tag{2.5}
+\end{equation}</script><p>类似1.3节，为了求得对偶问题的解，我们需要先求得$L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$对$\boldsymbol{w}、 b、 \boldsymbol{\xi}$的极小再求对$\boldsymbol{\alpha}、 \boldsymbol{\mu}$的极大。</p>
+<p><strong>第一步</strong>先求$\min _{\boldsymbol{w}, b, \xi} L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$，令$L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$对$\boldsymbol{w}$,b,$\xi_i$的偏导为0，可得：</p>
+<script type="math/tex; mode=display">
+\begin{align}
+\boldsymbol{w} &=\sum_{i=1}^{m} \alpha_{i} y_{i} \boldsymbol{x}_{i} \tag{2.6} \\
+0 &=\sum_{i=1}^{m} \alpha_{i} y_{i} \tag{2.7} \\
+C &=\alpha_{i}+\mu_{i} \tag{2.8}
+\end{align}</script><p>将上面三个式子代入式$(2.5)$并进行类似式$(1.7)$的推导即得：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\min _{\boldsymbol{w}, b, \xi} L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu}) = -\frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} \boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{x}_{j} + \sum_{i=1}^{m} \alpha_{i} \tag{2.9}
+\end{equation}</script><p><strong>第二步</strong>先求$\min _{\boldsymbol{w}, b, \xi} L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$对$\alpha$的极大，等价于式子$(2.9)$取负数后求极小值：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\min_\alpha \left( \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} \boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{x}_{j} - \sum_{i=1}^{m} \alpha_{i} \right) \tag{2.10}
+\end{equation}\\
+\text { s.t. }  \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\ 0 \leqslant \alpha_{i} \leqslant C, \ i=1,2, \ldots, m</script><p>至此，我们得到了原始最优化问题$(2.4)$和对偶最优化问题$(2.10)$。</p>
+<p>类似1.3节，假设我们现在通过通用的二次规划求解方法或者SMO算法求得了$(2.10)$的最优解$\alpha^<em>$，则根据式$(2.6)$可求得最优$\boldsymbol{w^</em>}$：</p>
+<script type="math/tex; mode=display">
+\boldsymbol{w} =\sum_{i=1}^{m} \alpha_{i} y_{i} \boldsymbol{x}_{i}</script><p>对于软间隔支持向量机，$KKT$条件要求：</p>
+<script type="math/tex; mode=display">
+\begin{equation}
+\left\{\begin{array}{l}
+\alpha_{i} \geqslant 0, \quad \mu_{i} \geqslant 0 \\
+y_{i} f\left(\boldsymbol{x}_{i}\right)-1+\xi_{i} \geqslant 0 \\
+\alpha_{i}\left(y_{i} f\left(\boldsymbol{x}_{i}\right)-1+\xi_{i}\right)=0 \\
+\xi_{i} \geqslant 0, \mu_{i} \xi_{i}=0
+\end{array}\right. \tag{2.11}
+\end{equation}</script><p> 对任意训练样本 $\left(\boldsymbol{x}_{i}, y_{i}\right),$ 总有 $\alpha_{i}=0$ 或 $y_{i} f\left(\boldsymbol{x}_{i}\right)=1-\xi_{i}$</p>
+<ul>
+<li>若 $\alpha_{i}=0$，则该样本不会对 $f(\boldsymbol{x})$ 有任何影响；</li>
+<li>若 $\alpha_{i}&gt;0$， 则有 $y_{i} f\left(\boldsymbol{x}_{i}\right)=1-\xi_{i}$ ，即该样本 是支持向量；</li>
+</ul>
+<p>由式 (2.8) 可知：</p>
+<ul>
+<li>若 $\alpha_{i}<C$， 则 $\mu_{i}>0$ ，进而有 $\xi_{i}=0$ 即，该样本恰在最大间隔边界上；</C$，></li>
+<li>若 $\alpha_{i}=C$，则有 $\mu_{i}=0$， 此时若 $\xi_{i} \leqslant 1$ 则该样本落在最大间隔内部，若 $\xi_{i}&gt;1$ 则该样本被错误分类；</li>
+</ul>
+<p>如下图所示：</p>
+<div align="center">
+<img src="/2019/08/14/SVM/soft_margin_result.png" alt="软间隔SVM" style="zoom:40%;">
 </div>
 
+<p>由此可看出, 软间隔支持向量机的最终模型仅与支持向量有关, 即通过采用$hinge$损失函数仍保持了稀疏性。</p>
 <h3 id="2-3-惩罚参数C"><a href="#2-3-惩罚参数C" class="headerlink" title="2.3 惩罚参数C"></a>2.3 惩罚参数C</h3><div align="center">
-<img src="/2019/08/14/SVM/param_c.png" alt="惩罚参数c" style="zoom:40%;">
+<img src="/2019/08/14/SVM/param_c.png" alt="惩罚参数c" style="zoom:50%;">
 </div>
 
+<script type="math/tex; mode=display">
+\begin{equation}
+\min _{\boldsymbol{w}, b, \xi_{i}} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} \\
+\begin{array}{c} \end{array} \tag{2.4} 
+\end{equation}</script><p>对于一般化的问题，上式可以简化为：</p>
+<script type="math/tex; mode=display">
+\min _{f} \Omega(f)+C \sum_{i=1}^{m} \ell\left(f\left(\boldsymbol{x}_{i}\right), y_{i}\right)</script><p>其中$\Omega(f)$可以理解为“结构风险(structural risk)”，用来描述所求模型$f$的某些性质；第二项$\sum_{i=1}^{m} \ell\left(f\left(\boldsymbol{x}_{i}\right) , y_{i}\right)$称为“经验风险(empirical risk)”，用来描述模型与训练数据的契合程度(即误差)。而参数$C$就是用于对二者的折中,即我们一方面要求模型要满足某种性质（例如希望获得复杂度较小的模型）另一方面又想使模型与训练数据很契合（减小误差）。</p>
+<p>从正则化角度来讲，$\Omega(f)$称为正则化项，$C$称为惩罚参数，越大即对误分类的惩罚越大(要求模型对训练模型更契合)，这可能会存在过拟合；越小即相对更加看重正则化项，此时可能存在欠拟合。</p>
 <h2 id="三、非线性SVM——核技巧"><a href="#三、非线性SVM——核技巧" class="headerlink" title="三、非线性SVM——核技巧"></a>三、非线性SVM——核技巧</h2><p>前面介绍的都是线性问题，然而在现实任务中，原始样本空间内也许不存在一个能正确划分两类样本的超平面(例如异或问题)，此时就需要用到核技巧(kernel trick)将线性支持向量机推广到非线性支持向量机。</p>
 <div align="center">
-<img src="/2019/08/14/SVM/dimension_reflect.png" alt="映射更高维度" style="zoom:50%;">
+<img src="/2019/08/14/SVM/dimension_reflect.png" alt="映射更高维度" style="zoom:30%;">
 </div>
 
+<blockquote>
+<p>设 $\mathcal{X}$ 是输入空间，又设 $\mathcal{H}$ 是特征空间（希尔伯特空间），如果 存在一个 $\mathcal{X}$ 到 $\mathcal{H}$ 的映射 $\phi(x): \mathcal{X} \rightarrow \mathcal{H}$ 使得对所有 $x_i, x_j \in \mathcal{X},$ 函数 $K(x_i, x_j)$ 满足条件 $K(x_i, x_j)=\phi(x_i)^T \cdot \phi(x_j)$ 则称 $K(x_i, x_j)$ 为核函数, $\phi(x)$ 为映射函数, 式中 $\phi(x_i) \cdot \phi(x_j)$ 为 $\phi(x_i)$ 和 $\phi(x_j)$ 的内积。</p>
+</blockquote>
+<p>给核函数$K(x_i,x_j)$定的情况下，可以利用解线性问题的方法求解非线性问题的支持向量。常用的核函数：</p>
+<ul>
+<li>多项式核函数(polynomial kernel function)<script type="math/tex; mode=display">
+K(x, z)=(x \cdot z+1)^{p}</script></li>
+<li>高斯核函数(guassian kernel function)</li>
+</ul>
+<script type="math/tex; mode=display">
+K(x, z)=\exp \left(-\frac{\|x-z\|^{2}}{2 \sigma^{2}}\right)</script><h3 id="3-1-非线性支持向量机"><a href="#3-1-非线性支持向量机" class="headerlink" title="3.1 非线性支持向量机"></a>3.1 非线性支持向量机</h3><p>利用核技巧可以很简单地把线性支持向量机扩展到非线性支持向量机，只需将线性支持向量机中的內积换成核函数即可。</p>
+<p>选取合适的核函数$K(x_i,x_j)$和参数$C$，构造最优化问题：</p>
+<script type="math/tex; mode=display">
+\min _{\alpha} \ \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} K(x_i,x_j) - \sum_{i=1}^{m} \alpha_{i} \\
+\begin{array}{ll}
+\text { s.t. } & \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\
+& \alpha_{i} \geqslant 0, \quad i=1,2, \ldots, m
+\end{array}</script><p>再利用现成的二次规划问题求解算法或者SMO算法求得最优解$\alpha^*$。</p>
+<p>选择一个$\alpha^*$满足</p>
+<script type="math/tex; mode=display">
+0<{\alpha}_{j}^*<C</script><p>的分量${\alpha}_{j}^*$ , 计算：</p>
+<script type="math/tex; mode=display">
+b^*=y_{j}-\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, x_{i}\right)</script><p>构造决策函数：</p>
+<script type="math/tex; mode=display">
+f(x)=\operatorname{sign}\left(\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, x_{i}\right)+b^*\right)</script><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://cs229.stanford.edu/">cs299</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">机器学习 周志华著</a></li>
+<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/33437381/">统计学习方法（第2版）李航著</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31886934">支持向量机（SVM）——原理篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32152421">支持向量机(SVM)——SMO算法</a></li>
+</ul>
 
       
 
@@ -571,7 +658,7 @@ y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right) \geqslant 1 \
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 非线性支持向量机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol>
                     </div>
                 </span>
             </div>
