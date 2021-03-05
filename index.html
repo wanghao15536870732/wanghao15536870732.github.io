@@ -278,6 +278,116 @@ var _hmt = _hmt || [];
 
 
   
+    <article id="post-优化算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/17/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/">优化算法 小结</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/17/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2020-06-17T08:00:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-17</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="梯度下降法"><a href="#梯度下降法" class="headerlink" title="梯度下降法"></a>梯度下降法</h3><p>以简单的一维梯度下降为例, 解释梯度下降算法可能降低目标函数值的原因。假设连续可导的函数 $f: \mathbb{R} \rightarrow \mathbb{R}$ 的输入和输出都是标量。给定绝对值足唱小 的数 $\epsilon$, 根据泰勒展开公式 ，得到以下的近似:</p>
+<script type="math/tex; mode=display">
+f(x+\epsilon) \approx f(x)+\epsilon f^{\prime}(x)</script><p>这里 $f^{\prime}(x)$ 是函数在 $x$ 处的梯度。一维函数的梯度是一个标量, 也称导数。接下来, 找到一个常数 $\eta&gt;0,$ 使得 $\left|\eta f^{\prime}(x)\right|$ 足够小, 那么可以将 $\epsilon$ 替换为 $-\eta f^{\prime}(x)$ 并得到</p>
+<script type="math/tex; mode=display">
+f\left(x-\eta f^{\prime}(x)\right) \approx f(x)-\eta f^{\prime}(x)^{2}</script><p>如果导数 $f^{\prime}(x) \neq 0,$ 那么 $\eta f^{\prime}(x)^{2}&gt;0,$ 所以</p>
+<script type="math/tex; mode=display">
+f\left(x-\eta f^{\prime}(x)\right) \lesssim f(x)</script><p>这意味着，如果通过</p>
+<script type="math/tex; mode=display">
+x \leftarrow x-\eta f^{\prime}(x)</script><p>来迭代 $x,$ 函数 $f(x)$ 的值可能会降低。因此在梯度下降中，我们先选取一个初始值x和常数 $\eta&gt;0,$ 然后不断通过上式来迭代 $x,$ 直到达到停止条件, 例如 $f^{\prime}(x)^{2}$ 的 值已足够小或迭代次数已达到某个值 $_{9}$<br>下面我们以目标函数 $f(x)=x^{2}$ 为例来看一看梯度下降是如何工作的。虽然我们知道最小化 $f(x)$ 的解为 $x=0,$ 这里依然使用这个简单函数来观察 $x$ 是如何被迭代 的。首先, 导入本节实验所需的包或模块。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">eta=0.05</th>
+<th style="text-align:center">eta=1.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/2020/06/17/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/gd_1.png" alt="梯度下降法3" style="zoom:60%;"></td>
+<td style="text-align:center"><img src="/2020/06/17/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/gd_2.png" alt="梯度下降法2" style="zoom:60%;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+        
+          <a class="article-more-a" href="/2020/06/17/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Deep Learning</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">小记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/06/17/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-SoftMax" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -764,109 +874,6 @@ r=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||} \tag{1.1}
 
 
   
-    <article id="post-LogisticRegression对数几率回归" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">机器学习方法(三)：Logistic Regression 对数几率回归</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/" class="archive-article-date">
-  	<time datetime="2019-07-31T12:11:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-31</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="广义线性模型"><a href="#广义线性模型" class="headerlink" title="广义线性模型"></a>广义线性模型</h2><div align="center">
-<img src="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/LinearRegression.png" alt="对数线性回归示意图" style="zoom:40%;">
-</div>
-
-
-<p>对于线性回归而言，模型可以简写为：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-y=w^Tx+b \ \  or \ \ y=θ^Tx(更常用，下面统一用该式子表示) \tag{1}
-\end{equation}</script><p>假设我们的模型的输出是在指数尺度上的变化，我们可以简单的将输出的对数作为线性模型逼近的目标，将线性模型映射到指数变化上，即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-ln\, y=w^Tx+b \ \ or \ \ ln\, y=θ^Tx\tag{2}
-\end{equation}</script><p>这就是“对数线性回归”<code>(log-linear regression)</code>，如上图中的红线映射到黑色的指数线，这就是广义线性模型的思想。更一般的考虑单调可微函数<code>g(·)</code>，令：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-y=g(w^Tx+b) \ \ or \ \ y=g(θ^Tx) \tag{3}
-\end{equation}</script><p>这就得到了“广义线性模型”，虽然在形式上还是线性回归，但实质上是对输入空间的非线性变化，使得函数具有非线性的属性。</p>
-        
-          <a class="article-more-a" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/31/LogisticRegression%E5%AF%B9%E6%95%B0%E5%87%A0%E7%8E%87%E5%9B%9E%E5%BD%92/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next »</a>
@@ -1007,6 +1014,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">随笔</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">小记</a>
               </li>
             
             <div class="clearfix"></div>
