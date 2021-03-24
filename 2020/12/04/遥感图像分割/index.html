@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/ui_4.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/ui_5.png">
 <meta property="article:published_time" content="2020-12-04T15:29:48.000Z">
-<meta property="article:modified_time" content="2021-03-04T07:37:33.351Z">
+<meta property="article:modified_time" content="2021-03-24T01:07:34.199Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Deep Learning">
 <meta property="article:tag" content="语义分割">
@@ -277,7 +277,7 @@ var _hmt = _hmt || [];
 <p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1NZ0rnpRpzZDIbtbB-LKMqg">https://pan.baidu.com/s/1NZ0rnpRpzZDIbtbB-LKMqg</a> 提取码：hx7n </p>
 </blockquote>
 <a id="more"></a>
-<h3 id="1-3-其他数据集（自我标注）"><a href="#1-3-其他数据集（自我标注）" class="headerlink" title="1.3 其他数据集（自我标注）"></a>1.3 其他数据集（自我标注）</h3><p>使用腾讯地图开源API获取到中北大学卫星图像，取得8张1024x768大小卫星遥感图像（仅供学习使用），同样对其进行随机裁剪。使用labelme图像标注工具对切割后的图像进行标注。道路、水体边界不明显，难以标注，因此只对建筑、植被进行了标注。最终共生成建筑、植被自我标注数据集各60张，其中部分数据如下图所示。</p>
+<h3 id="1-3-其他数据集（自我标注）"><a href="#1-3-其他数据集（自我标注）" class="headerlink" title="1.3 其他数据集（自我标注）"></a>1.3 其他数据集（自我标注）</h3><p>使用腾讯地图开源API获取到中北大学卫星图像，取得8张1024x768大小卫星遥感图像（仅供学习使用），同样对其进行随机裁剪。使用labelme图像标注工具对切割后的图像进行自我标注。由于其中道路、水体边界不明显，难以标注，因此只对建筑、植被进行了标注。最终共生成建筑、植被自我标注数据集各60张，其中部分数据如下图所示。</p>
 <div align="center">
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_3.png" alt="部分自我标注数据集" style="zoom:50%;">
 </div>
@@ -285,11 +285,10 @@ var _hmt = _hmt || [];
 <h3 id="1-4-其他遥感分割数据集"><a href="#1-4-其他遥感分割数据集" class="headerlink" title="1.4 其他遥感分割数据集"></a>1.4 其他遥感分割数据集</h3><p>开源数据集</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://weegee.vision.ucmerced.edu/datasets/landuse.html">UC Merced Land-Use Data Set</a> 总包含21类场景图像，每一类有100张，共2100张。</li>
-<li>Gaofen Image Dataset <a target="_blank" rel="noopener" href="https://x-ytong.github.io/project/GID.html">[link]</a> <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1807.05713">[arXiv]</a> GID由两部分组成：大规模分类集( The large-scale classification set, ~55G)和精细土地覆盖分类集(The fine land-cover classification set, ~5G)。</li>
-</ul>
-<p>竞赛</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.datafountain.cn/competitions/475">2020 CCF BDCI 遥感影像地块分割</a></li>
+<li><p>Gaofen Image Dataset <a target="_blank" rel="noopener" href="https://x-ytong.github.io/project/GID.html">[link]</a> <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1807.05713">[arXiv]</a> GID由两部分组成：大规模分类集( The large-scale classification set, ~55G)和精细土地覆盖分类集(The fine land-cover classification set, ~5G)。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.datafountain.cn/competitions/475">2020 CCF BDCI 遥感影像地块分割</a></p>
+</li>
 <li><a target="_blank" rel="noopener" href="https://competition.huaweicloud.com/information/1000041322/introduction">“华为云杯”2020人工智能创新应用大赛</a></li>
 <li><a target="_blank" rel="noopener" href="http://deepglobe.org/challenge.html">DeepGlobe卫星图像地表解析(道路提取、建筑物检测、地标分类)挑战赛</a></li>
 </ul>
@@ -306,9 +305,9 @@ var _hmt = _hmt || [];
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/data_rise.png" alt="数据增强" style="zoom:70%;">
 </div>
 
-<h2 id="三、语义分割网络"><a href="#三、语义分割网络" class="headerlink" title="三、语义分割网络"></a>三、语义分割网络</h2><p>语义分割一直是个很活跃的研究课题，早期的分割算法主要是灰度分割、条件随机场（CRF）等一些较为传统的算法。近些年来，研究人员将深度学习运用到计算机视觉领域，利用深度网络技术的图像语义分割技术，突破了传统图像分割的瓶颈，构建了端到端的深度学习网络[1]。从最初的Patch Classification方法到2014年Long等人提出FCN网络将传统的CNN网络中的全连接层全部替换成卷积层，从此DL/NN方法席卷了整个语义分割领域。</p>
+<h2 id="三、语义分割网络"><a href="#三、语义分割网络" class="headerlink" title="三、语义分割网络"></a>三、语义分割网络</h2><p>语义分割一直是个很活跃的研究课题，早期的分割算法主要是灰度分割、条件随机场（CRF）等一些较为传统的算法。近些年来，研究人员将深度学习运用到计算机视觉领域，利用深度网络技术的图像语义分割技术，突破了传统图像分割的瓶颈，构建了端到端的深度学习网络。从最初的Patch Classification方法到2014年Long等人提出FCN网络将传统的CNN网络中的全连接层全部替换成卷积层，从此DL/NN方法席卷了整个语义分割领域。</p>
 <p>现如今，常用的语义分割方法中主要有：基于条件随机场（CRF）的方法如DeepLab，CRFasRNN；FCN架构及其解码级的变体SegNet，Bayesan SegNet；多尺度融合的方法；循环神经网络的方法等。深度网络在语义级的图像分割上取得了很多富有成效的结果，但仍然有很多问题尚待突破。</p>
-<h3 id="3-1-SegNet网络"><a href="#3-1-SegNet网络" class="headerlink" title="3.1 SegNet网络"></a>3.1 SegNet网络</h3><p><strong>SegNet:</strong> A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation（一种用于图像分割的深度卷积编码器/解码器架构）<strong>，</strong>也称为语义像素分割。该网络由一个编码器网络，一个相应的解码器网络，以及一个像素分类层组成[1]。对输入图像进行低维编码，然后在解码器中利用方向不变性能力恢复图像。SegNet的创新之处在于解码器对较低分辨率的特征图进行上采样的方式。SegNet网络结构如下图所示。</p>
+<h3 id="3-1-SegNet网络"><a href="#3-1-SegNet网络" class="headerlink" title="3.1 SegNet网络"></a>3.1 SegNet网络</h3><p><strong>SegNet:</strong> A Deep Convolutional Encoder-Decoder Architecture for Image Segmentation（一种用于图像分割的深度卷积编码器/解码器架构）<strong>，</strong>也称为语义像素分割。该网络由一个编码器网络，一个相应的解码器网络，以及一个像素分类层组成。对输入图像进行低维编码，然后在解码器中利用方向不变性能力恢复图像。SegNet的创新之处在于解码器对较低分辨率的特征图进行上采样的方式。SegNet网络结构如下图所示。</p>
 <div align="center">
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/Segnet.png" alt="Segnet网络结构" width="800">
 </div>
@@ -318,13 +317,13 @@ var _hmt = _hmt || [];
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/encoder-decoder.png" alt="EncoderDecoer网络结构" width="800">
 </div>
 
-<h4 id="3-1-1-编码器网络结构"><a href="#3-1-1-编码器网络结构" class="headerlink" title="3.1.1 编码器网络结构"></a>3.1.1 编码器网络结构</h4><p>Encoder（编码器）网络的架构与VGG16网络中的前13层卷积层拓扑结构相同，并且移除了VGG16的全连接层（FC），在最深的编码器输出端保留分辨率更高的特征图。与其他架构相比，显著地减少了SegNet编码器网络中的参数数据量，使得该网络比其他架构更小、更容易训练[1]。下图4.10为Vgg的网络结构图，其中D列即为Vgg16的网络结构。</p>
+<h4 id="3-1-1-编码器网络结构"><a href="#3-1-1-编码器网络结构" class="headerlink" title="3.1.1 编码器网络结构"></a>3.1.1 编码器网络结构</h4><p>Encoder（编码器）网络的架构与VGG16网络中的前13层卷积层拓扑结构相同，并且移除了VGG16的全连接层（FC），在最深的编码器输出端保留分辨率更高的特征图。与其他架构相比，显著地减少了SegNet编码器网络中的参数数据量，使得该网络比其他架构更小、更容易训练。下图为Vgg的网络结构图，其中D列即为Vgg16的网络结构。</p>
 <div align="center">
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/vgg.jpg" alt="vgg网络结构" style="zoom:70%;">
 </div>
 
 <p>编码器网络中的每个编码器执行与卷积核的卷积(Convolution)，以产生一组特征映射，然后进行批量标准化(Batch Normalisation)，应用单元非线性激活函数(ReLU) max(0，x)。 随后，使用2×2大小、2步幅的窗口（非重叠窗口）执行最大池化。该过程使用的卷积为same卷积，即卷积后不改变图片大小。</p>
-<h4 id="3-1-2-解码器网络结构"><a href="#3-1-2-解码器网络结构" class="headerlink" title="3.1.2 解码器网络结构"></a>3.1.2 解码器网络结构</h4><p>Decoder（解码器）网络的作用是将低分辨率的编码器特征映射到，以便按像素分类。如下图4.11所示，Polling之后，每个filter会丢失3个权重，这些权重是无法复原的，但是在SegNet中的Pooling比其他Pooling多了一个index功能（该文章亮点之一），也就是每次Pooling，都会保存通过max选出的权值在2x2 filter中的相对位置。</p>
+<h4 id="3-1-2-解码器网络结构"><a href="#3-1-2-解码器网络结构" class="headerlink" title="3.1.2 解码器网络结构"></a>3.1.2 解码器网络结构</h4><p>Decoder（解码器）网络的作用是将低分辨率的编码器特征映射到，以便按像素分类。如下图所示，Polling之后，每个filter会丢失3个权重，这些权重是无法复原的，但是在SegNet中的Pooling比其他Pooling多了一个index功能（该文章亮点之一），也就是每次Pooling，都会保存通过max选出的权值在2x2 filter中的相对位置。</p>
 <div align="center">
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/polling_indices.png" alt="polling_indices" style="zoom:60%;">
 </div>
@@ -342,19 +341,19 @@ var _hmt = _hmt || [];
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/loss.png" alt="损失优化" style="zoom:100%;">
 </div>
 
-<p>由于我们训练的网络输入是256x256，因此，对于单张256x256大小的测试图片，可以直接传入我们的网络进行预测。期间会返回一张1x2（类别数）x256x256大小的张量。计算通道维度上最大值对应的下标即为当前像素对应的类别标签，然后使用调色板进行调色即可。</p>
+<p>由于我们训练的网络输入大小是256x256，因此，对于单张256x256大小的测试图片，可以直接传入我们的网络进行预测。期间会返回一张1x2（类别数）x256x256大小的张量。计算通道维度上最大值对应的下标即为当前像素对应的类别标签，然后使用调色板进行调色即可。</p>
 <h3 id="3-2-Bayesian-SegNet"><a href="#3-2-Bayesian-SegNet" class="headerlink" title="3.2 Bayesian SegNet"></a>3.2 Bayesian SegNet</h3><div align="center">
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/BayesianSegNet.png" alt="BayesianSegNet网络结构" width="800">
 </div>
 
-<p>从网络变化的角度看，Bayesian SegNet只是在卷积层中多加了一个DropOut层。最右边的两个图Segmentation与Model Uncertainty，就是像素点语义分割输出与其不确定度[2]（颜色越深代表不确定性越大，即置信度越低）。</p>
+<p>从网络变化的角度看，Bayesian SegNet只是在卷积层中多加了一个DropOut层。最右边的两个图Segmentation与Model Uncertainty，就是像素点语义分割输出与其不确定度（颜色越深代表不确定性越大，即置信度越低）。</p>
 <p>在Bayesian SegNet中通过DropOut层实现多次采样，多次采样的样本值为最后输出，方差为其不确定度，方差越大不确定度越大，如上图所示，mean为图像语义分割结果，var为不确定大小。</p>
 <h3 id="3-3-Full-convolutional-networks-FCN"><a href="#3-3-Full-convolutional-networks-FCN" class="headerlink" title="3.3  Full convolutional networks(FCN)"></a>3.3  Full convolutional networks(FCN)</h3><div align="center">
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/unsample.png" alt="SegNet与FCN所使用的解码技术区别" width="600">
 </div>
 
 <p>左图是SegNet（SegNet-Basic同）使用的解码技术，其中上采样步骤不涉及学习，上采样的映射与解码器的卷积核进行卷积，加密其稀疏输入。</p>
-<p>右图是FCN使用的解码技术，FCN模型的重要设计在于如何对编码器的特征图进行降维。在该网络的解码器中，通过使用固定的或可训练的多通道的逆卷积来执行上采样[3]。我们将内核大小设置为8×8.这种上采样方式也被称为反卷积。相比之下，SegNet中解码器使用的多通道卷积是在上采样之后执行的，这使得特征图变得更密集。FCN的上采样要素图有K个通道，然后按元素将其添加到相应的编码器特征图中，以产生解码器特征图。其中32、16、8倍上采样的FCN架构如下图所示。</p>
+<p>右图是FCN使用的解码技术，FCN模型的重要设计在于如何对编码器的特征图进行降维。在该网络的解码器中，通过使用固定的或可训练的多通道的逆卷积来执行上采样。我们将内核大小设置为8×8.这种上采样方式也被称为反卷积。相比之下，SegNet中解码器使用的多通道卷积是在上采样之后执行的，这使得特征图变得更密集。FCN的上采样要素图有K个通道，然后按元素将其添加到相应的编码器特征图中，以产生解码器特征图。其中32、16、8倍上采样的FCN架构如下图所示。</p>
 <div align="center">
 <img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/fcn_8s.png" alt="多倍上采样的fcn网路">
 </div>
