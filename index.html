@@ -181,6 +181,95 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-高分变化检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/">高分辨率可见光图像中建筑物普查与变化检测-竞赛</a>
+    </h1>
+  
+
+        
+        <a href="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/" class="archive-article-date">
+  	<time datetime="2021-10-29T14:53:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-29</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="一、赛题简介"><a href="#一、赛题简介" class="headerlink" title="一、赛题简介"></a>一、赛题简介</h3><p>该赛道为<a target="_blank" rel="noopener" href="http://gaofen-challenge.com">第五届“中科星图杯”国际高分遥感图像解译大赛</a>的赛道之一。比赛分为初赛和决赛，分别有各自的测试集。所有模型性能都是线下训练，在线评估打分和排序。初赛截止时需要提交技术报告，排名前列的队伍进入决赛。决赛前6为优胜队伍。 最后成绩是：初赛6/176，top4%，未进决赛。</p>
+<div align="center">
+<img src="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/summary.png" alt="ASPP Module" style="zoom:60%;">
+</div>
+        
+          <a class="article-more-a" href="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Change Detection</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Competition</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-遥感图像分割" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -208,16 +297,18 @@ var _hmt = _hmt || [];
       
         <h2 id="一、数据来源"><a href="#一、数据来源" class="headerlink" title="一、数据来源"></a>一、数据来源</h2><h3 id="1-1-指导教师提供的数据"><a href="#1-1-指导教师提供的数据" class="headerlink" title="1.1 指导教师提供的数据"></a>1.1 指导教师提供的数据</h3><p>共包含5张大尺寸（21184x21279）的卫星原图及其所对应同样大小的建筑、道路、水体和植被的标记图，我们不能直接把这些图像送入网络进行训练，因为内存承受不了，而且他们的尺寸也各不相同。因此，首先将他们做随机切割，即随机生成(x,y)坐标，然后抠出该坐标下256x256的小图，并做一些常见的数据增强操作，使得更适合训练我们的网络，最终获取到5000张256x256大小的训练数据，其中部分数据如下图所示。</p>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_1.png" alt="部分数据集" style="zoom:60%;">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_1.png" alt="部分数据集" style="zoom:40%;">
 </div>
+
 
 <blockquote>
 <p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw">https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw</a> 提取码：bvuq</p>
 </blockquote>
 <h3 id="1-2-Road-and-Building-Detection-Datasets开源数据"><a href="#1-2-Road-and-Building-Detection-Datasets开源数据" class="headerlink" title="1.2 Road and Building Detection Datasets开源数据"></a>1.2 Road and Building Detection Datasets开源数据</h3><p>其中包括Massachusetts Roads Dataset（马萨诸塞州道路数据集）、Massachusetts Buildings Dataset（马萨诸塞州建筑数据集），共有1109张1500x1500大小的tiff格式的遥感原图及其中对应tif格式的标签图。我们共获取了建筑和道路各36张训练数据、14张验证数据，同上做数据随机分割并进行数据增强。最终生成1500张256x256大小的数据集。其中部分数据如下图所示。</p>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_2.png" alt="部分开源数据集" style="zoom:60%;">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_2.png" alt="部分开源数据集" style="zoom:40%;">
 </div>
+
 
 <blockquote>
 <p>Road and Building Detection Datasets <a target="_blank" rel="noopener" href="https://www.cs.toronto.edu/~vmnih/data/">下载地址</a></p>
@@ -789,97 +880,6 @@ r=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||} \tag{1.1}
 
 
   
-    <article id="post-决策树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/">机器学习方法(四)：决策树（Decision Tree）</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2019-08-02T08:45:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-02</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、什么是决策树？"><a href="#一、什么是决策树？" class="headerlink" title="一、什么是决策树？"></a>一、什么是决策树？</h2><div align="center">
-<img src="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/decision_tree_example.png" alt="决策树例图">
-</div>
-
-<p>假如某公司想招聘机器学习的算法工程师，则可能会首先判断是否发表过顶会论文，如果发表过，可能会考虑录用。倘若没有，则继续判断是否为研究生，若是研究生，就看他研究生期间有没有做过有关机器学习的项目，若有，可能会考虑录用，若没有，则再进行考察。若不是研究生，则判断他的$GPA$是否年级前十…</p>
-<p>每次的判断都相当于一次决策，每次决策逐渐累积构成了一棵树，即为决策树。而决策树学习目的就是为了产生一颗<strong>泛化能力强，即处理未见数据强</strong>的决策树。</p>
-        
-          <a class="article-more-a" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/02/%E5%86%B3%E7%AD%96%E6%A0%91/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next »</a>
@@ -1028,6 +1028,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Change Detection</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Competition</a>
               </li>
             
             <div class="clearfix"></div>

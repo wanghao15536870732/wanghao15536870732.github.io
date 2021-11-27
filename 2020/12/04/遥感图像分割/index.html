@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/ui_4.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/ui_5.png">
 <meta property="article:published_time" content="2020-12-04T15:29:48.000Z">
-<meta property="article:modified_time" content="2021-03-24T01:07:34.199Z">
+<meta property="article:modified_time" content="2021-10-29T15:07:30.821Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Deep Learning">
 <meta property="article:tag" content="语义分割">
@@ -260,16 +260,18 @@ var _hmt = _hmt || [];
       
         <h2 id="一、数据来源"><a href="#一、数据来源" class="headerlink" title="一、数据来源"></a>一、数据来源</h2><h3 id="1-1-指导教师提供的数据"><a href="#1-1-指导教师提供的数据" class="headerlink" title="1.1 指导教师提供的数据"></a>1.1 指导教师提供的数据</h3><p>共包含5张大尺寸（21184x21279）的卫星原图及其所对应同样大小的建筑、道路、水体和植被的标记图，我们不能直接把这些图像送入网络进行训练，因为内存承受不了，而且他们的尺寸也各不相同。因此，首先将他们做随机切割，即随机生成(x,y)坐标，然后抠出该坐标下256x256的小图，并做一些常见的数据增强操作，使得更适合训练我们的网络，最终获取到5000张256x256大小的训练数据，其中部分数据如下图所示。</p>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_1.png" alt="部分数据集" style="zoom:60%;">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_1.png" alt="部分数据集" style="zoom:40%;">
 </div>
+
 
 <blockquote>
 <p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw">https://pan.baidu.com/s/1OqTrmWqR-05zMqNPZqmUnw</a> 提取码：bvuq</p>
 </blockquote>
 <h3 id="1-2-Road-and-Building-Detection-Datasets开源数据"><a href="#1-2-Road-and-Building-Detection-Datasets开源数据" class="headerlink" title="1.2 Road and Building Detection Datasets开源数据"></a>1.2 Road and Building Detection Datasets开源数据</h3><p>其中包括Massachusetts Roads Dataset（马萨诸塞州道路数据集）、Massachusetts Buildings Dataset（马萨诸塞州建筑数据集），共有1109张1500x1500大小的tiff格式的遥感原图及其中对应tif格式的标签图。我们共获取了建筑和道路各36张训练数据、14张验证数据，同上做数据随机分割并进行数据增强。最终生成1500张256x256大小的数据集。其中部分数据如下图所示。</p>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_2.png" alt="部分开源数据集" style="zoom:60%;">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_2.png" alt="部分开源数据集" style="zoom:40%;">
 </div>
+
 
 <blockquote>
 <p>Road and Building Detection Datasets <a target="_blank" rel="noopener" href="https://www.cs.toronto.edu/~vmnih/data/">下载地址</a></p>
@@ -279,8 +281,9 @@ var _hmt = _hmt || [];
 <a id="more"></a>
 <h3 id="1-3-其他数据集（自我标注）"><a href="#1-3-其他数据集（自我标注）" class="headerlink" title="1.3 其他数据集（自我标注）"></a>1.3 其他数据集（自我标注）</h3><p>使用腾讯地图开源API获取到中北大学卫星图像，取得8张1024x768大小卫星遥感图像（仅供学习使用），同样对其进行随机裁剪。使用labelme图像标注工具对切割后的图像进行自我标注。由于其中道路、水体边界不明显，难以标注，因此只对建筑、植被进行了标注。最终共生成建筑、植被自我标注数据集各60张，其中部分数据如下图所示。</p>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_3.png" alt="部分自我标注数据集" style="zoom:50%;">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/dataset_3.png" alt="部分自我标注数据集" style="zoom:40%;">
 </div>
+
 
 <h3 id="1-4-其他遥感分割数据集"><a href="#1-4-其他遥感分割数据集" class="headerlink" title="1.4 其他遥感分割数据集"></a>1.4 其他遥感分割数据集</h3><p>开源数据集</p>
 <ul>
@@ -302,8 +305,9 @@ var _hmt = _hmt || [];
 <li>⑦ 随机以上数据处理。</li>
 </ul>
 <div align="center">
-<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/data_rise.png" alt="数据增强" style="zoom:70%;">
+<img src="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/data_rise.png" alt="数据增强" style="zoom:50%;">
 </div>
+
 
 <h2 id="三、语义分割网络"><a href="#三、语义分割网络" class="headerlink" title="三、语义分割网络"></a>三、语义分割网络</h2><p>语义分割一直是个很活跃的研究课题，早期的分割算法主要是灰度分割、条件随机场（CRF）等一些较为传统的算法。近些年来，研究人员将深度学习运用到计算机视觉领域，利用深度网络技术的图像语义分割技术，突破了传统图像分割的瓶颈，构建了端到端的深度学习网络。从最初的Patch Classification方法到2014年Long等人提出FCN网络将传统的CNN网络中的全连接层全部替换成卷积层，从此DL/NN方法席卷了整个语义分割领域。</p>
 <p>现如今，常用的语义分割方法中主要有：基于条件随机场（CRF）的方法如DeepLab，CRFasRNN；FCN架构及其解码级的变体SegNet，Bayesan SegNet；多尺度融合的方法；循环神经网络的方法等。深度网络在语义级的图像分割上取得了很多富有成效的结果，但仍然有很多问题尚待突破。</p>
@@ -512,6 +516,15 @@ M I O U=\frac{1}{k+1} \sum_{i=0}^{k} \frac{p_{i i}}{\sum_{j=0}^{k} p_{i j}+\sum_
   
 <nav id="article-nav">
   
+    <a href="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          高分辨率可见光图像中建筑物普查与变化检测-竞赛
+        
+      </div>
+    </a>
+  
   
     <a href="/2020/06/17/%E4%BC%98%E5%8C%96%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">优化算法 小结</div>
@@ -704,6 +717,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Change Detection</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Competition</a>
               </li>
             
             <div class="clearfix"></div>

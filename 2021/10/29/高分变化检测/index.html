@@ -6,33 +6,28 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="https://wanghao15536870732.github.io">
-  <title>机器学习方法(七)：支持向量机(support vector machines, SVM) | HowardWang的博客</title>
+  <title>高分辨率可见光图像中建筑物普查与变化检测-竞赛 | HowardWang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、线性可分SVM——硬间隔1.1 超平面与间隔    给定训练集$D&#x3D;{(x_1,y_1 ),(x_2,y_2 ),…,(x_m,y_m )}  ,y_i∈{-1,+1}$，分类学习的最基本的任务就是在样本空间中寻找一个划分超平面，将不同类别的样本划分开来，但是这样的超平面有很多，选择哪个最好呢？直观上来看，越接近两类样本分隔界的样本，越容易产生分类错误，而位于两类样本“正中间”的划分超平面受影">
+  <meta name="description" content="一、赛题简介该赛道为第五届“中科星图杯”国际高分遥感图像解译大赛的赛道之一。比赛分为初赛和决赛，分别有各自的测试集。所有模型性能都是线下训练，在线评估打分和排序。初赛截止时需要提交技术报告，排名前列的队伍进入决赛。决赛前6为优胜队伍。 最后成绩是：初赛6&#x2F;176，top4%，未进决赛。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="机器学习方法(七)：支持向量机(support vector machines, SVM)">
-<meta property="og:url" content="https://wanghao15536870732.github.io/2019/08/14/SVM/index.html">
+<meta property="og:title" content="高分辨率可见光图像中建筑物普查与变化检测-竞赛">
+<meta property="og:url" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/index.html">
 <meta property="og:site_name" content="HowardWang的博客">
-<meta property="og:description" content="一、线性可分SVM——硬间隔1.1 超平面与间隔    给定训练集$D&#x3D;{(x_1,y_1 ),(x_2,y_2 ),…,(x_m,y_m )}  ,y_i∈{-1,+1}$，分类学习的最基本的任务就是在样本空间中寻找一个划分超平面，将不同类别的样本划分开来，但是这样的超平面有很多，选择哪个最好呢？直观上来看，越接近两类样本分隔界的样本，越容易产生分类错误，而位于两类样本“正中间”的划分超平面受影">
+<meta property="og:description" content="一、赛题简介该赛道为第五届“中科星图杯”国际高分遥感图像解译大赛的赛道之一。比赛分为初赛和决赛，分别有各自的测试集。所有模型性能都是线下训练，在线评估打分和排序。初赛截止时需要提交技术报告，排名前列的队伍进入决赛。决赛前6为优胜队伍。 最后成绩是：初赛6&#x2F;176，top4%，未进决赛。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/multiple_hyperplanes.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/svm_hyperplanes.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/support_vector.jpg">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/soft_margin.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/soft_margin_result.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/param_c.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/dimension_reflect.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/decision_boundary.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/svm_with_kernels_1.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/svm_with_kernels_2.png">
-<meta property="og:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/lr_svm.png">
-<meta property="article:published_time" content="2019-08-14T02:53:21.000Z">
-<meta property="article:modified_time" content="2021-02-07T06:28:30.455Z">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/summary.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/introduce.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/dataset.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/pipline.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/PSPNet.png">
+<meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/ASPP.png">
+<meta property="article:published_time" content="2021-10-29T14:53:24.000Z">
+<meta property="article:modified_time" content="2021-11-27T08:35:16.976Z">
 <meta property="article:author" content="HowardWang">
-<meta property="article:tag" content="Machine Learning">
-<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="Change Detection">
+<meta property="article:tag" content="Competition">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://wanghao15536870732.github.io/2019/08/14/SVM/multiple_hyperplanes.png">
+<meta name="twitter:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/summary.png">
   
     <link rel="alternative" href="/atom.xml" title="HowardWang的博客" type="application/atom+xml">
   
@@ -196,335 +191,99 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-SVM" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-高分变化检测" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      机器学习方法(七)：支持向量机(support vector machines, SVM)
+      高分辨率可见光图像中建筑物普查与变化检测-竞赛
     </h1>
   
 
         
-        <a href="/2019/08/14/SVM/" class="archive-article-date">
-  	<time datetime="2019-08-14T02:53:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-14</time>
+        <a href="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/" class="archive-article-date">
+  	<time datetime="2021-10-29T14:53:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-29</time>
 </a>
         
       </header>
     
 	
 	<!-- 目录内容 -->
-	
-		<p class="show-toc-btn" id="show-toc-btn" onclick="showToc();" style="display:none">
-			  <span class="btn-bg"></span>
-			  <span class="btn-text">文章导航</span>
-			  </p>
-		<div id="toc-article" class="toc-article">
-			<span id="toc-close" class="toc-close" title="隐藏导航" onclick="showBtn();">×</span>
-			<strong class="toc-title">文章目录</strong>
-			   <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 非线性支持向量机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">4.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
-			 </div>
-	   <script type="text/javascript">
-		function showToc(){
-			var toc_article = document.getElementById("toc-article");
-			var show_toc_btn = document.getElementById("show-toc-btn");
-			toc_article.setAttribute("style","display:block");
-			show_toc_btn.setAttribute("style","display:none");
-			};
-		function showBtn(){
-			var toc_article = document.getElementById("toc-article");
-			var show_toc_btn = document.getElementById("show-toc-btn");
-			toc_article.setAttribute("style","display:none");
-			show_toc_btn.setAttribute("style","display:block");
-			};
-	   </script>
-    		   
+			   
 	<!-- 目录内容结束 -->
 	
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、线性可分SVM——硬间隔"><a href="#一、线性可分SVM——硬间隔" class="headerlink" title="一、线性可分SVM——硬间隔"></a>一、线性可分SVM——硬间隔</h2><h3 id="1-1-超平面与间隔"><a href="#1-1-超平面与间隔" class="headerlink" title="1.1 超平面与间隔"></a>1.1 超平面与间隔</h3><div align="center">
-<img src="/2019/08/14/SVM/multiple_hyperplanes.png" alt="多个超平面划分数据" style="zoom:40%;">
-</div>
-
-<p>给定训练集$D={(x_1,y_1 ),(x_2,y_2 ),…,(x_m,y_m )}  ,y_i∈{-1,+1}$，分类学习的最基本的任务就是在样本空间中寻找一个<strong>划分超平面</strong>，将不同类别的样本划分开来，但是这样的超平面有很多，选择哪个最好呢？直观上来看，越接近两类样本分隔界的样本，越容易产生分类错误，而位于两类样本<strong>“正中间”</strong>的划分超平面受影响最小，泛化能力更强。</p>
-<p>在样本空间中，划分的超平面可通过如下线性方程表示：</p>
-<script type="math/tex; mode=display">
-w_1 x_1+w_2 x_2+w_3 x_3+⋯+w_d x_d+b=0</script><p>即：</p>
-<script type="math/tex; mode=display">
-\left[\begin{array}{lllll}
-w_{1} & w_{2} & w_{3} & \ldots & w_{d}
-\end{array}\right] \cdot\left[\begin{array}{l}
-x_{1} \\
-x_{2} \\
-x_{3} \\
-\ldots \\
-x_{d}
-\end{array}\right]+b=0</script><p>转换向量表示即为：</p>
-<script type="math/tex; mode=display">
-\boldsymbol{w}^{T} \boldsymbol{x}+b=0</script><p>其中$\mathbf{w}=\left(\mathrm{w}_{1} ; \mathrm{w}_{2} ; \ldots ; \mathrm{w}_{\mathrm{d}}\right)$为法向量,决定了超平面的方向;$b$为位移项，决定了超平面与原点之间的距离。则样本空间中任一点<strong>x</strong>到超平面(<strong>w</strong>,b)的距离可表示为：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-r=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||} \tag{1.1}
-\end{equation}</script> <a id="more"></a>
+        <h3 id="一、赛题简介"><a href="#一、赛题简介" class="headerlink" title="一、赛题简介"></a>一、赛题简介</h3><p>该赛道为<a target="_blank" rel="noopener" href="http://gaofen-challenge.com">第五届“中科星图杯”国际高分遥感图像解译大赛</a>的赛道之一。比赛分为初赛和决赛，分别有各自的测试集。所有模型性能都是线下训练，在线评估打分和排序。初赛截止时需要提交技术报告，排名前列的队伍进入决赛。决赛前6为优胜队伍。 最后成绩是：初赛6/176，top4%，未进决赛。</p>
 <div align="center">
-<img src="/2019/08/14/SVM/svm_hyperplanes.png" alt="支持向量与间隔" style="zoom:50%;">
+<img src="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/summary.png" alt="ASPP Module" style="zoom:60%;">
 </div>
 
-<p>如果我们的决策面方程可以对样本正确分类，即对$\left(x_{i}, y_{i}\right) \in D$，若$y_{i}=+1$，则有$\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b&gt;0$；</p>
-<p>若$y_{i}=-1$，则有$\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b&lt;0$；令：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\left\{\begin{array}{ll}
-\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b \geq+1, & y_{i}=+1 \\
-\boldsymbol{w}^{T} \boldsymbol{x}_{i}+b \leq-1, & y_{i}=-1
-\end{array}\right. \tag{1}
-\end{equation}</script><h3 id="1-2-间隔最大化"><a href="#1-2-间隔最大化" class="headerlink" title="1.2 间隔最大化"></a>1.2 间隔最大化</h3><p>距离超平面最近的这几个训练样本点使式(1)的等号成立的样本被称为<strong>“支持向量”</strong>，对于这些支持向量样本点，有：</p>
-<script type="math/tex; mode=display">
-d=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||}=\frac{1}{|| \boldsymbol{w}||}, \text { if } x_{i} \text { is a support vector }</script><p>两个异类支持向量到平面的距离和为：</p>
-<script type="math/tex; mode=display">
-r=\frac{2}{|| w||}</script><p>找到最大间隔的超平面，即找到参数<strong>w</strong>和b,使得r最大，即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\max _{w, b} \frac{2}{|| w||}\\ \tag{1.2}
-\begin{array}{ll}
-\text { s. t. } & y_{i}\left(\boldsymbol{w}^{T} x+b\right) \geq 1 & i=1,2, \ldots, m \text { . } 
-\end{array} 
-\end{equation}</script><p>这等价于最小化$|\mathbf{w}|^{2}$,上式可写成：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\min _{w, b} \frac{1}{2}|| w||^2
-\\ \tag{1.3}
-\end{equation}
-\begin{array}{ll}
-\text { s. t. } & y_{i}\left(\boldsymbol{w}^{T} x+b\right) \geq 1 \quad i=1,2, \ldots, m \text { . }
-\end{array}</script><h3 id="1-3-对偶问题"><a href="#1-3-对偶问题" class="headerlink" title="1.3 对偶问题"></a>1.3 对偶问题</h3><p>上述式(1.3)本身是一个含有不等式的<strong>凸二次规划的问题</strong>。</p>
-<blockquote>
-<p><strong>凸二次规划的问题：</strong>凸优化问题的一个特殊形式，当目标函数是二次型函数且约束函数g是仿射函数时，就变成一个凸二次规划问题，凸二次规划问题的一般形式为：</p>
-<script type="math/tex; mode=display">
-\min _{x} \frac{1}{2} x^{T} Q x+c^{T} x \\
-\begin{aligned}
-&\text {s.t.} \quad W x \leq b
-\end{aligned}</script></blockquote>
-<p>对式(1.3)使用<strong>拉格朗日乘子法</strong>可得到其<strong>“对偶问题”</strong>，对每条约束添加拉格朗日乘子$\alpha_i≥0$，则该问题的拉格朗日目标函数：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-L(\boldsymbol{w}, b, \boldsymbol{\alpha})=\frac{1}{2}|| \boldsymbol{w}||^{2}+\sum_{i=1}^{m} \alpha_{i}\left(1-y_{i}\left(\boldsymbol{w}^{T} x+b\right)\right) \tag{1.4}
-\end{equation}</script><blockquote>
-<p><strong>拉格朗日乘子法：</strong>假设需要求极值的目标函数为$f(x,y) $，约束条件为$\varphi(x,y)=M$。设$g(x,y)=M-φ(x,y) $，定义一个新函数$F(x,y,λ)=f(x,y)+λg(x,y) $，则用偏导数方法列出方程：</p>
-<script type="math/tex; mode=display">
-\left\{\begin{array}{l}
-\frac{\partial F(x, y, \lambda)}{\partial x}=0 \\
-\frac{\partial F(x, y, \lambda)}{\partial y}=0 \\
-\frac{\partial F(x, y, \lambda)}{\partial \lambda}=0
-\end{array}\right.</script><p>求出$x,y,λ$的值，代入即可得到目标函数的极值。</p>
-</blockquote>
-<p>其中$\alpha_i$为拉格朗日乘子，且  $\alpha_i≥0$。现在我们令</p>
-<script type="math/tex; mode=display">
-\theta(\boldsymbol{w})=\max _{\alpha_i≥0}⁡L(\boldsymbol{w},b,\boldsymbol{\alpha})</script><p>当样本点不满足约束条件时，即在可行解区域外：$y_{i}\left(\boldsymbol{w}^{T} x+b\right)&lt;1$，此时，将$\alpha_i$设置为无穷大；当满本点满足约束条件时，即在可行解区域内：$y_{i}\left(\boldsymbol{w}^{T} x+b\right)≥1$</p>
-<script type="math/tex; mode=display">
-\theta(\boldsymbol{w})=\left\{\begin{array}{lr}
-\frac{1}{2}|| \boldsymbol{w}||^{2}, \ w和b满足(3)式约束条件 \\
-+\, \infty , \ w和b不满足(3)式约束条件
-\end{array}\right.</script><p>于是原约束问题就等价于:</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\min _{\boldsymbol{w}, b} \theta(\boldsymbol{w})=\min _{\boldsymbol{w}, b} \max _{\alpha_{i} \geq 0} L(\boldsymbol{w}, b, \boldsymbol{\alpha})=p^{*} \tag{1.5}
-\end{equation}</script><p>其与式$(1.3)$所述问题是完全等价的。</p>
-<p>这个求解过程不好做，使用拉格朗日函数对偶性，将最小和最大的位置交换，即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\max _{a_{i} \geq 0} \min _{\mathbf{w}, \mathrm{b}} L(\boldsymbol{w}, b, \boldsymbol{\alpha})=d^{*} \tag{1.6}
-\end{equation}</script><p>要使得${p^\ast =d^\ast}$，需要满足$KKT$条件，即要求：</p>
-<script type="math/tex; mode=display">
-\left\{\begin{array}{l}
-a_{i} \geq 0 \\
-y_{i} f\left(x_{i}\right)-1 \geq 0 \\
-a_{i}\left(y_{i} f\left(x_{i}\right)-1\right)=0
-\end{array}\right.</script><p>为得到具体形式，<strong>第一步</strong>先求$\min _{\mathbf{w}, \mathrm{b}} L(\boldsymbol{w}, b, \boldsymbol{\alpha})$，令$L(\boldsymbol{w}, b, \boldsymbol{\alpha})$对$\boldsymbol{w}$和b的偏导为0，可得：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-\nabla_{\boldsymbol{w}} L(\boldsymbol{w}, b, \alpha)&=\boldsymbol{w} -\sum_{i=1}^{n} \alpha_{i} y_{i} x_{i}=0 \Longrightarrow \boldsymbol{w}=\sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} \\
-\nabla_{b} L(\boldsymbol{w}, b, \alpha)&=-\sum_{i=1}^{n} \alpha_{i} y_{i}  \Longrightarrow 0 \Longrightarrow \sum_{i=1}^{n} \alpha_{i} y_{i}=0
-\end{aligned}</script><p>将这两个式子带入拉格朗日目标函数$L(\boldsymbol{w}, b, \alpha)$，消去$\boldsymbol{w}$和b,得：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-L(\boldsymbol{w}, b, \boldsymbol{\alpha})&=\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} a_{i} y_{i}\left(\left(\sum_{j=1}^{N} \alpha_{j} y_{j} x_{j}\right) \cdot x_{i}+b\right)+\sum_{i=1}^{N} \alpha_{i} \\
-&=-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}
-\end{aligned}</script><p>即：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\min _{\boldsymbol{w}, b} L(\boldsymbol{w}, b, \boldsymbol{\alpha})=-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(\boldsymbol{x}_{i} \cdot \boldsymbol{x}_{j}\right)+\sum_{i=1}^{N} \alpha_{i} \tag{1.7}
-\end{equation}</script><p><strong>第二步</strong>继续求$\min _{\boldsymbol{w}, b} L(\boldsymbol{w}, b, \boldsymbol{\alpha})$对$\alpha$的极大：</p>
-<script type="math/tex; mode=display">
-\max _{\alpha}\left(-\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)+\sum_{i=1}^{N} \alpha_{i}\right) \\
-\text { s.t. } \sum_{i=1}^{N} \alpha_{i} y_{i}=0 \quad a_{i} \geq 0, i=1,2, \ldots, N</script><p>等价于式$(1.7)$取负数后求极小值：</p>
-<script type="math/tex; mode=display">
-\min _{\alpha} \left(\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_{i} \alpha_{i} y_{i} y_{j}\left(x_{i} \cdot x_{j}\right)-\sum_{i=1}^{N} \alpha_{i} \right) \\
-\text { s.t. } \sum_{i=1}^{N} \alpha_{i} y_{i}=0 \quad a_{i} \geq 0, i=1,2, \ldots, N</script><p>对于上式，使用序列最小优化（SMO）算法求解$\alpha^\ast$，进而求得<strong>w</strong>和b,进而求出超平面。</p>
-<blockquote>
-<p><strong>SMO算法基本思想：</strong>在每一步优化当中，挑选出诸多参数$(a_k(k=1,2,…,N))$中的两个参数$(a_i,a_j)$作为“真正参数”，其余的参数都视为常数，从而问题就变成了类似二次方程求最大值的问题。</p>
-</blockquote>
-<p>根据前面的推导，有：</p>
-<script type="math/tex; mode=display">
-\boldsymbol{w}=\sum_{i=1}^{n} \alpha_{i} y_{i} x_{i} \quad  \sum_{i=1}^{n} \alpha_{i} y_{i}=0</script><p>在$\alpha^\ast$中，至少存在一个$a_j^\ast&gt;0$，对此$j$有</p>
-<script type="math/tex; mode=display">
-y_{j}\left(\boldsymbol{w}^{*} \cdot x_{j}+b^{*}\right)-1=0</script><p>可得：</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-b^* &= \frac{1}{y_j} - \boldsymbol{w}^{*} \cdot x_{j} \\
-&= y_j - \boldsymbol{w}^{*} \cdot x_{j} \\
-&= y_j - \sum_{i=1}^{N} a_{i}^{*} y_{i}\left(\boldsymbol{x}_{i} \cdot \boldsymbol{x}_{\boldsymbol{j}}\right)
-\end{aligned}</script><p>即：</p>
-<script type="math/tex; mode=display">
-\boldsymbol{w}^{*}=\sum_{i=1}^{N} a_{i}^{*} y_{i} \boldsymbol{x}_{i} \quad b^{*}=y_{j}-\sum_{i=1}^{N} a_{i}^{*} y_{i}\left(\boldsymbol{x}_{i} \cdot \boldsymbol{x}_{\boldsymbol{j}}\right)</script><p>分析$KKT$条件里的互补条件，对于任意样本$(x_i,y_i)$，总会有$\alpha_i=0$或者$y_{i} f(x_{i})-1=0$。则有若$\alpha_i=0$，此样本点不是支持向量对模型没有任何作用；若$\alpha_i&gt;0$，此样本位于最大间隔边界上，是一个支持向量，如下图所示：</p>
+ <a id="more"></a>
+<h3 id="二、数据分析"><a href="#二、数据分析" class="headerlink" title="二、数据分析"></a>二、数据分析</h3><p>高分辨率可见光图像中建筑物普查与变化检测，主要任务包括： 在一定区域内完成两时相（或多时相）建筑物要素提取，并对变化的建筑物进行检测。</p>
+<p>1）建筑物提取类别：建筑物和背景。 </p>
+<p>2）变化检测类别：变化的建筑区域和非变化的建筑区域。</p>
 <div align="center">
-<img src="/2019/08/14/SVM/support_vector.jpg" alt="支持向量" style="zoom:40%;">
+<img src="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/introduce.png" alt="任务描述" style="zoom:40%;">
 </div>
+该数据集来源于高分二号、吉林一号光学数据，分辨率优于1m。每幅图像对建筑物进行像素级标注，同一时相数据对变化的建筑物区域进行像素级标注。**初赛**共计2500余组（训练集2000余组，测试集500余组），每组2个时相，大小512×512像素。经统计分析发现该数据有严重的类别不平衡。
 
-
-
-
-<h2 id="二、线性SVM——软间隔"><a href="#二、线性SVM——软间隔" class="headerlink" title="二、线性SVM——软间隔"></a>二、线性SVM——软间隔</h2><p>在前面的讨论中，我们一直假定训练数据是严格线性可分的，即存在一个超平面能完全将两类数据分开。但是现实任务这个假设往往不成立，例如下图所示的数据。</p>
 <div align="center">
-<img src="/2019/08/14/SVM/soft_margin.png" alt="软间隔" style="zoom:40%;">
+<img src="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/dataset.png" alt="数据分析" style="zoom:40%;">
 </div>
 
-<h3 id="2-1-软间隔最大化"><a href="#2-1-软间隔最大化" class="headerlink" title="2.1 软间隔最大化"></a>2.1 软间隔最大化</h3><p>解决该问题的一个办法是允许SVM在少量样本上出错，为此引入<strong>“软间隔<code>(soft margin)</code>”</strong>的概念。即允许少量样本不满足约束</p>
+<p>对于后续的损失而言，对不同的类别加入不同的权重进行训练。</p>
+<h3 id="三、模型选择"><a href="#三、模型选择" class="headerlink" title="三、模型选择"></a>三、模型选择</h3><div align="center">
+<img src="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/pipline.png" alt="任务描述" style="zoom:40%;">
+</div>
+
+<p>早期的融合方法(1)，将不同相位的图像数据组合叠加作为输入送入到网络中，从网络的第一层开始进行图像差异检测，这会导致属于不同相位的特征可能会相互影响，高维原始图像的特征难以保持。</p>
+<p>后期的融合方法(2)，采用孪生差分网络结构接收不同时间相位的图像数据，通过多层网络将同一网络中原始图像的特征提取函数和差异识别函数联系起来，将大大增加隐藏梯度消失的危险，进而影响原始图像特征提取的结果，导致网络前端提取的原始影响特征的代表性较差。本文对该方法进行了改进，单独使用分割头来优化分割结构，进一步提高了网络提取原始特征的能力。</p>
+<p>我们使用的孪生差分网络(siamese differential network)如(3)所示。该网络将两个不同时相的图像作为输入并输出一个变化图。网络包含四个模块：权重共享主干网络、特征差分模块、分割模块(建筑物提取)、变化检测模块。 对于同一区域不同时间的两张图像，将它们输入权重共享主干网络，得到两个大小相同的特征图，然后使用共享参数的分割模块进行语义分割，提取建筑物。</p>
+<p>我们在实验中使用的Segmentation Head是经典的FCN Head。为了输出变化检测的结果，将上述两张图像中提取的特征输入到特征差分模块中，得到相同大小的feature map。具体操作是将两个不时项图像的特征图相减，取绝对值。最后，将特征图输入到变化检测模块，经过SoftMax处理后得到概率图，然后通过激活对应的阈值来计算变化检测结果。</p>
+<h4 id="3-1-PSPNet"><a href="#3-1-PSPNet" class="headerlink" title="3.1 PSPNet"></a>3.1 PSPNet</h4><p>我们使用前面提到的Spatial Pyramid Pool(SPP) Head作为变化检测模块，其他与上述操作一致。 我们使用HRNet 作为两个输入图像之间的权重共享主干网络进行训练。</p>
+<h5 id="Spatial-Pyramid-Pooling-模块"><a href="#Spatial-Pyramid-Pooling-模块" class="headerlink" title="Spatial Pyramid Pooling 模块"></a>Spatial Pyramid Pooling 模块</h5><div align="center">
+<img src="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/PSPNet.png" alt="SPP Module" style="zoom:50%;">
+</div>
+
+<p>该模块最早出自一篇2015年发表在IEEE上的论文，名为《Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition》，起初是为了解决不同尺度图像下池化层不同尺寸的输出，导致全连接层无法训练的问题。即使用多个不同尺度的池化层进行特征提取，并融合成一个向量输入至全连接层。</p>
+<p>同样的思想，PSPNet也为了消除这一约束，提出了空间金字塔池化模块(Spatial Pyramid Pooling, SPP)，进一步避免丢失不同区域之间的语义关系。如上图所示，分别对CNN提取的特征进行不同尺度的全局平均池化，并在每个尺度上使用1x1的卷积核统一维数，最后通过上采样使其与原始特征图尺寸相同，将不同层级的特征图拼接为最终的金字塔池化全局特征。下面为金字塔池化模块对应的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PyramidPooling</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, in_channels</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(PyramidPooling, self).__init__()</span><br><span class="line">        self.pool1 = nn.AdaptiveAvgPool2d(<span class="number">1</span>)</span><br><span class="line">        self.pool2 = nn.AdaptiveAvgPool2d(<span class="number">2</span>)</span><br><span class="line">        self.pool3 = nn.AdaptiveAvgPool2d(<span class="number">3</span>)</span><br><span class="line">        self.pool4 = nn.AdaptiveAvgPool2d(<span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">        out_channels = <span class="built_in">int</span>(in_channels / <span class="number">4</span>)</span><br><span class="line">        self.conv1 = nn.Sequential(nn.Conv2d(in_channels, out_channels, <span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                   nn.BatchNorm2d(out_channels),</span><br><span class="line">                                   nn.ReLU(<span class="literal">True</span>))</span><br><span class="line">        self.conv2 = nn.Sequential(nn.Conv2d(in_channels, out_channels, <span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                   nn.BatchNorm2d(out_channels),</span><br><span class="line">                                   nn.ReLU(<span class="literal">True</span>))</span><br><span class="line">        self.conv3 = nn.Sequential(nn.Conv2d(in_channels, out_channels, <span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                   nn.BatchNorm2d(out_channels),</span><br><span class="line">                                   nn.ReLU(<span class="literal">True</span>))</span><br><span class="line">        self.conv4 = nn.Sequential(nn.Conv2d(in_channels, out_channels, <span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">                                   nn.BatchNorm2d(out_channels),</span><br><span class="line">                                   nn.ReLU(<span class="literal">True</span>))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        h, w = x.shape[-<span class="number">2</span>:]</span><br><span class="line">        feat1 = F.interpolate(self.conv1(self.pool1(x)), (h, w), mode=<span class="string">&quot;bilinear&quot;</span>, align_corners=<span class="literal">False</span>)</span><br><span class="line">        feat2 = F.interpolate(self.conv2(self.pool2(x)), (h, w), mode=<span class="string">&quot;bilinear&quot;</span>, align_corners=<span class="literal">False</span>)</span><br><span class="line">        feat3 = F.interpolate(self.conv3(self.pool3(x)), (h, w), mode=<span class="string">&quot;bilinear&quot;</span>, align_corners=<span class="literal">False</span>)</span><br><span class="line">        feat4 = F.interpolate(self.conv4(self.pool4(x)), (h, w), mode=<span class="string">&quot;bilinear&quot;</span>, align_corners=<span class="literal">False</span>)</span><br><span class="line">        <span class="keyword">return</span> torch.cat((x, feat1, feat2, feat3, feat4), <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-DeepLabv3plus"><a href="#3-2-DeepLabv3plus" class="headerlink" title="3.2 DeepLabv3plus"></a>3.2 DeepLabv3plus</h4><p>我们使用提到的 Atrous Spatial Pyramid Pooling (ASPP) Head作为变化检测模块，我们仍然使用论文中提到的 ResNet 作为上文中的权重共享主干网络。 与解码器中的低-高层特征连接操作一样，我们将ASPP头计算出的低级差分特征和高级差分特征连接起来，最后通过上采样得到变化图。 这里我们同样使用 ResNet 的第一阶段输出作为底层特征的输出。</p>
+<h5 id="Atrous-Spatial-Pyramid-Pooling-模块"><a href="#Atrous-Spatial-Pyramid-Pooling-模块" class="headerlink" title="Atrous Spatial Pyramid Pooling 模块"></a>Atrous Spatial Pyramid Pooling 模块</h5><div align="center">
+<img src="/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/ASPP.png" alt="ASPP Module" style="zoom:60%;">
+</div>
+
+<p>ASPP是出自2016年发表在IEEE上的论文-《DeepLab: Semantic Image Segmentation with Deep Convolutional Nets, Atrous Convolution, and Fully Connected CRFs》。ASPP(Atrous Spatial Pyramid Pooling)是DeepLab中用于语义分割的一个模块。由于被检测物体具有不同的尺度，给分割增加了难度。DeepLab因此提出了ASPP模块，既能得到多尺度信息，计算量又比较小，其中还使用了空洞卷积(Atrous Convolution)的方法。</p>
+<p>空洞空间卷积池化金字塔(atrous spatial pyramid polling)使用多个不同采样率的空洞卷积提取特征，并进行融合，使得目标在图像中表现不同大小时任然具有很好的分割效果。</p>
+<h3 id="3-3-U-Net"><a href="#3-3-U-Net" class="headerlink" title="3.3 U-Net"></a>3.3 U-Net</h3><p>1）变化检测模块。 首先计算编码器各阶段的差分特征，然后，使用U-Net中的跳转连接，将上采样结果与编码器中相同分辨率的差分特征特征的输出连接 ，作为解码器中下一个子模块的输入。 同时，将SENet中的通道注意力机制加入到连接特征中。</p>
+<p> 2）分割模块。 对于两幅图像的每个阶段的特征，使用U-Net中的跳跃连接上采样方法计算分割图。</p>
+<h3 id="四、损失选择"><a href="#四、损失选择" class="headerlink" title="四、损失选择"></a>四、损失选择</h3><p><strong>Segmentation Loss.</strong> 于建筑物提取（分割分支），模型最终需要预测的只有两个类别是背景和建筑物，对于每个类别，我们预测的概率是 $p_i$ 和 $1 - p_i$ ，此时交叉熵方程 损失可以表示为：</p>
 <script type="math/tex; mode=display">
-\begin{equation}
-y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right) \geqslant 1 \tag{2.1}
-\end{equation}</script><p>为了在最大化间隔的同时，使得不满足约束的样本尽可能少，我们需要在优化的目标函数(3)里面新增一个对这些点的惩罚项。</p>
+L_{seg}=\frac{1}{N} \sum_{i}-\left[y_{i} \cdot \log \left(p_{i}\right)+\left(1-y_{i}\right) \cdot \log \left(1-p_{i}\right)\right]</script><p>其中$y_i$代表样本$i$的标签，正类是$1$，负类是$0$，$p_i$是样本i被预测为正类的概率。</p>
+<p><strong>Change Detection Loss.</strong>  我们使用BCE loss结合dice loss作为loss来优化change detection的结果掩码，其中dice loss的表达式如下：</p>
 <script type="math/tex; mode=display">
-\begin{equation}
-\min _{\boldsymbol{w}, b} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \ell_{0 / 1}\left(y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right)-1\right) \tag{2.2}
-\end{equation}</script><p>其中$C&gt;0$是个常数，$\ell_{0 / 1}$是<strong>“0/1损失函数”</strong></p>
+L_{dice} = 1 - \frac{2\left | X\cap Y  \right | }{\left | X\right | +  \left | Y \right |}=1-\frac{\sum_{i=1}^{N} p_{i} q_{i}+\epsilon}{\sum_{i=1}^{N} p_{i}+q_{i}+\epsilon}</script><p>直观上，dice指标是计算X和Y之间的相似度，本质上同时意味着精度和召回率。 可以看出，dice loss 是对“F1分数”的直接优化。</p>
+<p><strong>Muti-task Loss.</strong>综上所述，最终用于训练的损失函数是上述损失函数的加权和：</p>
 <script type="math/tex; mode=display">
-\ell_{0 / 1}(z)=\left\{\begin{array}{ll}1, & \text { if } z<0 \\0, & \text { otherwise }\end{array}\right.</script><p>即若样本点满足约束条件损失就是$1$，否则损失就是$0$。当$C$为无穷大时，式$(2.2)$迫使所有样本均满足约束$(2.1)$，式$(2.2)$等价于$(1.4)$；当$C$取有限值时，式$(2.2)$允许一些样本不满足约束。</p>
-<p>但是$\ell_{0 / 1}$非凸、非连续，因此常常使用其他损失函数来代替$\ell_{0 / 1}$。</p>
-<script type="math/tex; mode=display">
-\begin{aligned}
-&hinge损失：\ell_{hinge}(z)=max(0,1-z);\\
-&z指数损失：\ell_{exp}(z)=exp(-z);\\
-&对数损失：\ell_{log}(z)=log(1+exp(-z)) 
-\end{aligned}</script><p>最常用的是$hinge$损失，即若样本点满足约束条件损失就是$0$，否则损失就是$1-z$，则优化目标$(2.2)$变成</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\min _{\boldsymbol{w}, b} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \max \left(0,1-y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right)\right) \tag{2.3}
-\end{equation}</script><p>其中$C$称为惩罚参数，$C$越小时对误分类惩罚越小，越大时对误分类惩罚越大，当$C$取正无穷时就变成了硬间隔优化。实际应用时我们要合理选取$C$，$C$越小越容易欠拟合，越大越容易过拟合。</p>
-<p>引入“松弛变量”$\xi_i≥0$，式$(2.3)$可写为：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\min _{\boldsymbol{w}, b, \xi_{i}} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} \\
-\begin{array}{c}\text { s.t. } y_{i}\left(X_{i}^{T} W+b\right) \geq 1-\xi_{i} \\\xi_{i} \geq 0, i=1,2, \ldots n .\end{array} \tag{2.4} 
-\end{equation}</script><p>这就是常用的<strong>“软间隔支持向量机”</strong>。</p>
-<h3 id="2-2-对偶问题"><a href="#2-2-对偶问题" class="headerlink" title="2.2 对偶问题"></a>2.2 对偶问题</h3><p>式$(2.4)$表示的软间隔支持向量机依然是一个凸二次规划问题，和硬间隔支持向量机类似，我们可以通过拉格朗日乘子法将其转换为对偶问题进行求解：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\begin{aligned}
-L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})=& \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} + \sum_{i=1}^{m} \alpha_{i}\left(1-\xi_{i}-y_{i}\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}_{i}+b\right)\right)-\sum_{i=1}^{m} \mu_{i} \xi_{i}
-\end{aligned} \tag{2.5}
-\end{equation}</script><p>类似1.3节，为了求得对偶问题的解，我们需要先求得$L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$对$\boldsymbol{w}、 b、 \boldsymbol{\xi}$的极小再求对$\boldsymbol{\alpha}、 \boldsymbol{\mu}$的极大。</p>
-<p><strong>第一步</strong>先求$\min _{\boldsymbol{w}, b, \xi} L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$，令$L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$对$\boldsymbol{w}$,b,$\xi_i$的偏导为0，可得：</p>
-<script type="math/tex; mode=display">
-\begin{align}
-\boldsymbol{w} &=\sum_{i=1}^{m} \alpha_{i} y_{i} \boldsymbol{x}_{i} \tag{2.6} \\
-0 &=\sum_{i=1}^{m} \alpha_{i} y_{i} \tag{2.7} \\
-C &=\alpha_{i}+\mu_{i} \tag{2.8}
-\end{align}</script><p>将上面三个式子代入式$(2.5)$并进行类似式$(1.7)$的推导即得：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\min _{\boldsymbol{w}, b, \xi} L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu}) = -\frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} \boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{x}_{j} + \sum_{i=1}^{m} \alpha_{i} \tag{2.9}
-\end{equation}</script><p><strong>第二步</strong>先求$\min _{\boldsymbol{w}, b, \xi} L(\boldsymbol{w}, b, \boldsymbol{\alpha}, \boldsymbol{\xi}, \boldsymbol{\mu})$对$\alpha$的极大，等价于式子$(2.9)$取负数后求极小值：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\min_\alpha \left( \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} \boldsymbol{x}_{i}^{\mathrm{T}} \boldsymbol{x}_{j} - \sum_{i=1}^{m} \alpha_{i} \right) \tag{2.10}
-\end{equation}\\
-\text { s.t. }  \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\ 0 \leqslant \alpha_{i} \leqslant C, \ i=1,2, \ldots, m</script><p>至此，我们得到了原始最优化问题$(2.4)$和对偶最优化问题$(2.10)$。</p>
-<p>类似1.3节，假设我们现在通过通用的二次规划求解方法或者SMO算法求得了$(2.10)$的最优解$\alpha^\ast$，则根据式$(2.6)$可求得最优$\boldsymbol{w^\ast}$：</p>
-<script type="math/tex; mode=display">
-\boldsymbol{w} =\sum_{i=1}^{m} \alpha_{i} y_{i} \boldsymbol{x}_{i}</script><p>对于软间隔支持向量机，$KKT$条件要求：</p>
-<script type="math/tex; mode=display">
-\begin{equation}
-\left\{\begin{array}{l}
-\alpha_{i} \geqslant 0, \quad \mu_{i} \geqslant 0 \\
-y_{i} f\left(\boldsymbol{x}_{i}\right)-1+\xi_{i} \geqslant 0 \\
-\alpha_{i}\left(y_{i} f\left(\boldsymbol{x}_{i}\right)-1+\xi_{i}\right)=0 \\
-\xi_{i} \geqslant 0, \mu_{i} \xi_{i}=0
-\end{array}\right. \tag{2.11}
-\end{equation}</script><p> 对任意训练样本 $\left(\boldsymbol{x}_{i}, y_{i}\right),$ 总有 $\alpha_{i}=0$ 或 $y_{i} f\left(\boldsymbol{x}_{i}\right)=1-\xi_{i}$：</p>
-<ul>
-<li>若 $\alpha_{i}=0$，则该样本不会对 $f(\boldsymbol{x})$ 有任何影响；</li>
-<li>若 $\alpha_{i}&gt;0$， 则有 $y_{i} f\left(\boldsymbol{x}_{i}\right)=1-\xi_{i}$ ，即该样本 是支持向量；</li>
+L=\lambda_1 * L_{cd} + \lambda_2 * L_{seg_{t1}} + \lambda_3 * L_{seg_{t2}}</script><h3 id="五、后处理"><a href="#五、后处理" class="headerlink" title="五、后处理"></a>五、后处理</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/niecongchong/RS-building-regularization">轮廓规则化</a> 效果取决于模型的好坏以及建筑物的分布，效果不太行</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sunyao123/CRF-semantic-segmentation">CRF</a> 效果同样不明显，后来弃了。</li>
+<li>腐蚀膨胀、孔洞填充(opencv基础函数) 腐蚀以及孔洞填充会提升一点点。</li>
 </ul>
-<p>由式 (2.8) 可知：</p>
-<ul>
-<li>若 $\alpha_{i} &lt; C$，则有 $\mu_{i}&gt;0$ ，进而有 $\xi_{i}=0$ 即该样本恰在最大间隔边界上；</li>
-<li>若 $\alpha_{i}=C$，则有 $\mu_{i}=0$， 此时若 $\xi_{i} \leqslant 1$ 则该样本落在最大间隔内部，若 $\xi_{i}&gt;1$ 则该样本被错误分类；</li>
-</ul>
-<p>如下图所示：</p>
-<div align="center">
-<img src="/2019/08/14/SVM/soft_margin_result.png" alt="软间隔SVM" style="zoom:40%;">
-</div>
-
-<p>由此可看出, 软间隔支持向量机的最终模型仅与支持向量有关, 即通过采用$hinge$损失函数仍保持了稀疏性。</p>
-<h3 id="2-3-惩罚参数C"><a href="#2-3-惩罚参数C" class="headerlink" title="2.3 惩罚参数C"></a>2.3 惩罚参数C</h3><div align="center">
-<img src="/2019/08/14/SVM/param_c.png" alt="惩罚参数c" style="zoom:50%;">
-</div>
-
-<script type="math/tex; mode=display">
-\begin{equation}
-\min _{\boldsymbol{w}, b, \xi_{i}} \frac{1}{2}\|\boldsymbol{w}\|^{2}+C \sum_{i=1}^{m} \xi_{i} \\
-\begin{array}{c} \end{array} \tag{2.4} 
-\end{equation}</script><p>对于一般化的问题，上式可以简化为：</p>
-<script type="math/tex; mode=display">
-\min _{f} \Omega(f)+C \sum_{i=1}^{m} \ell\left(f\left(\boldsymbol{x}_{i}\right), y_{i}\right)</script><p>其中$\Omega(f)$可以理解为“结构风险(structural risk)”，用来描述所求模型$f$的某些性质；第二项$\sum_{i=1}^{m} \ell\left(f\left(\boldsymbol{x}_{i}\right) , y_{i}\right)$称为“经验风险(empirical risk)”，用来描述模型与训练数据的契合程度(即误差)。而参数$C$就是用于对二者的折中,即我们一方面要求模型要满足某种性质（例如希望获得复杂度较小的模型）另一方面又想使模型与训练数据很契合（减小误差）。</p>
-<p>从正则化角度来讲，$\Omega(f)$称为正则化项，$C$称为惩罚参数，越大即对误分类的惩罚越大(要求模型对训练模型更契合)，这可能会存在过拟合；越小即相对更加看重正则化项，此时可能存在欠拟合。</p>
-<h2 id="三、非线性SVM——核技巧"><a href="#三、非线性SVM——核技巧" class="headerlink" title="三、非线性SVM——核技巧"></a>三、非线性SVM——核技巧</h2><p>前面介绍的都是线性问题，然而在现实任务中，原始样本空间内也许不存在一个能正确划分两类样本的超平面(例如异或问题)，此时就需要用到核技巧(kernel trick)将线性支持向量机推广到非线性支持向量机。</p>
-<div align="center">
-<img src="/2019/08/14/SVM/dimension_reflect.png" alt="映射更高维度" style="zoom:30%;">
-</div>
-
-<blockquote>
-<p>设 $\mathcal{X}$ 是输入空间，又设 $\mathcal{H}$ 是特征空间（希尔伯特空间），如果 存在一个 $\mathcal{X}$ 到 $\mathcal{H}$ 的映射 $\phi(x): \mathcal{X} \rightarrow \mathcal{H}$ 使得对所有 $x_i, x_j \in \mathcal{X},$ 函数 $K(x_i, x_j)$ 满足条件 $K(x_i, x_j)=\phi(x_i)^T \cdot \phi(x_j)$ 则称 $K(x_i, x_j)$ 为核函数, $\phi(x)$ 为映射函数, 式中 $\phi(x_i) \cdot \phi(x_j)$ 为 $\phi(x_i)$ 和 $\phi(x_j)$ 的内积。</p>
-</blockquote>
-<p>给核函数$K(x_i,x_j)$定的情况下，可以利用解线性问题的方法求解非线性问题的支持向量。常用的核函数：</p>
-<ul>
-<li>多项式核函数(polynomial kernel function)<script type="math/tex; mode=display">
-K(x, z)=(x \cdot z+1)^{p}</script></li>
-<li>高斯核函数(guassian kernel function)</li>
-</ul>
-<script type="math/tex; mode=display">
-K(x, z)=\exp \left(-\frac{\|x-z\|^{2}}{2 \sigma^{2}}\right)</script><h3 id="3-1-非线性支持向量机"><a href="#3-1-非线性支持向量机" class="headerlink" title="3.1 非线性支持向量机"></a>3.1 非线性支持向量机</h3><p>利用核技巧可以很简单地把线性支持向量机扩展到非线性支持向量机，只需将线性支持向量机中的內积换成核函数即可。</p>
-<p>选取合适的核函数$K(x_i,x_j)$和参数$C$，构造最优化问题：</p>
-<script type="math/tex; mode=display">
-\min _{\alpha} \ \frac{1}{2} \sum_{i=1}^{m} \sum_{j=1}^{m} \alpha_{i} \alpha_{j} y_{i} y_{j} K(x_i,x_j) - \sum_{i=1}^{m} \alpha_{i} \\
-\begin{array}{ll}
-\text { s.t. } & \sum_{i=1}^{m} \alpha_{i} y_{i}=0 \\
-& \alpha_{i} \geqslant 0, \quad i=1,2, \ldots, m
-\end{array}</script><p>再利用现成的二次规划问题求解算法或者SMO算法求得最优解$\alpha^*$。</p>
-<p>选择一个$\alpha^*$满足</p>
-<script type="math/tex; mode=display">
-0<{\alpha}_{j}^*<C</script><p>的分量${\alpha}_{j}^*$ , 计算：</p>
-<script type="math/tex; mode=display">
-b^*=y_{j}-\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, x_{i}\right)</script><p>构造决策函数：</p>
-<script type="math/tex; mode=display">
-f(x)=\operatorname{sign}\left(\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, x_{i}\right)+b^*\right)</script><h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><div align="center">
-    <img src="/2019/08/14/SVM/decision_boundary.png" alt="SVM决策边界" style="zoom:60%;">
-    <img src="/2019/08/14/SVM/svm_with_kernels_1.png" alt="核函数SVM流程1" style="zoom:60%;">
-    <img src="/2019/08/14/SVM/svm_with_kernels_2.png" alt="核函数SVM流程2" style="zoom:60%;">
-    <img src="/2019/08/14/SVM/lr_svm.png" alt="逻辑回归与SVM" style="zoom:60%;">
-</div>
-
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
-<li><a target="_blank" rel="noopener" href="http://cs229.stanford.edu/">cs299</a></li>
-<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/26708119/">机器学习 周志华著</a></li>
-<li><a target="_blank" rel="noopener" href="https://book.douban.com/subject/33437381/">统计学习方法（第2版）李航著</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31886934">支持向量机（SVM）——原理篇</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32152421">支持向量机（SVM）——SMO算法</a></li>
-</ul>
+<h3 id="六、Docker的使用"><a href="#六、Docker的使用" class="headerlink" title="六、Docker的使用"></a>六、Docker的使用</h3><p>本次大赛中，各参赛团队需依托阿里云容器镜像服务，以镜像方式提交待测算法软件作为提交结果，因此学习了一些关于Docker容器的操作。同时推荐一本名为《Docker——从入门到实践》的在线文档，非常详细的介绍了Docker的配置及使用，这里简单介绍一下如何创建镜像并提交到阿里云</p>
+<h5 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h5><p>登录阿里云Docker Registry</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker</span> login --username=<span class="number">155</span>****<span class="number">0732</span> registry.cn-hangzhou.aliyuncs.com</span><br></pre></td></tr></table></figure>
+<p>创建Dockerfile用于配置环境</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基础镜像若使用cuda，需满足cuda 为10.0，ubuntu16.04 可换成Centos或ubuntu18.04 </span></span><br><span class="line"><span class="keyword">FROM</span> nvidia/cuda:<span class="number">10.0</span>-cudnn7-runtime-ubuntu16.<span class="number">04</span> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 配置程序依赖环境 </span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y --no-install-</span></span><br><span class="line">recommends \ </span><br><span class="line">         build-essential \ </span><br><span class="line">         cmake \ </span><br><span class="line">         curl \ </span><br><span class="line">         ca-certificates \ </span><br><span class="line">         libjpeg-dev \ </span><br><span class="line">         libpng-dev &amp;&amp; \ </span><br><span class="line">     rm -rf /var/lib/apt/lists/* </span><br><span class="line"><span class="comment"># 将程序复制容器内，表示在/workspace 路径下 </span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /workspace </span></span><br><span class="line"><span class="comment"># 确定容器启动时程序运行路径 </span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /workspace </span></span><br><span class="line"><span class="comment"># 确定容器启动命令。以python 示例，python 表示编译器，run.py 表示执行文件，/input_path 和/output_path 为容器内绝对路# 径，测评时会自动将测试数据挂载到容器内/input_path 路径，无需修改</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;python&quot;</span>, <span class="string">&quot;run.py&quot;</span>, <span class="string">&quot;/input_path&quot;</span>, <span class="string">&quot;/output_path&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<p>创建镜像，第一次创建非要花费一些时间，后面就快了。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker</span> build -t gaofenChallenge/detections:v<span class="number">0</span>.<span class="number">1</span> . # 这里gaofenChallenge/detections:v<span class="number">0</span>.<span class="number">1</span> 为构建的镜像名称</span><br></pre></td></tr></table></figure>
+<p>运行容器</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 普通运行</span></span><br><span class="line">docker <span class="keyword">run</span><span class="bash"> [ImageId]</span></span><br><span class="line"><span class="comment"># 进入容器</span></span><br><span class="line">docker <span class="keyword">run</span><span class="bash"> -it [ImageId] /bin/bash</span></span><br></pre></td></tr></table></figure>
+<p>推送镜像到阿里云镜像</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">docker</span> <span class="selector-tag">tag</span> <span class="selector-attr">[ImageId]</span> <span class="selector-tag">registry</span><span class="selector-class">.cn-hangzhou</span><span class="selector-class">.aliyuncs</span><span class="selector-class">.com</span>/<span class="selector-tag">ipiu_gaofen</span>/<span class="selector-tag">gaofen</span>:<span class="selector-attr">[镜像版本号]</span></span><br><span class="line"><span class="selector-tag">docker</span> <span class="selector-tag">push</span> <span class="selector-tag">registry</span><span class="selector-class">.cn-hangzhou</span><span class="selector-class">.aliyuncs</span><span class="selector-class">.com</span>/<span class="selector-tag">ipiu_gaofen</span>/<span class="selector-tag">gaofen</span>:<span class="selector-attr">[镜像版本号]</span></span><br></pre></td></tr></table></figure>
 
       
 
@@ -569,11 +328,11 @@ f(x)=\operatorname{sign}\left(\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, 
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Change Detection</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Competition</a>
         		</li>
       		
 		</ul>
@@ -629,7 +388,7 @@ f(x)=\operatorname{sign}\left(\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, 
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2019/08/14/SVM/" alt="微信分享二维码">
+	  <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -643,18 +402,9 @@ f(x)=\operatorname{sign}\left(\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, 
   
 <nav id="article-nav">
   
-    <a href="/2019/08/27/SoftMax/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          机器学习方法(八)：Softmax Regression
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/08/07/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">机器学习方法(六)：神经网络中的反向传播算法</div>
+    <a href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">遥感图像语义分割 小记</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -673,19 +423,6 @@ f(x)=\operatorname{sign}\left(\sum_{i \in S V} \alpha^*_{i} y_{i} K\left(x_{j}, 
             </div>
         </div>
         
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%8F%AF%E5%88%86SVM%E2%80%94%E2%80%94%E7%A1%AC%E9%97%B4%E9%9A%94"><span class="toc-number">1.</span> <span class="toc-text">一、线性可分SVM——硬间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%B6%85%E5%B9%B3%E9%9D%A2%E4%B8%8E%E9%97%B4%E9%9A%94"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 超平面与间隔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 对偶问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E8%BD%AF%E9%97%B4%E9%9A%94"><span class="toc-number">2.</span> <span class="toc-text">二、线性SVM——软间隔</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E8%BD%AF%E9%97%B4%E9%9A%94%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 软间隔最大化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%AF%B9%E5%81%B6%E9%97%AE%E9%A2%98"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 对偶问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%83%A9%E7%BD%9A%E5%8F%82%E6%95%B0C"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 惩罚参数C</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E9%9D%9E%E7%BA%BF%E6%80%A7SVM%E2%80%94%E2%80%94%E6%A0%B8%E6%8A%80%E5%B7%A7"><span class="toc-number">3.</span> <span class="toc-text">三、非线性SVM——核技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E9%9D%9E%E7%BA%BF%E6%80%A7%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 非线性支持向量机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Summary"><span class="toc-number">4.</span> <span class="toc-text">Summary</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
         
     </div>
 </aside>
