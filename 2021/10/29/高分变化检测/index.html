@@ -22,7 +22,7 @@
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/PSPNet.png">
 <meta property="og:image" content="https://wanghao15536870732.github.io/2021/10/29/%E9%AB%98%E5%88%86%E5%8F%98%E5%8C%96%E6%A3%80%E6%B5%8B/ASPP.png">
 <meta property="article:published_time" content="2021-10-29T14:53:24.000Z">
-<meta property="article:modified_time" content="2021-11-27T08:35:16.976Z">
+<meta property="article:modified_time" content="2021-12-01T12:44:01.242Z">
 <meta property="article:author" content="HowardWang">
 <meta property="article:tag" content="Change Detection">
 <meta property="article:tag" content="Competition">
@@ -260,7 +260,7 @@ var _hmt = _hmt || [];
 <p>空洞空间卷积池化金字塔(atrous spatial pyramid polling)使用多个不同采样率的空洞卷积提取特征，并进行融合，使得目标在图像中表现不同大小时任然具有很好的分割效果。</p>
 <h3 id="3-3-U-Net"><a href="#3-3-U-Net" class="headerlink" title="3.3 U-Net"></a>3.3 U-Net</h3><p>1）变化检测模块。 首先计算编码器各阶段的差分特征，然后，使用U-Net中的跳转连接，将上采样结果与编码器中相同分辨率的差分特征特征的输出连接 ，作为解码器中下一个子模块的输入。 同时，将SENet中的通道注意力机制加入到连接特征中。</p>
 <p> 2）分割模块。 对于两幅图像的每个阶段的特征，使用U-Net中的跳跃连接上采样方法计算分割图。</p>
-<h3 id="四、损失选择"><a href="#四、损失选择" class="headerlink" title="四、损失选择"></a>四、损失选择</h3><p><strong>Segmentation Loss.</strong> 于建筑物提取（分割分支），模型最终需要预测的只有两个类别是背景和建筑物，对于每个类别，我们预测的概率是 $p_i$ 和 $1 - p_i$ ，此时交叉熵方程 损失可以表示为：</p>
+<h3 id="四、损失选择"><a href="#四、损失选择" class="headerlink" title="四、损失选择"></a>四、损失选择</h3><p><strong>Segmentation Loss.</strong> 用于建筑物提取（分割分支），模型最终需要预测的只有两个类别是背景和建筑物，对于每个类别，我们预测的概率是 $p_i$ 和 $1 - p_i$ ，此时交叉熵方程 损失可以表示为：</p>
 <script type="math/tex; mode=display">
 L_{seg}=\frac{1}{N} \sum_{i}-\left[y_{i} \cdot \log \left(p_{i}\right)+\left(1-y_{i}\right) \cdot \log \left(1-p_{i}\right)\right]</script><p>其中$y_i$代表样本$i$的标签，正类是$1$，负类是$0$，$p_i$是样本i被预测为正类的概率。</p>
 <p><strong>Change Detection Loss.</strong>  我们使用BCE loss结合dice loss作为loss来优化change detection的结果掩码，其中dice loss的表达式如下：</p>
@@ -277,7 +277,7 @@ L=\lambda_1 * L_{cd} + \lambda_2 * L_{seg_{t1}} + \lambda_3 * L_{seg_{t2}}</scri
 <h5 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h5><p>登录阿里云Docker Registry</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker</span> login --username=<span class="number">155</span>****<span class="number">0732</span> registry.cn-hangzhou.aliyuncs.com</span><br></pre></td></tr></table></figure>
 <p>创建Dockerfile用于配置环境</p>
-<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基础镜像若使用cuda，需满足cuda 为10.0，ubuntu16.04 可换成Centos或ubuntu18.04 </span></span><br><span class="line"><span class="keyword">FROM</span> nvidia/cuda:<span class="number">10.0</span>-cudnn7-runtime-ubuntu16.<span class="number">04</span> </span><br><span class="line"> </span><br><span class="line"><span class="comment"># 配置程序依赖环境 </span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y --no-install-</span></span><br><span class="line">recommends \ </span><br><span class="line">         build-essential \ </span><br><span class="line">         cmake \ </span><br><span class="line">         curl \ </span><br><span class="line">         ca-certificates \ </span><br><span class="line">         libjpeg-dev \ </span><br><span class="line">         libpng-dev &amp;&amp; \ </span><br><span class="line">     rm -rf /var/lib/apt/lists/* </span><br><span class="line"><span class="comment"># 将程序复制容器内，表示在/workspace 路径下 </span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /workspace </span></span><br><span class="line"><span class="comment"># 确定容器启动时程序运行路径 </span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /workspace </span></span><br><span class="line"><span class="comment"># 确定容器启动命令。以python 示例，python 表示编译器，run.py 表示执行文件，/input_path 和/output_path 为容器内绝对路# 径，测评时会自动将测试数据挂载到容器内/input_path 路径，无需修改</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;python&quot;</span>, <span class="string">&quot;run.py&quot;</span>, <span class="string">&quot;/input_path&quot;</span>, <span class="string">&quot;/output_path&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 基础镜像若使用cuda，需满足cuda 为10.0，ubuntu16.04 可换成Centos或ubuntu18.04 </span></span><br><span class="line"><span class="keyword">FROM</span> nvidia/cuda:<span class="number">10.0</span>-cudnn7-runtime-ubuntu16.<span class="number">04</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置程序依赖环境 </span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> apt-get update &amp;&amp; apt-get install -y --no-install-</span></span><br><span class="line">recommends \ </span><br><span class="line">         build-essential \ </span><br><span class="line">         cmake \ </span><br><span class="line">         curl \ </span><br><span class="line">         ca-certificates \ </span><br><span class="line">         libjpeg-dev \ </span><br><span class="line">         libpng-dev &amp;&amp; \ </span><br><span class="line">     rm -rf /var/lib/apt/lists/* </span><br><span class="line"><span class="comment"># 将程序复制容器内，表示在/workspace 路径下 </span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> . /workspace </span></span><br><span class="line"><span class="comment"># 确定容器启动时程序运行路径 </span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /workspace </span></span><br><span class="line"><span class="comment"># 确定容器启动命令。以python 示例，python 表示编译器，run.py 表示执行文件，/input_path 和/output_path 为容器内绝对路# 径，测评时会自动将测试数据挂载到容器内/input_path 路径，无需修改</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;python&quot;</span>, <span class="string">&quot;run.py&quot;</span>, <span class="string">&quot;/input_path&quot;</span>, <span class="string">&quot;/output_path&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 <p>创建镜像，第一次创建非要花费一些时间，后面就快了。</p>
 <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker</span> build -t gaofenChallenge/detections:v<span class="number">0</span>.<span class="number">1</span> . # 这里gaofenChallenge/detections:v<span class="number">0</span>.<span class="number">1</span> 为构建的镜像名称</span><br></pre></td></tr></table></figure>
 <p>运行容器</p>
@@ -402,6 +402,15 @@ L=\lambda_1 * L_{cd} + \lambda_2 * L_{seg_{t1}} + \lambda_3 * L_{seg_{t2}}</scri
   
 <nav id="article-nav">
   
+    <a href="/2021/12/05/Unet%E7%B3%BB%E5%88%97%E5%8F%8A%E5%85%B6%E5%8F%98%E7%A7%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Unet系列及其变种
+        
+      </div>
+    </a>
+  
   
     <a href="/2020/12/04/%E9%81%A5%E6%84%9F%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">遥感图像语义分割 小记</div>
@@ -469,7 +478,7 @@ L=\lambda_1 * L_{cd} + \lambda_2 * L_{seg_{t1}} + \lambda_3 * L_{seg_{t2}}</scri
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -590,6 +599,10 @@ MathJax.Hub.Queue(function() {
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Competition</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Paper</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -675,7 +688,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">在读大学生一枚</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">在读研究生一枚</div>
   	  	
     	</section>
     

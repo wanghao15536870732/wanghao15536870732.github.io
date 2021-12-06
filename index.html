@@ -181,6 +181,106 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Unet系列及其变种" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/05/Unet%E7%B3%BB%E5%88%97%E5%8F%8A%E5%85%B6%E5%8F%98%E7%A7%8D/">Unet系列及其变种</a>
+    </h1>
+  
+
+        
+        <a href="/2021/12/05/Unet%E7%B3%BB%E5%88%97%E5%8F%8A%E5%85%B6%E5%8F%98%E7%A7%8D/" class="archive-article-date">
+  	<time datetime="2021-12-05T08:07:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-12-05</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-Unet"><a href="#1-Unet" class="headerlink" title="1 Unet"></a>1 Unet</h2><p>论文地址：U-Net: Convolutional Networks for Biomedical Image Segmentation；结构如下所示：</p>
+<div align="center">
+<img src="/2021/12/05/Unet%E7%B3%BB%E5%88%97%E5%8F%8A%E5%85%B6%E5%8F%98%E7%A7%8D/image-163869181519279.png" alt="ASPP Module" style="zoom:50%;">
+</div>
+
+<p><strong>Unet最成功的部分或者说性能好的核心是skip connections</strong>。如果要改进Unet,一个很大的部分就应该是改进跳层连接。</p>
+<p>论文一些重要细节：<br>(1) 医学图像都是大图，无法整图预测，故一般是重叠裁剪小图预测。为了预测图像边界区域的像素点，先<strong>对整图采用overlap-tile策略补全缺失的context，然后再采用重叠裁剪patch</strong>。<br>因为边缘位置预测的置信度很低，一般都会导致预测不出来，故采用镜像操作补充上下文，是个常用的策略。对应我们实际应用时候，<strong>测试时候是把roi扩大，或者roi外部镜像填充，然后再进行整图或者小图预测</strong>。</p>
+<p>(2) 由于训练数据太少，采用大量<strong>弹性形变</strong>的方式增强数据。这可以让模型更好学习形变不变性，这种增强方式对于医学图像来说很重要，因为形变是医学图像主要的一个变化，对于我们的场景不一定需要。</p>
+<p>(3) 在细胞分割任务中的另一个挑战是，如何将同类别的相互接触的目标分开。本文提出了使用一种带权重的损失(weighted loss)。在损失函数中，对于相互接触的细胞像素，其边界赋予更大的权重。</p>
+<div align="center">
+<img src="/2021/12/05/Unet%E7%B3%BB%E5%88%97%E5%8F%8A%E5%85%B6%E5%8F%98%E7%A7%8D/image-16386918151611.png" alt="ASPP Module" style="zoom:40%;">
+</div>
+
+<p>其分割场景和我们实际场景不一样，不清楚边界加权Loss对最终指标有多少影响，但是目前来看没发现有后续论文使用了这种特殊的加权方式，可能作用不大，论文也没有比较加权和不加权性能差异。</p>
+<p>需要注意的是原始unet，输入和输出不是一样大，而是输出是输入的一半，目前常用的unet都是输入和输出一样大。</p>
+        
+          <a class="article-more-a" href="/2021/12/05/Unet%E7%B3%BB%E5%88%97%E5%8F%8A%E5%85%B6%E5%8F%98%E7%A7%8D/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Change Detection</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Paper</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/12/05/Unet%E7%B3%BB%E5%88%97%E5%8F%8A%E5%85%B6%E5%8F%98%E7%A7%8D/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-高分变化检测" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -776,113 +876,9 @@ r=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||} \tag{1.1}
 
 
   
-    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
-  	<time datetime="2019-08-04T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、过拟合问题"><a href="#一、过拟合问题" class="headerlink" title="一、过拟合问题"></a>一、过拟合问题</h2><div align="center">
-    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_2.png" height="300" alt="线性回归过拟合" style="zoom: 70%;">
-    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_1.png" height="300" alt="逻辑回归过拟合" style="zoom: 70%;">
-</div>
-
-<p>指的是我们设计的模型过度拟合训练集$J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \approx 0$，导致它在训练集上表现很好，但是在测试集上却表现很差，无法泛化到新的样本中，难以对新样本进行预测。</p>
-<p>那么如何预防过拟合？</p>
-<blockquote>
-<p>减少特征的数量    </p>
-<ul>
-<li>人工选择哪些特征应该保留，那些应该舍弃；</li>
-<li>模型选择算法（Model selection algorithm）；</li>
-</ul>
-<p>正则化</p>
-<ul>
-<li>保留所有的特征，但减小参数$(\theta_j)$的幅值；</li>
-<li>当数据有很多特性时，每个特性都对预测y有一点贡献；</li>
-</ul>
-</blockquote>
-        
-          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next »</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next »</a>
     </nav>
   
 
@@ -916,7 +912,7 @@ r=\frac{\left|\boldsymbol{w}^{T} x+b\right|}{|| \boldsymbol{w}||} \tag{1.1}
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -1037,6 +1033,10 @@ MathJax.Hub.Queue(function() {
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Competition</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Paper</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -1122,7 +1122,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">在读大学生一枚</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">在读研究生一枚</div>
   	  	
     	</section>
     

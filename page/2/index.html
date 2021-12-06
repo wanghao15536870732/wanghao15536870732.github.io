@@ -181,6 +181,110 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-正则化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">机器学习方法(五)：正则化</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2019-08-04T08:04:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-04</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、过拟合问题"><a href="#一、过拟合问题" class="headerlink" title="一、过拟合问题"></a>一、过拟合问题</h2><div align="center">
+    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_2.png" height="300" alt="线性回归过拟合" style="zoom: 70%;">
+    <img src="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/linear_regression_example_1.png" height="300" alt="逻辑回归过拟合" style="zoom: 70%;">
+</div>
+
+<p>指的是我们设计的模型过度拟合训练集$J(\theta)=\frac{1}{2 m} \sum_{i=1}^{m}\left(h_{\theta}\left(x^{(i)}\right)-y^{(i)}\right)^{2} \approx 0$，导致它在训练集上表现很好，但是在测试集上却表现很差，无法泛化到新的样本中，难以对新样本进行预测。</p>
+<p>那么如何预防过拟合？</p>
+<blockquote>
+<p>减少特征的数量    </p>
+<ul>
+<li>人工选择哪些特征应该保留，那些应该舍弃；</li>
+<li>模型选择算法（Model selection algorithm）；</li>
+</ul>
+<p>正则化</p>
+<ul>
+<li>保留所有的特征，但减小参数$(\theta_j)$的幅值；</li>
+<li>当数据有很多特性时，每个特性都对预测y有一点贡献；</li>
+</ul>
+</blockquote>
+        
+          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/04/%E6%AD%A3%E5%88%99%E5%8C%96/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-决策树" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -844,94 +948,9 @@ k=5时，绿色圆点的最近的5个邻居是2个红色三角形和3个蓝色�
 
 
   
-    <article id="post-单源最短路径" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/13/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">数据结构方法(一)：图之单源最短路径</a>
-    </h1>
-  
-
-        
-        <a href="/2018/12/13/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" class="archive-article-date">
-  	<time datetime="2018-12-13T12:11:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-13</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="单源最短路径"><a href="#单源最短路径" class="headerlink" title="单源最短路径"></a>单源最短路径</h2><p><code>百度百科</code></p>
-<p><strong>给定一个带权有向图G=（V,E），其中每条边的权是一个实数。另外，还给定V中的一个顶点，称为源。现在要计算从源到其他所有各顶点的最短路径长度。这里的长度就是指路上各边权之和。这个问题通常称为单源最短路径 [1]  问题。</strong></p>
-<p><code>问题描述</code></p>
-<p>给定一个带权有向图 G=(V,E)。另外，还给定 V 中的一个顶点，称为源。现在我们要计算从源到所有其他各顶点的最短路径长度。这里的长度是指路上各边权之和。这个问题通常称为单源最短路径问题。</p>
-        
-          <a class="article-more-a" href="/2018/12/13/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据结构</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/12/13/%E5%8D%95%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">« Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/">« Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next »</a>
     </nav>
   
 
@@ -965,7 +984,7 @@ k=5时，绿色圆点的最近的5个邻居是2个红色三角形和3个蓝色�
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -1086,6 +1105,10 @@ MathJax.Hub.Queue(function() {
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Competition</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Paper</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -1171,7 +1194,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">在读大学生一枚</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">在读研究生一枚</div>
   	  	
     	</section>
     
