@@ -181,6 +181,98 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SoftMax" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/27/SoftMax/">机器学习方法(八)：Softmax Regression</a>
+    </h1>
+  
+
+        
+        <a href="/2019/08/27/SoftMax/" class="archive-article-date">
+  	<time datetime="2019-08-27T02:53:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>Softmax Regression</code> 可以看做是 <code>LR</code> 算法在多分类上的推广，即类标签 <code>y</code> 的取值大于或者等于 <code>2</code>。</p>
+<p>假设数据样本集为$\left\{\left(X^{(1)}, y^{(1)}\right),\left(X^{(2)}, y^{(2)}\right),\left(X^{(3)}, y^{(3)}\right), \ldots,\left(X^{(m)}, y^{(m)}\right)\right\}$</p>
+<p>对于 SR 算法, 其输入特征为: $X^{(i)} \in \mathbb{R}^{n+1},$ 类别标记为: $y^{(i)} \in\{0,1,2, \ldots, k\},$ 假设函数为每一个样本估计 其所属类别的概率 $P(y=j \mid X),$ 具体的假设函数为：</p>
+<script type="math/tex; mode=display">
+h_{\theta}\left(X^{(i)}\right)=\left[\begin{array}{c}P\left(y^{(i)}=1 \mid X^{(i)} ; \theta\right) \\P\left(y^{(i)}=2 \mid X^{(i)} ; \theta\right) \\\ldots \\P\left(y^{(i)}=k \mid X^{(i)} ; \theta\right)\end{array}\right]=\frac{1}{\sum_{j=1}^{k} e^{\theta^{T} X^{(i)}}}\left[\begin{array}{c}e^{\theta_{1}^{T} X^{(i)}} \\e^{\theta_{2}^{T} X^{(i)}} \\\ldots \\e^{\theta_{k}^{T} X^{(i)}}\end{array}\right]</script><p>其中，$\theta_i \in \mathbb{R}^{n+1}$，则对于每一个样本估计其所属的类别的概率为</p>
+<script type="math/tex; mode=display">
+P\left(y^{(i)}=j \mid X^{(i)} ; \theta\right)=\frac{e^{\theta_{j}^{T} X^{(i)}}}{\sum_{l=1}^{k} e^{\theta_{l}^{T} X^{(i)}}}</script>
+        
+          <a class="article-more-a" href="/2019/08/27/SoftMax/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/08/27/SoftMax/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-SVM" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -788,99 +880,6 @@ J\left(\theta_0,\theta_1\right) = \frac{1}{2m}\sum_{i=1}^{m}\left(h_{\theta}(x^{
 
 
   
-    <article id="post-K近邻算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/">机器学习方法(一)：物以类聚 人以群分 K近邻算法</a>
-    </h1>
-  
-
-        
-        <a href="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2019-07-18T05:29:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、KNN算法概述"><a href="#一、KNN算法概述" class="headerlink" title="一、KNN算法概述"></a>一、KNN算法概述</h2><p>k近邻算法是一种基本<strong>分类</strong>与<strong>回归</strong>的方法，在空间中如果一个样本附近的k个最近样本的大多数属于某一个类别，则该样本也属于这个类别。即给定一个训练数据集，对新的输入实例进行归类，类别即为与该实例最近的k个实例中的多数属于的类。k=1时，为最近邻算法。</p>
-<p>如下图所示，有两种不同的样本数据，绿色的圆点代表的即为待分类的数据。针对不同的k值，分类结果也会有所不同。</p>
-<div align="center">
-<img src="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/KNN.png" alt="KNN例子">
-</div>
-k=3时，绿色圆点的最近的3个邻居是2个红色小三角形和1个蓝色小正方形，少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于红色的三角形一类。
-
-k=5时，绿色圆点的最近的5个邻居是2个红色三角形和3个蓝色的正方形，还是少数从属于多数，基于统计的方法，判定绿色的这个待分类点属于蓝色的正方形一类。
-        
-          <a class="article-more-a" href="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">笔记</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/07/18/K%E8%BF%91%E9%82%BB%E7%AE%97%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">« Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next »</a>
@@ -896,7 +895,7 @@ k=5时，绿色圆点的最近的5个邻居是2个红色三角形和3个蓝色�
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2022 HowardWang
+    		&copy; 2023 HowardWang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1049,6 +1048,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">IEEE GRSS Data Fusion Contest Track SLM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">paper</a>
               </li>
             
             <div class="clearfix"></div>

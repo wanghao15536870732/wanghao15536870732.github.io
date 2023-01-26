@@ -1,0 +1,27 @@
+<p><strong>实验日志</strong></p>
+<ul>
+<li><p>exp_1204, 32 帧训练 UCF101</p>
+<p>4层stis layers + 原生文本 <strong>Acc@1 0.882 Acc@5 0.982</strong></p>
+</li>
+<li><p>exp_1205 32帧训练UCF101</p>
+<p>4层stis layers  -&gt; 5层stis layers + 原生文本  <strong>Acc@1 0.887 Acc@5 0.985</strong></p>
+</li>
+<li><p>exp_1207, 32帧训练 HMDB51  </p>
+<p>5层stis layers + 原生文本 <strong>Acc@1 0.612 Acc@5 0.880</strong></p>
+</li>
+<li><p>exp_1208, 16帧训练UCF101</p>
+<p>4层stis layers  + 文本微调 class_ (XXXXXXXX) action (XXXXXXXX)   <strong>Acc@1 0.832 Acc@5 0.974</strong> </p>
+</li>
+<li><p>exp_1209, 16帧训练UCF101</p>
+<p>4层stis layers  + end + N_CTX(16)   <strong>Acc@1 0.852 Acc@5 0.977</strong></p>
+</li>
+<li><p>exp_1210, 32帧训练UCF101 </p>
+<p>4层stis layers  + end + N_CTX(16)   </p>
+</li>
+</ul>
+<hr>
+<pre><code class="lang-python">logits = torch.einsum(&quot;bd,bkd-&gt;bk&quot;, video_features, logit_scale * text_features)
+</code></pre>
+<script type="math/tex; mode=display">
+l_{b,k} = v_{b,d} t_{b,k,d} = \sum</script><p>text -&gt; tokenizer -&gt; model (-&gt; token_embedding -&gt; text transformer)</p>
+<p>text -&gt; tokenizer -&gt; <strong>actiontoken</strong> -&gt; token_emdedding -&gt; <strong>actiondict</strong></p>

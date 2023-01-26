@@ -181,6 +181,91 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-prompt-learning" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/11/13/prompt-learning/">Prompt Learning in Computer Vision(continue update...)</a>
+    </h1>
+  
+
+        
+        <a href="/2022/11/13/prompt-learning/" class="archive-article-date">
+  	<time datetime="2022-11-13T07:50:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-13</time>
+</a>
+        
+      </header>
+    
+	
+	<!-- 目录内容 -->
+			   
+	<!-- 目录内容结束 -->
+	
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-CLIP（Learning-Transferable-Visual-Models-From-Natural-Language-Supervision）"><a href="#1-CLIP（Learning-Transferable-Visual-Models-From-Natural-Language-Supervision）" class="headerlink" title="1. CLIP（Learning Transferable Visual Models From Natural Language Supervision）"></a>1. CLIP（Learning Transferable Visual Models From Natural Language Supervision）</h3><p><img src="/2022/11/13/prompt-learning/clip.png" alt="CLIP"></p>
+<p>CLIP是OpenAI的一个非常经典的工作，从网上收集了4亿个图片文本对用于训练，最后进行zero-shot transfer到下游任务达到了非常好的效果，主要流程如下：</p>
+<p>在训练阶段，文本会通过Text Encoder（Transformer）编码成一些文本Embedding向量，图像会通过Image Encoder（ResNet50或VIT）编码成一些图像Embedding向量，然后将文本Embedding和图像Embedding归一化后通过点积计算出一个相似度矩阵，这里值越接近于1代表文本Embedding和图像Embedding越相似，即这个文本和图像是配对的。我们的目标是让这个相似度矩阵对角线趋向于1，其他趋向于0（对角线代表图像和文本配对）。</p>
+<p>测试zero-shot阶段，会将一张没见过的图片通过image Encoder得到图像embedding，然后将所有可能的类别，通过构造a photo of a {object}的文本标签，将所有类别填入object处，通过text encoder，得到所有类别对应的文本embedding，将文本embedding和图像embedding归一化后进行点积，选择点积最大的一个文本-图像对，该类别则为预测类别。</p>
+        
+          <a class="article-more-a" href="/2022/11/13/prompt-learning/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">paper</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2022/11/13/prompt-learning/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+
+  
     <article id="post-IGRSS2022竞赛总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -756,98 +841,6 @@ x \leftarrow x-\eta f^{\prime}(x)</script><p>来迭代 $x,$ 函数 $f(x)$ 的值
 
 
   
-    <article id="post-SoftMax" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/08/27/SoftMax/">机器学习方法(八)：Softmax Regression</a>
-    </h1>
-  
-
-        
-        <a href="/2019/08/27/SoftMax/" class="archive-article-date">
-  	<time datetime="2019-08-27T02:53:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-27</time>
-</a>
-        
-      </header>
-    
-	
-	<!-- 目录内容 -->
-			   
-	<!-- 目录内容结束 -->
-	
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><code>Softmax Regression</code> 可以看做是 <code>LR</code> 算法在多分类上的推广，即类标签 <code>y</code> 的取值大于或者等于 <code>2</code>。</p>
-<p>假设数据样本集为$\left\{\left(X^{(1)}, y^{(1)}\right),\left(X^{(2)}, y^{(2)}\right),\left(X^{(3)}, y^{(3)}\right), \ldots,\left(X^{(m)}, y^{(m)}\right)\right\}$</p>
-<p>对于 SR 算法, 其输入特征为: $X^{(i)} \in \mathbb{R}^{n+1},$ 类别标记为: $y^{(i)} \in\{0,1,2, \ldots, k\},$ 假设函数为每一个样本估计 其所属类别的概率 $P(y=j \mid X),$ 具体的假设函数为：</p>
-<script type="math/tex; mode=display">
-h_{\theta}\left(X^{(i)}\right)=\left[\begin{array}{c}P\left(y^{(i)}=1 \mid X^{(i)} ; \theta\right) \\P\left(y^{(i)}=2 \mid X^{(i)} ; \theta\right) \\\ldots \\P\left(y^{(i)}=k \mid X^{(i)} ; \theta\right)\end{array}\right]=\frac{1}{\sum_{j=1}^{k} e^{\theta^{T} X^{(i)}}}\left[\begin{array}{c}e^{\theta_{1}^{T} X^{(i)}} \\e^{\theta_{2}^{T} X^{(i)}} \\\ldots \\e^{\theta_{k}^{T} X^{(i)}}\end{array}\right]</script><p>其中，$\theta_i \in \mathbb{R}^{n+1}$，则对于每一个样本估计其所属的类别的概率为</p>
-<script type="math/tex; mode=display">
-P\left(y^{(i)}=j \mid X^{(i)} ; \theta\right)=\frac{e^{\theta_{j}^{T} X^{(i)}}}{\sum_{l=1}^{k} e^{\theta_{l}^{T} X^{(i)}}}</script>
-        
-          <a class="article-more-a" href="/2019/08/27/SoftMax/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine Learning</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/08/27/SoftMax/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next »</a>
@@ -863,7 +856,7 @@ P\left(y^{(i)}=j \mid X^{(i)} ; \theta\right)=\frac{e^{\theta_{j}^{T} X^{(i)}}}{
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2022 HowardWang
+    		&copy; 2023 HowardWang
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1016,6 +1009,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">IEEE GRSS Data Fusion Contest Track SLM</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">paper</a>
               </li>
             
             <div class="clearfix"></div>
